@@ -21,7 +21,5 @@ namespace HomebreweryShoppingAssistaint.Data
         public DbSet<Shop> Shop { get; set; } = default!;
 
         public DbSet<HomebreweryShoppingAssistaint.Models.LastCheck> LastCheck { get; set; } = default!;
-
-        //public DbSet<HomebreweryShoppingAssistaint.Models.LastCheck> LastCheck { get; set; } = default!;
     }
 }
