@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HomebreweryShoppingAssistaint.Migrations
 {
     [DbContext(typeof(HomebreweryShoppingAssistaintContext))]
-    [Migration("20230822032126_InitialCreate")]
+    [Migration("20230918014413_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -130,9 +130,8 @@ namespace HomebreweryShoppingAssistaint.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ShopName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ShopName")
+                        .HasColumnType("int");
 
                     b.HasKey("ShopID");
 
@@ -144,24 +143,24 @@ namespace HomebreweryShoppingAssistaint.Migrations
             modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.Category", b =>
                 {
                     b.HasOne("HomebreweryShoppingAssistaint.Models.LastCheck", null)
-                        .WithMany("Categories")
+                        .WithMany("Category")
                         .HasForeignKey("LastCheckID");
                 });
 
             modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.Product", b =>
                 {
                     b.HasOne("HomebreweryShoppingAssistaint.Models.Category", "Category")
-                        .WithMany("Products")
+                        .WithMany("Product")
                         .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("HomebreweryShoppingAssistaint.Models.LastCheck", null)
-                        .WithMany("Products")
+                        .WithMany("Product")
                         .HasForeignKey("LastCheckID");
 
                     b.HasOne("HomebreweryShoppingAssistaint.Models.Shop", "Shop")
-                        .WithMany("Products")
+                        .WithMany("Product")
                         .HasForeignKey("ShopID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -174,27 +173,27 @@ namespace HomebreweryShoppingAssistaint.Migrations
             modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.Shop", b =>
                 {
                     b.HasOne("HomebreweryShoppingAssistaint.Models.LastCheck", null)
-                        .WithMany("Shops")
+                        .WithMany("Shop")
                         .HasForeignKey("LastCheckID");
                 });
 
             modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.Category", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.LastCheck", b =>
                 {
-                    b.Navigation("Categories");
+                    b.Navigation("Category");
 
-                    b.Navigation("Products");
+                    b.Navigation("Product");
 
-                    b.Navigation("Shops");
+                    b.Navigation("Shop");
                 });
 
             modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.Shop", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("Product");
                 });
 #pragma warning restore 612, 618
         }

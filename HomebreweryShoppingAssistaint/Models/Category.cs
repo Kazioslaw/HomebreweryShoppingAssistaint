@@ -21,6 +21,6 @@ namespace HomebreweryShoppingAssistaint.Models
             CategoryName = categoryName;
         }
 
-        public ICollection<Product> Products { get; set; }
+        public ICollection<Product> Product { get; set; }
     }
 }

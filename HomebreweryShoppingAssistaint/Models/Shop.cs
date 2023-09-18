@@ -21,6 +21,6 @@
             ShopName = shopName;
             ShopLink = shopLink;
         }
-        public ICollection<Product> Products { get; set; }
+        public ICollection<Product> Product { get; set; }
     }
 }

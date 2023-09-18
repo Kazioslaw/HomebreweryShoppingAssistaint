@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HomebreweryShoppingAssistaint.Data;
 using HomebreweryShoppingAssistaint.Models;
 
 namespace HomebreweryShoppingAssistaint.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ShopsController : ControllerBase
+    public class ShopsController : Controller
     {
         private readonly HomebreweryShoppingAssistaintContext _context;
 
@@ -21,104 +19,145 @@ namespace HomebreweryShoppingAssistaint.Controllers
             _context = context;
         }
 
-        // GET: api/Shops
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Shop>>> GetShop()
+        // GET: Shops
+        public async Task<IActionResult> Index()
         {
-          if (_context.Shop == null)
-          {
-              return NotFound();
-          }
-            return await _context.Shop.ToListAsync();
+              return _context.Shop != null ? 
+                          View(await _context.Shop.ToListAsync()) :
+                          Problem("Entity set 'HomebreweryShoppingAssistaintContext.Shop'  is null.");
         }
 
-        // GET: api/Shops/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Shop>> GetShop(int id)
+        // GET: Shops/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
-          if (_context.Shop == null)
-          {
-              return NotFound();
-          }
-            var shop = await _context.Shop.FindAsync(id);
+            if (id == null || _context.Shop == null)
+            {
+                return NotFound();
+            }
 
+            var shop = await _context.Shop
+                .FirstOrDefaultAsync(m => m.ShopID == id);
             if (shop == null)
             {
                 return NotFound();
             }
 
-            return shop;
+            return View(shop);
         }
 
-        // PUT: api/Shops/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutShop(int id, Shop shop)
+        // GET: Shops/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Shops/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("ShopID,ShopName,ShopLink")] Shop shop)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(shop);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(shop);
+        }
+
+        // GET: Shops/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null || _context.Shop == null)
+            {
+                return NotFound();
+            }
+
+            var shop = await _context.Shop.FindAsync(id);
+            if (shop == null)
+            {
+                return NotFound();
+            }
+            return View(shop);
+        }
+
+        // POST: Shops/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("ShopID,ShopName,ShopLink")] Shop shop)
         {
             if (id != shop.ShopID)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            _context.Entry(shop).State = EntityState.Modified;
-
-            try
+            if (ModelState.IsValid)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ShopExists(id))
+                try
                 {
-                    return NotFound();
+                    _context.Update(shop);
+                    await _context.SaveChangesAsync();
                 }
-                else
+                catch (DbUpdateConcurrencyException)
                 {
-                    throw;
+                    if (!ShopExists(shop.ShopID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
+                return RedirectToAction(nameof(Index));
             }
-
-            return NoContent();
+            return View(shop);
         }
 
-        // POST: api/Shops
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Shop>> PostShop(Shop shop)
+        // GET: Shops/Delete/5
+        public async Task<IActionResult> Delete(int? id)
         {
-          if (_context.Shop == null)
-          {
-              return Problem("Entity set 'HomebreweryShoppingAssistaintContext.Shop'  is null.");
-          }
-            _context.Shop.Add(shop);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetShop", new { id = shop.ShopID }, shop);
-        }
-
-        // DELETE: api/Shops/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteShop(int id)
-        {
-            if (_context.Shop == null)
+            if (id == null || _context.Shop == null)
             {
                 return NotFound();
             }
-            var shop = await _context.Shop.FindAsync(id);
+
+            var shop = await _context.Shop
+                .FirstOrDefaultAsync(m => m.ShopID == id);
             if (shop == null)
             {
                 return NotFound();
             }
 
-            _context.Shop.Remove(shop);
-            await _context.SaveChangesAsync();
+            return View(shop);
+        }
 
-            return NoContent();
+        // POST: Shops/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (_context.Shop == null)
+            {
+                return Problem("Entity set 'HomebreweryShoppingAssistaintContext.Shop'  is null.");
+            }
+            var shop = await _context.Shop.FindAsync(id);
+            if (shop != null)
+            {
+                _context.Shop.Remove(shop);
+            }
+            
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         private bool ShopExists(int id)
         {
-            return (_context.Shop?.Any(e => e.ShopID == id)).GetValueOrDefault();
+          return (_context.Shop?.Any(e => e.ShopID == id)).GetValueOrDefault();
         }
     }
 }
