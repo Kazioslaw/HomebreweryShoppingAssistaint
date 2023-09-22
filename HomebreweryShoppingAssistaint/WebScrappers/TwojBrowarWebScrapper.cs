@@ -1,23 +1,14 @@
-﻿using HtmlAgilityPack;
+﻿using HomebreweryShoppingAssistaint.Models;
+using HtmlAgilityPack;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace WebScrapperCode.WebScrappers
 {
-    internal class TwojBrowar
+    internal class TwojBrowarWebScrapper
     {
-        public class ProductTwojBrowar
-        {
-            public string? Link { get; set; }
-            [JsonPropertyName("Nazwa")]
-            public string? Name { get; set; }
-            [JsonPropertyName("Cena")]
-            public string? Price { get; set; }
-            [JsonPropertyName("Nazwa Sklepu")]
-            public string? ShopName { get { return "Twój Browar"; } set { } }
-        }
 
-        public static void WebScrapper()
+        public static void Run()
         {
             var sites = new List<string>
             {
@@ -30,7 +21,7 @@ namespace WebScrapperCode.WebScrappers
                 "https://twojbrowar.pl/pl/chmiele"
             };
             var web = new HtmlWeb();
-            var products = new List<ProductTwojBrowar>();
+            var products = new List<Product>();
             foreach (var site in sites)
             {
                 var firstSiteToScrape = site;
@@ -66,26 +57,29 @@ namespace WebScrapperCode.WebScrappers
                         var link = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("a.product-name").Attributes["href"].Value);
                         var name = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("a.product-name").InnerText);
                         var price = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("span.product-price").InnerText);
-                        var product = new ProductTwojBrowar() { Link = link, Name = name, Price = price };
+                        var product = new Product() { ProductLink = link, ProductName = name, ProductPrice = price };
                         products.Add(product);
                     }
                     Console.WriteLine("Scraped: " + i + " page");
                     i++;
 
                 }
+                /*
                 int itemNum = 1;
                 foreach (var product in products)
                 {
                     Console.WriteLine("ID: " + itemNum);
-                    Console.WriteLine("Nazwa: " + product.Name);
-                    Console.WriteLine("Cena: " + product.Price);
-                    Console.WriteLine("Link: " + product.Link);
+                    Console.WriteLine("Nazwa: " + product.ProductName);
+                    Console.WriteLine("Cena: " + product.ProductPrice);
+                    Console.WriteLine("Link: " + product.ProductLink);
                     Console.WriteLine();
                     itemNum++;
                 }
+                */
 
             }
 
+            /*
             var jsonFile = "TwojBrowar.json";
             var jsonString = JsonSerializer.Serialize(products);
             using (StreamWriter writer = new StreamWriter(jsonFile, true))
@@ -93,6 +87,7 @@ namespace WebScrapperCode.WebScrappers
                 writer.WriteLine(jsonString);
             }
             Console.WriteLine("Serialized?");
+            */
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HomebreweryShoppingAssistaint.Models.LastCheck>
+﻿@model IEnumerable<HomebreweryShoppingAssistaint.Models.ShopLastCheck>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,12 +13,6 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ProductID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryID)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.ShopID)
             </th>
             <th>
@@ -31,21 +25,15 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ProductID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryID)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.ShopID)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LastCheckDateTime)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.LastCheckID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.LastCheckID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.LastCheckID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.ShopLastCheckID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ShopLastCheckID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ShopLastCheckID">Delete</a>
             </td>
         </tr>
 }

@@ -22,9 +22,21 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: Shops
         public async Task<IActionResult> Index()
         {
-              return _context.Shop != null ? 
-                          View(await _context.Shop.ToListAsync()) :
-                          Problem("Entity set 'HomebreweryShoppingAssistaintContext.Shop'  is null.");
+            if (_context.Shop.Any())
+            {
+                var shops = new List<Shop>
+                {
+                    new Shop { ShopName = ShopNameEnum.AlePiwo, ShopLink = "https://alepiwo.pl" },
+                    new Shop { ShopName =ShopNameEnum.Browamator, ShopLink = "https://browamator.pl"},
+                    new Shop { ShopName = ShopNameEnum.CentrumPiwowarstwa, ShopLink = "https://www.browar.biz/centrumpiwowarstwa" },
+                    new Shop { ShopName = ShopNameEnum.Homebrewing, ShopLink = "https://homebrewing.pl/"},
+                    new Shop { ShopName = ShopNameEnum.TwojBrowar, ShopLink = "https://twojbrowar.pl/pl/"}
+                };
+            }
+
+            return _context.Shop != null ?
+                        View(await _context.Shop.ToListAsync()) :
+                        Problem("Entity set 'HomebreweryShoppingAssistaintContext.Shop'  is null.");
         }
 
         // GET: Shops/Details/5
@@ -150,14 +162,14 @@ namespace HomebreweryShoppingAssistaint.Controllers
             {
                 _context.Shop.Remove(shop);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ShopExists(int id)
         {
-          return (_context.Shop?.Any(e => e.ShopID == id)).GetValueOrDefault();
+            return (_context.Shop?.Any(e => e.ShopID == id)).GetValueOrDefault();
         }
     }
 }

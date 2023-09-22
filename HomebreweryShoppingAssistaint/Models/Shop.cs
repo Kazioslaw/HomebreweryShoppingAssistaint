@@ -1,26 +1,26 @@
-﻿namespace HomebreweryShoppingAssistaint.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace HomebreweryShoppingAssistaint.Models
 {
     public enum ShopNameEnum
     {
-        Browamator,
-        TwojBrowar,
-        Homebrewing,
+        [Display(Name = "Ale Piwo")]
         AlePiwo,
-        CentrumPiwowarstwa
-
+        Browamator,
+        [Display(Name = "Centrum Piwowarstwa")]
+        CentrumPiwowarstwa,
+        [Display(Name = "Home Brewing")]
+        Homebrewing,
+        [Display(Name = "Twój Browar")]
+        TwojBrowar
     }
     public class Shop
     {
+        [Key]
         public int ShopID { get; set; }
         public ShopNameEnum ShopName { get; set; }
         public string ShopLink { get; set; }       
 
-        public Shop(int shopID, ShopNameEnum shopName, string shopLink)
-        {
-            ShopID = shopID;
-            ShopName = shopName;
-            ShopLink = shopLink;
-        }
         public ICollection<Product> Product { get; set; }
     }
 }

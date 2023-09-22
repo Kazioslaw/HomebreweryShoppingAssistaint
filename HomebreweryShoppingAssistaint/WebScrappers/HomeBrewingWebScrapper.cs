@@ -1,33 +1,14 @@
-﻿using HtmlAgilityPack;
-using HtmlAgilityPack.CssSelectors.NetCore;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
+﻿using HomebreweryShoppingAssistaint.Models;
+using HtmlAgilityPack;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using static System.Net.WebRequestMethods;
 
 namespace WebScrapperCode.WebScrappers
 {
-    internal class HomeBrewing
+    internal class HomeBrewingWebScrapper
     {
-        public class ProductHomeBrewery
-        {
-            public string? Link { get; set; }
-            [JsonPropertyName("Nazwa")]
-            public string? Name { get; set; }
-            [JsonPropertyName("Stara Cena")]
-            public string? OldPrice { get; set; }
-            [JsonPropertyName("Nowa Cena")]
-            public string? NewPrice { get; set; }
-            [JsonPropertyName("Nazwa Sklepu")]
-            public string? ShopName { get { return "HomeBrewery"; } set { } }
-        }
 
-        public static void WebScrapper()
+        public static void Run()
         {
             var sites = new List<string>
             {
@@ -55,13 +36,12 @@ namespace WebScrapperCode.WebScrappers
             };
 
             var html = new HtmlWeb();
-            var products = new List<ProductHomeBrewery>();
+            var products = new List<Product>();
 
             foreach (var site in sites)
             {
                 var currentDoc = html.Load(site);
                 var i = 7;
-                //var limit = 1000;
                 var countTags = currentDoc.DocumentNode.QuerySelectorAll("tr").Count();
 
                 while (i <= countTags)
@@ -73,28 +53,30 @@ namespace WebScrapperCode.WebScrappers
                         var name = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("td:nth-child(1)").InnerText);
                         var price = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("td:nth-child(2)").InnerText);
                         var oldPrice = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("td:nth-child(4)").InnerText);
-                        var product = new ProductHomeBrewery() { Link = link, Name = name, NewPrice = price, OldPrice = oldPrice };
+                        var product = new Product() { ProductLink = link, ProductName = name, ProductPrice = price, Product30DaysPrice = oldPrice };
                         products.Add(product);
                     }
                     //Console.WriteLine(countTags);
                     Console.WriteLine("Scraped: " + i + " line");
                     i++;
                 }
+                /*
                 int itemNum = 1;
 
                 foreach (var product in products)
                 {
                     Console.WriteLine("ID: " + itemNum);
-                    Console.WriteLine("Nazwa: " + product.Name);
-                    Console.WriteLine("Cena: " + product.NewPrice);
-                    Console.WriteLine("Stara Cena: " + product.OldPrice);
-                    Console.WriteLine("Link: " + product.Link);
+                    Console.WriteLine("Nazwa: " + product.ProductName);
+                    Console.WriteLine("Cena: " + product.ProductPrice);
+                    Console.WriteLine("Stara Cena: " + product.Product30DaysPrice);
+                    Console.WriteLine("Link: " + product.ProductLink);
                     Console.WriteLine();
                     itemNum++;
                 }
+                */
 
             }
-
+            /*
             var jsonFile = "HomeBrewery.json";
             var jsonString = JsonSerializer.Serialize(products);
             using (StreamWriter writer = new StreamWriter(jsonFile, true))
@@ -102,6 +84,7 @@ namespace WebScrapperCode.WebScrappers
                 writer.WriteLine(jsonString);
             }
             Console.WriteLine("Serialized?");
+            */
         }
 
     }

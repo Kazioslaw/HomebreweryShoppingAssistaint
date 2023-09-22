@@ -4,6 +4,7 @@ using HomebreweryShoppingAssistaint.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HomebreweryShoppingAssistaint.Migrations
 {
     [DbContext(typeof(HomebreweryShoppingAssistaintContext))]
-    partial class HomebreweryShoppingAssistaintContextModelSnapshot : ModelSnapshot
+    [Migration("20230920075312_DeletedCategoryIDFromLastCheck")]
+    partial class DeletedCategoryIDFromLastCheck
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,6 +41,28 @@ namespace HomebreweryShoppingAssistaint.Migrations
                     b.ToTable("Category");
                 });
 
+            modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.LastCheck", b =>
+                {
+                    b.Property<int>("LastCheckID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LastCheckID"));
+
+                    b.Property<DateTime>("LastCheckDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ShopID")
+                        .HasColumnType("int");
+
+                    b.HasKey("LastCheckID");
+
+                    b.ToTable("LastCheck");
+                });
+
             modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.Product", b =>
                 {
                     b.Property<int>("ProductID")
@@ -57,13 +82,6 @@ namespace HomebreweryShoppingAssistaint.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProductLastCheckID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ProductLink")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -79,33 +97,9 @@ namespace HomebreweryShoppingAssistaint.Migrations
 
                     b.HasIndex("CategoryID");
 
-                    b.HasIndex("ProductLastCheckID");
-
                     b.HasIndex("ShopID");
 
                     b.ToTable("Product");
-                });
-
-            modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.ProductLastCheck", b =>
-                {
-                    b.Property<int>("ProductLastCheckID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductLastCheckID"));
-
-                    b.Property<DateTime>("LastCheckDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ProductID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ShopID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductLastCheckID");
-
-                    b.ToTable("ProductLastCheck");
                 });
 
             modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.Shop", b =>
@@ -116,7 +110,7 @@ namespace HomebreweryShoppingAssistaint.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ShopID"));
 
-                    b.Property<int?>("ProductLastCheckID")
+                    b.Property<int?>("LastCheckID")
                         .HasColumnType("int");
 
                     b.Property<string>("ShopLink")
@@ -128,28 +122,9 @@ namespace HomebreweryShoppingAssistaint.Migrations
 
                     b.HasKey("ShopID");
 
-                    b.HasIndex("ProductLastCheckID");
+                    b.HasIndex("LastCheckID");
 
                     b.ToTable("Shop");
-                });
-
-            modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.ShopLastCheck", b =>
-                {
-                    b.Property<int>("ShopLastCheckID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ShopLastCheckID"));
-
-                    b.Property<DateTime>("LastCheckDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ShopID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ShopLastCheckID");
-
-                    b.ToTable("ShopLastCheck");
                 });
 
             modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.Product", b =>
@@ -159,10 +134,6 @@ namespace HomebreweryShoppingAssistaint.Migrations
                         .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("HomebreweryShoppingAssistaint.Models.ProductLastCheck", null)
-                        .WithMany("Product")
-                        .HasForeignKey("ProductLastCheckID");
 
                     b.HasOne("HomebreweryShoppingAssistaint.Models.Shop", "Shop")
                         .WithMany("Product")
@@ -177,9 +148,9 @@ namespace HomebreweryShoppingAssistaint.Migrations
 
             modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.Shop", b =>
                 {
-                    b.HasOne("HomebreweryShoppingAssistaint.Models.ProductLastCheck", null)
+                    b.HasOne("HomebreweryShoppingAssistaint.Models.LastCheck", null)
                         .WithMany("Shop")
-                        .HasForeignKey("ProductLastCheckID");
+                        .HasForeignKey("LastCheckID");
                 });
 
             modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.Category", b =>
@@ -187,10 +158,8 @@ namespace HomebreweryShoppingAssistaint.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.ProductLastCheck", b =>
+            modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.LastCheck", b =>
                 {
-                    b.Navigation("Product");
-
                     b.Navigation("Shop");
                 });
 

@@ -10,99 +10,87 @@ using HomebreweryShoppingAssistaint.Models;
 
 namespace HomebreweryShoppingAssistaint.Controllers
 {
-    public class CategoriesController : Controller
+    public class ShopLastChecksController : Controller
     {
         private readonly HomebreweryShoppingAssistaintContext _context;
 
-        public CategoriesController(HomebreweryShoppingAssistaintContext context)
+        public ShopLastChecksController(HomebreweryShoppingAssistaintContext context)
         {
             _context = context;
         }
 
-        // GET: Categories
+        // GET: ShopLastChecks
         public async Task<IActionResult> Index()
         {
-            if (!_context.Category.Any())
-            {
-                var categories = new List<Category>
-                {
-                    new Category {CategoryName = ProductCategory.Chmiel },
-                    new Category {CategoryName = ProductCategory.Drożdże },
-                    new Category {CategoryName = ProductCategory.Słód },
-                    new Category {CategoryName = ProductCategory.Inne }
-                };
-                _context.AddRange(categories);
-                _context.SaveChanges();
-            }
-            return _context.Category != null ?
-                          View(await _context.Category.ToListAsync()) :
-                         Problem("Entity set 'HomebreweryShoppingAssistaintContext.Category'  is null.");
+              return _context.ShopLastCheck != null ? 
+                          View(await _context.ShopLastCheck.ToListAsync()) :
+                          Problem("Entity set 'HomebreweryShoppingAssistaintContext.ShopLastCheck'  is null.");
         }
 
-        // GET: Categories/Details/5
+        // GET: ShopLastChecks/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Category == null)
+            if (id == null || _context.ShopLastCheck == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Category
-                .FirstOrDefaultAsync(m => m.CategoryId == id);
-            if (category == null)
+            var shopLastCheck = await _context.ShopLastCheck
+                .FirstOrDefaultAsync(m => m.ShopLastCheckID == id);
+            if (shopLastCheck == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(shopLastCheck);
         }
 
-        // GET: Categories/Create
+        // GET: ShopLastChecks/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Categories/Create
+        // POST: ShopLastChecks/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CategoryId,CategoryName")] Category category)
+        public async Task<IActionResult> Create([Bind("ShopLastCheckID,ShopID,LastCheckDateTime")] ShopLastCheck shopLastCheck)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(category);
+                _context.Add(shopLastCheck);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            return View(shopLastCheck);
         }
 
-        // GET: Categories/Edit/5
+        // GET: ShopLastChecks/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Category == null)
+            if (id == null || _context.ShopLastCheck == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Category.FindAsync(id);
-            if (category == null)
+            var shopLastCheck = await _context.ShopLastCheck.FindAsync(id);
+            if (shopLastCheck == null)
             {
                 return NotFound();
             }
-            return View(category);
+            return View(shopLastCheck);
         }
 
-        // POST: Categories/Edit/5
+        // POST: ShopLastChecks/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,CategoryName")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("ShopLastCheckID,ShopID,LastCheckDateTime")] ShopLastCheck shopLastCheck)
         {
-            if (id != category.CategoryId)
+            if (id != shopLastCheck.ShopLastCheckID)
             {
                 return NotFound();
             }
@@ -111,12 +99,12 @@ namespace HomebreweryShoppingAssistaint.Controllers
             {
                 try
                 {
-                    _context.Update(category);
+                    _context.Update(shopLastCheck);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoryExists(category.CategoryId))
+                    if (!ShopLastCheckExists(shopLastCheck.ShopLastCheckID))
                     {
                         return NotFound();
                     }
@@ -127,49 +115,49 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            return View(shopLastCheck);
         }
 
-        // GET: Categories/Delete/5
+        // GET: ShopLastChecks/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Category == null)
+            if (id == null || _context.ShopLastCheck == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Category
-                .FirstOrDefaultAsync(m => m.CategoryId == id);
-            if (category == null)
+            var shopLastCheck = await _context.ShopLastCheck
+                .FirstOrDefaultAsync(m => m.ShopLastCheckID == id);
+            if (shopLastCheck == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(shopLastCheck);
         }
 
-        // POST: Categories/Delete/5
+        // POST: ShopLastChecks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Category == null)
+            if (_context.ShopLastCheck == null)
             {
-                return Problem("Entity set 'HomebreweryShoppingAssistaintContext.Category'  is null.");
+                return Problem("Entity set 'HomebreweryShoppingAssistaintContext.ShopLastCheck'  is null.");
             }
-            var category = await _context.Category.FindAsync(id);
-            if (category != null)
+            var shopLastCheck = await _context.ShopLastCheck.FindAsync(id);
+            if (shopLastCheck != null)
             {
-                _context.Category.Remove(category);
+                _context.ShopLastCheck.Remove(shopLastCheck);
             }
-
+            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategoryExists(int id)
+        private bool ShopLastCheckExists(int id)
         {
-            return (_context.Category?.Any(e => e.CategoryId == id)).GetValueOrDefault();
+          return (_context.ShopLastCheck?.Any(e => e.ShopLastCheckID == id)).GetValueOrDefault();
         }
     }
 }

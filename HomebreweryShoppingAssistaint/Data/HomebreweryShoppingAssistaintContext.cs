@@ -16,10 +16,12 @@ namespace HomebreweryShoppingAssistaint.Data
 
         public DbSet<HomebreweryShoppingAssistaint.Models.Category> Category { get; set; } = default!;
 
-        public DbSet<HomebreweryShoppingAssistaint.Models.LastCheck> LastCheck { get; set; } = default!;
-
         public DbSet<HomebreweryShoppingAssistaint.Models.Product> Product { get; set; } = default!;
 
         public DbSet<HomebreweryShoppingAssistaint.Models.Shop> Shop { get; set; } = default!;
+
+        public DbSet<HomebreweryShoppingAssistaint.Models.ProductLastCheck> ProductLastCheck { get; set; } = default!;
+
+        public DbSet<HomebreweryShoppingAssistaint.Models.ShopLastCheck> ShopLastCheck { get; set; } = default!;
     }
 }

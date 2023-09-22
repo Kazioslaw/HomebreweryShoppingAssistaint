@@ -1,22 +1,13 @@
-﻿using HtmlAgilityPack;
+﻿using HomebreweryShoppingAssistaint.Models;
+using HtmlAgilityPack;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace WebScrapperCode.WebScrappers
 {
-    internal class Browamator
+    internal class BrowamatorWebScrapper
     {
-        public class ProductBrowamator
-        {
-            public string? Link { get; set; }
-            [JsonPropertyName("Nazwa")]
-            public string? Name { get; set; }
-            [JsonPropertyName("Cena")]
-            public string? Price { get; set; }
-            [JsonPropertyName("Nazwa Sklepu")]
-            public string? ShopName { get { return "browamator.pl"; } set { } }
-        }
-        public static void WebScrapper()
+        public static void Run()
         {
             var sites = new List<string> { "https://browamator.pl/produkty/piwo/2-282?sort=12&pageId=1#products",
                                            "https://browamator.pl/produkty/wino/2-94?sort=12&pageId=1#products",
@@ -25,7 +16,7 @@ namespace WebScrapperCode.WebScrappers
                                            "https://browamator.pl/produkty/destylaty/2-203?sort=12&pageId=1#products" };
 
             var web = new HtmlWeb();
-            var products = new List<ProductBrowamator>();
+            var products = new List<Product>();
 
             foreach (var site in sites)
             {
@@ -64,7 +55,7 @@ namespace WebScrapperCode.WebScrappers
                         var link = "https://browamator.pl/" + HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("a").Attributes["href"].Value);
                         var name = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("h2").InnerText);
                         var price = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("span:nth-child(4)").InnerText);
-                        var product = new ProductBrowamator() { Link = link, Name = name, Price = price };
+                        var product = new Product() { ProductLink = link, ProductName = name, ProductPrice = price };
                         products.Add(product);
                     }
 
@@ -72,18 +63,19 @@ namespace WebScrapperCode.WebScrappers
                     i++;
                 }
 
+                /*
                 int itemNum = 1;
                 foreach (var product in products)
                 {
                     Console.WriteLine("ID: " + itemNum);
-                    Console.WriteLine("Nazwa: " + product.Name);
-                    Console.WriteLine("Cena: " + product.Price);
-                    Console.WriteLine("Link do produktu: " + product.Link);
+                    Console.WriteLine("Nazwa: " + product.ProductName);
+                    Console.WriteLine("Cena: " + product.ProductPrice);
+                    Console.WriteLine("Link do produktu: " + product.ProductLink);
                     Console.WriteLine();
                     itemNum++;
-                }
+                } */
             }
-
+            /*
             var jsonFile = "Browamator.json";
             var jsonString = JsonSerializer.Serialize(products);
             using (StreamWriter writer = new StreamWriter(jsonFile, true))
@@ -92,7 +84,7 @@ namespace WebScrapperCode.WebScrappers
             }
 
             Console.WriteLine("Serialized?");
-
+            */
         }
     }
 }
