@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HomebreweryShoppingAssistaint.Models
 {
@@ -12,6 +11,7 @@ namespace HomebreweryShoppingAssistaint.Models
         public string ProductPrice { get; set; }
         public string Product30DaysPrice { get; set; }
         public string ProductLink { get; set; }
+        public bool IsAvailable { get; set; }
         public int CategoryID { get; set; }
         public int CompanyID { get; set; }
         public int ShopID { get; set; }

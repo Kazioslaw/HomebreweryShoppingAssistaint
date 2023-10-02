@@ -3,7 +3,7 @@ using HtmlAgilityPack;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace WebScrapperCode.WebScrappers
+namespace HomebreweryShoppingAssistaint.WebScrappers
 {
     internal class CentrumPiwowarstwaWebScrapper
     {
@@ -19,8 +19,9 @@ namespace WebScrapperCode.WebScrappers
             {
                 var link = "https://www.browar.biz" + HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("div.fastshop_item_data > a").Attributes["href"].Value);
                 var name = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("div.fastshop_item_data > a").InnerText);
-                var price = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("div.fastshop_item_price").InnerText) + "zł";
-                var product = new Product() { ProductLink = link, ProductName = name, ProductPrice = price };
+                var price = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("div.fastshop_item_price").InnerText);
+                var isAvailable = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector(".id_avail_n").InnerText) == "N" ? false : true;               
+                var product = new Product() { ProductLink = link, ProductName = name, ProductPrice = price, IsAvailable = isAvailable };
                 products.Add(product);
             }
 

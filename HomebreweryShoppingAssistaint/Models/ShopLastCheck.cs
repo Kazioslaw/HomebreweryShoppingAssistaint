@@ -2,11 +2,11 @@
 
 namespace HomebreweryShoppingAssistaint.Models
 {
-    public class ShopLastCheck
+    public class ShopCheckHistory
     {
         [Key]
-        public int ShopLastCheckID { get; set; }
+        public int ShopCheckHistoryID { get; set; }
         public int ShopID { get; set; }
-        public DateTime LastCheckDateTime { get; set; }
+        public DateTime CheckDateTime { get; set; }
     }
 }

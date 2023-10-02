@@ -4,7 +4,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 
 //Do naprawy bo nadal nie działa
-namespace WebScrapperCode.WebScrappers
+namespace HomebreweryShoppingAssistaint.WebScrappers
 {
     internal class AlePiwoWebScrapper
     {

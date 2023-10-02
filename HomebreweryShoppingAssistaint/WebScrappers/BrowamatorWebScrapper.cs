@@ -3,7 +3,7 @@ using HtmlAgilityPack;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace WebScrapperCode.WebScrappers
+namespace HomebreweryShoppingAssistaint.WebScrappers
 {
     internal class BrowamatorWebScrapper
     {
@@ -55,6 +55,7 @@ namespace WebScrapperCode.WebScrappers
                         var link = "https://browamator.pl/" + HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("a").Attributes["href"].Value);
                         var name = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("h2").InnerText);
                         var price = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("span:nth-child(4)").InnerText);
+                        //var isAvailable = brak "niedostępnych" produktów jedynie na zamówienie.
                         var product = new Product() { ProductLink = link, ProductName = name, ProductPrice = price };
                         products.Add(product);
                     }

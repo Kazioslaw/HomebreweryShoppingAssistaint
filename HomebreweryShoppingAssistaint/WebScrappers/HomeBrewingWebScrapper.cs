@@ -3,7 +3,7 @@ using HtmlAgilityPack;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace WebScrapperCode.WebScrappers
+namespace HomebreweryShoppingAssistaint.WebScrappers
 {
     internal class HomeBrewingWebScrapper
     {
