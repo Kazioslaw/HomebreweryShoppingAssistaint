@@ -51,7 +51,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         //To Fix
         //public ActionResult ScappingAlePiwo() 
         //{
-        //    if(!_context.Product.Any())
+        //    if(!_context.Product.Any(p=> p.ProductLink.Contains("https://alepiwp.pl/")))
         //    {
         //        AlePiwoWebScrapper.Run();
         //    }
@@ -60,7 +60,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         //To Fix
         public ActionResult ScrappingBrowamator()
         {
-            if(!_context.Product.Any())
+            if (!_context.Product.Any(p => p.ProductLink.Contains("https://browamator.pl/")))
             {
                 var products = BrowamatorWebScrapper.Run();
                 _context.Product.AddRange(products);
@@ -71,7 +71,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         //To Fix
         public ActionResult ScrappingCentrumPiwowarstwa()
         {
-            if(!_context.Product.Any())
+            if (!_context.Product.Any(p => p.ProductLink.Contains("https://www.browar.biz/centrumpiwowarstwa/")))
             {
                 var products = CentrumPiwowarstwaWebScrapper.Run();
                 _context.Product.AddRange(products);
@@ -82,7 +82,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         //To Fix
         public ActionResult ScrappingHomeBrewing()
         {
-            if(!_context.Product.Any())
+            if (!_context.Product.Any(p => p.ProductLink.Contains("https://homebrewing.pl/")))
             {
                 var products = HomeBrewingWebScrapper.Run();
                 _context.Product.AddRange(products);
@@ -93,7 +93,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         //To Fix
         public ActionResult ScrappingTwojBrowar()
         {
-            if (!_context.Product.Any())
+            if (!_context.Product.Any(p => p.ProductLink.Contains("https://twojbrowar.pl/")))
             {
                 var products = TwojBrowarWebScrapper.Run();
                 _context.Product.AddRange(products);
