@@ -1,4 +1,4 @@
-﻿@model HomebreweryShoppingAssistaint.Models.ProductLastCheck
+﻿@model HomebreweryShoppingAssistaint.Models.ProductCheckHistory
 
 @{
     ViewData["Title"] = "Details";
@@ -17,20 +17,14 @@
             @Html.DisplayFor(model => model.ProductID)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ShopID)
+            @Html.DisplayNameFor(model => model.CheckDateTime)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ShopID)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastCheckDateTime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastCheckDateTime)
+            @Html.DisplayFor(model => model.CheckDateTime)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.ProductLastCheckID">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model?.ProductCheckHistoryID">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

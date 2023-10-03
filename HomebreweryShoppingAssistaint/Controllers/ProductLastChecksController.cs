@@ -36,7 +36,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             }
 
             var productLastCheck = await _context.ProductLastCheck
-                .FirstOrDefaultAsync(m => m.ProductLastCheckID == id);
+                .FirstOrDefaultAsync(m => m.ProductCheckHistoryID == id);
             if (productLastCheck == null)
             {
                 return NotFound();
@@ -56,7 +56,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductLastCheckID,ProductID,ShopID,LastCheckDateTime")] ProductLastCheck productLastCheck)
+        public async Task<IActionResult> Create([Bind("ProductCheckHistoryID,ProductID,ShopID,LastCheckDateTime")] ProductCheckHistory productLastCheck)
         {
             if (ModelState.IsValid)
             {
@@ -88,9 +88,9 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductLastCheckID,ProductID,ShopID,LastCheckDateTime")] ProductLastCheck productLastCheck)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductCheckHistoryID,ProductID,ShopID,LastCheckDateTime")] ProductCheckHistory productLastCheck)
         {
-            if (id != productLastCheck.ProductLastCheckID)
+            if (id != productLastCheck.ProductCheckHistoryID)
             {
                 return NotFound();
             }
@@ -104,7 +104,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductLastCheckExists(productLastCheck.ProductLastCheckID))
+                    if (!ProductLastCheckExists(productLastCheck.ProductCheckHistoryID))
                     {
                         return NotFound();
                     }
@@ -127,7 +127,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             }
 
             var productLastCheck = await _context.ProductLastCheck
-                .FirstOrDefaultAsync(m => m.ProductLastCheckID == id);
+                .FirstOrDefaultAsync(m => m.ProductCheckHistoryID == id);
             if (productLastCheck == null)
             {
                 return NotFound();
@@ -157,7 +157,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
 
         private bool ProductLastCheckExists(int id)
         {
-          return (_context.ProductLastCheck?.Any(e => e.ProductLastCheckID == id)).GetValueOrDefault();
+          return (_context.ProductLastCheck?.Any(e => e.ProductCheckHistoryID == id)).GetValueOrDefault();
         }
     }
 }

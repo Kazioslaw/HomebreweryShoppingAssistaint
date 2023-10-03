@@ -22,18 +22,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-            if (!_context.Category.Any())
-            {
-                var categories = new List<Category>
-                {
-                    new Category {CategoryName = ProductCategory.Chmiel },
-                    new Category {CategoryName = ProductCategory.Drożdże },
-                    new Category {CategoryName = ProductCategory.Słód },
-                    new Category {CategoryName = ProductCategory.Inne }
-                };
-                _context.AddRange(categories);
-                _context.SaveChanges();
-            }
+
             return _context.Category != null ?
                           View(await _context.Category.ToListAsync()) :
                          Problem("Entity set 'HomebreweryShoppingAssistaintContext.Category'  is null.");
@@ -48,7 +37,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             }
 
             var category = await _context.Category
-                .FirstOrDefaultAsync(m => m.CategoryId == id);
+                .FirstOrDefaultAsync(m => m.CategoryID == id);
             if (category == null)
             {
                 return NotFound();
@@ -68,7 +57,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CategoryId,CategoryName")] Category category)
+        public async Task<IActionResult> Create([Bind("CategoryID,CategoryName")] Category category)
         {
             if (ModelState.IsValid)
             {
@@ -100,9 +89,9 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,CategoryName")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("CategoryID,CategoryName")] Category category)
         {
-            if (id != category.CategoryId)
+            if (id != category.CategoryID)
             {
                 return NotFound();
             }
@@ -116,7 +105,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoryExists(category.CategoryId))
+                    if (!CategoryExists(category.CategoryID))
                     {
                         return NotFound();
                     }
@@ -139,7 +128,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             }
 
             var category = await _context.Category
-                .FirstOrDefaultAsync(m => m.CategoryId == id);
+                .FirstOrDefaultAsync(m => m.CategoryID == id);
             if (category == null)
             {
                 return NotFound();
@@ -169,7 +158,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
 
         private bool CategoryExists(int id)
         {
-            return (_context.Category?.Any(e => e.CategoryId == id)).GetValueOrDefault();
+            return (_context.Category?.Any(e => e.CategoryID == id)).GetValueOrDefault();
         }
     }
 }

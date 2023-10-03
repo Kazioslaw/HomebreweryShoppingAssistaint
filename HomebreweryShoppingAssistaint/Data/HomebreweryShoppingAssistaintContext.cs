@@ -20,8 +20,8 @@ namespace HomebreweryShoppingAssistaint.Data
 
         public DbSet<HomebreweryShoppingAssistaint.Models.Shop> Shop { get; set; } = default!;
 
-        public DbSet<HomebreweryShoppingAssistaint.Models.ProductLastCheck> ProductLastCheck { get; set; } = default!;
+        public DbSet<HomebreweryShoppingAssistaint.Models.ProductCheckHistory> ProductLastCheck { get; set; } = default!;
 
-        public DbSet<HomebreweryShoppingAssistaint.Models.ShopLastCheck> ShopLastCheck { get; set; } = default!;
+        public DbSet<HomebreweryShoppingAssistaint.Models.ShopCheckHistory> ShopLastCheck { get; set; } = default!;
     }
 }

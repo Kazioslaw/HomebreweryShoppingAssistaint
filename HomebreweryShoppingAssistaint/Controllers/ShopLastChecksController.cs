@@ -36,7 +36,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             }
 
             var shopLastCheck = await _context.ShopLastCheck
-                .FirstOrDefaultAsync(m => m.ShopLastCheckID == id);
+                .FirstOrDefaultAsync(m => m.ShopCheckHistoryID == id);
             if (shopLastCheck == null)
             {
                 return NotFound();
@@ -56,7 +56,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ShopLastCheckID,ShopID,LastCheckDateTime")] ShopLastCheck shopLastCheck)
+        public async Task<IActionResult> Create([Bind("ShopLastCheckID,ShopID,LastCheckDateTime")] ShopCheckHistory shopLastCheck)
         {
             if (ModelState.IsValid)
             {
@@ -88,9 +88,9 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ShopLastCheckID,ShopID,LastCheckDateTime")] ShopLastCheck shopLastCheck)
+        public async Task<IActionResult> Edit(int id, [Bind("ShopLastCheckID,ShopID,LastCheckDateTime")] ShopCheckHistory shopLastCheck)
         {
-            if (id != shopLastCheck.ShopLastCheckID)
+            if (id != shopLastCheck.ShopCheckHistoryID)
             {
                 return NotFound();
             }
@@ -104,7 +104,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ShopLastCheckExists(shopLastCheck.ShopLastCheckID))
+                    if (!ShopLastCheckExists(shopLastCheck.ShopCheckHistoryID))
                     {
                         return NotFound();
                     }
@@ -127,7 +127,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             }
 
             var shopLastCheck = await _context.ShopLastCheck
-                .FirstOrDefaultAsync(m => m.ShopLastCheckID == id);
+                .FirstOrDefaultAsync(m => m.ShopCheckHistoryID == id);
             if (shopLastCheck == null)
             {
                 return NotFound();
@@ -157,7 +157,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
 
         private bool ShopLastCheckExists(int id)
         {
-          return (_context.ShopLastCheck?.Any(e => e.ShopLastCheckID == id)).GetValueOrDefault();
+          return (_context.ShopLastCheck?.Any(e => e.ShopCheckHistoryID == id)).GetValueOrDefault();
         }
     }
 }

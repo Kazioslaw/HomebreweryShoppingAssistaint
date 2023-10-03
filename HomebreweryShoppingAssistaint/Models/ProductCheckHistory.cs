@@ -2,7 +2,7 @@
 
 namespace HomebreweryShoppingAssistaint.Models
 {
-    public class ProductLastCheck
+    public class ProductCheckHistory
     {
         [Key]
         public int ProductCheckHistoryID { get; set; }

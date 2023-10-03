@@ -1,4 +1,4 @@
-﻿@model HomebreweryShoppingAssistaint.Models.ShopLastCheck
+﻿@model HomebreweryShoppingAssistaint.Models.ShopCheckHistory
 
 @{
     ViewData["Title"] = "Delete";
@@ -18,10 +18,10 @@
             @Html.DisplayFor(model => model.ShopID)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastCheckDateTime)
+            @Html.DisplayNameFor(model => model.CheckDateTime)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastCheckDateTime)
+            @Html.DisplayFor(model => model.CheckDateTime)
         </dd>
     </dl>
     

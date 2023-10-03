@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HomebreweryShoppingAssistaint.Models.ShopLastCheck>
+﻿@model IEnumerable<HomebreweryShoppingAssistaint.Models.ShopCheckHistory>
 
 @{
     ViewData["Title"] = "Index";
@@ -16,7 +16,7 @@
                 @Html.DisplayNameFor(model => model.ShopID)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastCheckDateTime)
+                @Html.DisplayNameFor(model => model.CheckDateTime)
             </th>
             <th></th>
         </tr>
@@ -28,12 +28,12 @@
                 @Html.DisplayFor(modelItem => item.ShopID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LastCheckDateTime)
+                @Html.DisplayFor(modelItem => item.CheckDateTime)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ShopLastCheckID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ShopLastCheckID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ShopLastCheckID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.ShopCheckHistoryID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ShopCheckHistoryID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ShopCheckHistoryID">Delete</a>
             </td>
         </tr>
 }
