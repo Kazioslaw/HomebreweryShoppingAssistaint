@@ -27,11 +27,11 @@ namespace HomebreweryShoppingAssistaint.Migrations
 
             modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.Category", b =>
                 {
-                    b.Property<int>("CategoryId")
+                    b.Property<int>("CategoryID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryID"));
 
                     b.Property<int>("CategoryName")
                         .HasColumnType("int");
@@ -39,7 +39,7 @@ namespace HomebreweryShoppingAssistaint.Migrations
                     b.Property<int?>("LastCheckID")
                         .HasColumnType("int");
 
-                    b.HasKey("CategoryId");
+                    b.HasKey("CategoryID");
 
                     b.HasIndex("LastCheckID");
 
@@ -57,7 +57,7 @@ namespace HomebreweryShoppingAssistaint.Migrations
                     b.Property<int>("CategoryID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("LastCheckDateTime")
+                    b.Property<DateTime>("CheckDateTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("ProductID")

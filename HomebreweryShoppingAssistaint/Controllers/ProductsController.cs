@@ -49,7 +49,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryId", "CategoryId");
+            ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryID", "CategoryID");
             ViewData["ShopID"] = new SelectList(_context.Set<Shop>(), "ShopID", "ShopID");
             return View();
         }
@@ -67,7 +67,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryId", "CategoryId", product.CategoryID);
+            ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryID", "CategoryID", product.CategoryID);
             ViewData["ShopID"] = new SelectList(_context.Set<Shop>(), "ShopID", "ShopID", product.ShopID);
             return View(product);
         }
@@ -85,7 +85,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             {
                 return NotFound();
             }
-            ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryId", "CategoryId", product.CategoryID);
+            ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryID", "CategoryID", product.CategoryID);
             ViewData["ShopID"] = new SelectList(_context.Set<Shop>(), "ShopID", "ShopID", product.ShopID);
             return View(product);
         }
@@ -122,7 +122,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryId", "CategoryId", product.CategoryID);
+            ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryID", "CategoryID", product.CategoryID);
             ViewData["ShopID"] = new SelectList(_context.Set<Shop>(), "ShopID", "ShopID", product.ShopID);
             return View(product);
         }

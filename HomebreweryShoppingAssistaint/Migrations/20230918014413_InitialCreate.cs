@@ -20,7 +20,7 @@ namespace HomebreweryShoppingAssistaint.Migrations
                     ProductID = table.Column<int>(type: "int", nullable: false),
                     CategoryID = table.Column<int>(type: "int", nullable: false),
                     ShopID = table.Column<int>(type: "int", nullable: false),
-                    LastCheckDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CheckDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,14 +31,14 @@ namespace HomebreweryShoppingAssistaint.Migrations
                 name: "Category",
                 columns: table => new
                 {
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                    CategoryID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CategoryName = table.Column<int>(type: "int", nullable: false),
                     LastCheckID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Category", x => x.CategoryId);
+                    table.PrimaryKey("PK_Category", x => x.CategoryID);
                     table.ForeignKey(
                         name: "FK_Category_LastCheck_LastCheckID",
                         column: x => x.LastCheckID,
@@ -87,7 +87,7 @@ namespace HomebreweryShoppingAssistaint.Migrations
                         name: "FK_Product_Category_CategoryID",
                         column: x => x.CategoryID,
                         principalTable: "Category",
-                        principalColumn: "CategoryId",
+                        principalColumn: "CategoryID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Product_LastCheck_LastCheckID",
