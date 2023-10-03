@@ -8,7 +8,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
     internal class TwojBrowarWebScrapper
     {
 
-        public static void Run()
+        public static List<Product> Run()
         {
             var sites = new List<string>
             {
@@ -79,7 +79,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                 */
 
             }
-
+            return products;
             /*
             var jsonFile = "TwojBrowar.json";
             var jsonString = JsonSerializer.Serialize(products);

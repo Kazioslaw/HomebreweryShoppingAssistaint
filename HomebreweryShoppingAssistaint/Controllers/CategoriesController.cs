@@ -22,7 +22,6 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-
             return _context.Category != null ?
                           View(await _context.Category.ToListAsync()) :
                          Problem("Entity set 'HomebreweryShoppingAssistaintContext.Category'  is null.");

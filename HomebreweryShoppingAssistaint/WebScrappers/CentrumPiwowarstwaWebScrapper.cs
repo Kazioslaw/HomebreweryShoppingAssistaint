@@ -8,7 +8,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
     internal class CentrumPiwowarstwaWebScrapper
     {
 
-        public static void Run()
+        public static List<Product> Run()
         {
             var site = "https://www.browar.biz/centrumpiwowarstwa/szybkie_zamawianie";
             var web = new HtmlWeb();
@@ -25,6 +25,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                 products.Add(product);
             }
 
+            return products;
             /*
             // Weryfikator scrappera
             int itemNum = 1;

@@ -8,7 +8,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
     internal class HomeBrewingWebScrapper
     {
 
-        public static void Run()
+        public static List<Product> Run()
         {
             var sites = new List<string>
             {
@@ -76,6 +76,8 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                 */
 
             }
+            return products;
+
             /*
             var jsonFile = "HomeBrewery.json";
             var jsonString = JsonSerializer.Serialize(products);

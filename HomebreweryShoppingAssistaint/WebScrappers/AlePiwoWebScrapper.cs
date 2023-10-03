@@ -8,7 +8,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
 {
     internal class AlePiwoWebScrapper
     {
-        public static void Run()
+        public static List<Product> Run()
         {
             var web = new HtmlWeb();
             var products = new List<Product>();
@@ -51,6 +51,8 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                 Console.WriteLine("Scraped: " + i + " page");
                 i++;
             }
+
+            return products;
 
             /*
             int itemNum = 1;

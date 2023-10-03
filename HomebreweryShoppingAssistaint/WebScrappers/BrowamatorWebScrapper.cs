@@ -7,7 +7,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
 {
     internal class BrowamatorWebScrapper
     {
-        public static void Run()
+        public static List<Product> Run()
         {
             var sites = new List<string> { "https://browamator.pl/produkty/piwo/2-282?sort=12&pageId=1#products",
                                            "https://browamator.pl/produkty/wino/2-94?sort=12&pageId=1#products",
@@ -63,7 +63,6 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                     Console.WriteLine("Scraped: " + i + " page");
                     i++;
                 }
-
                 /*
                 int itemNum = 1;
                 foreach (var product in products)
@@ -76,6 +75,8 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                     itemNum++;
                 } */
             }
+
+            return products;
             /*
             var jsonFile = "Browamator.json";
             var jsonString = JsonSerializer.Serialize(products);
