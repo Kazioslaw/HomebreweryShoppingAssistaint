@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using HomebreweryShoppingAssistaint.Models;
 
 namespace HomebreweryShoppingAssistaint.Data
@@ -14,14 +10,14 @@ namespace HomebreweryShoppingAssistaint.Data
         {
         }
 
-        public DbSet<HomebreweryShoppingAssistaint.Models.Category> Category { get; set; } = default!;
+        public DbSet<Category> Category { get; set; } = default!;
 
-        public DbSet<HomebreweryShoppingAssistaint.Models.Product> Product { get; set; } = default!;
+        public DbSet<Product> Product { get; set; } = default!;
 
-        public DbSet<HomebreweryShoppingAssistaint.Models.Shop> Shop { get; set; } = default!;
+        public DbSet<Shop> Shop { get; set; } = default!;
 
-        public DbSet<HomebreweryShoppingAssistaint.Models.ProductCheckHistory> ProductLastCheck { get; set; } = default!;
+        public DbSet<ProductCheckHistory> ProductLastCheck { get; set; } = default!;
 
-        public DbSet<HomebreweryShoppingAssistaint.Models.ShopCheckHistory> ShopLastCheck { get; set; } = default!;
+        public DbSet<ShopCheckHistory> ShopLastCheck { get; set; } = default!;
     }
 }
