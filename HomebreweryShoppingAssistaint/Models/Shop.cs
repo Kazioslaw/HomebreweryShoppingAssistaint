@@ -5,7 +5,7 @@ namespace HomebreweryShoppingAssistaint.Models
     public enum ShopNameEnum
     {
         [Display(Name = "Ale Piwo")]
-        AlePiwo,
+        AlePiwo = 1,
         Browamator,
         [Display(Name = "Centrum Piwowarstwa")]
         CentrumPiwowarstwa,

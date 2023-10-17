@@ -58,7 +58,15 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                         var name = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("a.product-name").InnerText);
                         var price = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("span.product-price").InnerText);
                         var isAvailable = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector(".pb-available-title > span:nth-child(1)").InnerText) == "Chwilowy brak towaru" ? false : true;
-                        var product = new Product() { ProductLink = link, ProductName = name, ProductPrice = price, IsAvailable = isAvailable };
+                        var product = new Product()
+                        {
+                            ProductLink = link,
+                            ProductName = name,
+                            ProductPrice = price,
+                            IsAvailable = isAvailable,
+                            ShopID = (int)ShopNameEnum.TwojBrowar,
+                            CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/
+                        };
                         products.Add(product);
                     }
                     Console.WriteLine("Scraped: " + i + " page");

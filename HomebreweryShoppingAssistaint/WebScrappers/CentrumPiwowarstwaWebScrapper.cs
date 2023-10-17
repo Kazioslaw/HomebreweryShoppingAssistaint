@@ -21,7 +21,15 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                 var name = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("div.fastshop_item_data > a").InnerText);
                 var price = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("div.fastshop_item_price").InnerText);
                 var isAvailable = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector(".id_avail_n").InnerText) == "N" ? false : true;               
-                var product = new Product() { ProductLink = link, ProductName = name, ProductPrice = price, IsAvailable = isAvailable };
+                var product = new Product() 
+                { 
+                    ProductLink = link, 
+                    ProductName = name, 
+                    ProductPrice = price,
+                    IsAvailable = isAvailable,
+                    ShopID = (int)ShopNameEnum.CentrumPiwowarstwa,
+                    CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/  
+                };
                 products.Add(product);
             }
 

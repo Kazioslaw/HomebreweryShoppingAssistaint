@@ -4,7 +4,7 @@ namespace HomebreweryShoppingAssistaint.Models
 {
     public enum ProductCategory
     {
-        Słód,
+        Słód = 1,
         Drożdże,
         Chmiel,
         Inne

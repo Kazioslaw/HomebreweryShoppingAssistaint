@@ -56,7 +56,14 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                         var name = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("h2").InnerText);
                         var price = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("span:nth-child(4)").InnerText);
                         //var isAvailable = brak "niedostępnych" produktów jedynie na zamówienie.
-                        var product = new Product() { ProductLink = link, ProductName = name, ProductPrice = price };
+                        var product = new Product() 
+                        { 
+                            ProductLink = link, 
+                            ProductName = name, 
+                            ProductPrice = price, 
+                            ShopID = (int)ShopNameEnum.Browamator, 
+                            CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/ 
+                        };
                         products.Add(product);
                     }
 
