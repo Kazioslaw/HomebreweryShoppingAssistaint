@@ -88,7 +88,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 CheckDateTime = DateTime.Now,
             };
             //Problem do rozwiązania związany z bazą danych
-            _context.ShopLastCheck.Add(shopCheckHistory);
+            _context.ShopCheckHistory.Add(shopCheckHistory);
             _context.SaveChanges();
             return Content("Dodano produkty do bazy danych: ");
         }
@@ -114,8 +114,8 @@ namespace HomebreweryShoppingAssistaint.Controllers
                     ProductID = product.ProductID,
                     CheckDateTime = DateTime.Now,
                 };
-                //Problem do rozwiązania związany z bazą danych
-                await _context.ProductLastCheck.AddAsync(productCheckHistory);
+                
+                await _context.ProductCheckHistory.AddAsync(productCheckHistory);
             }            
             await _context.SaveChangesAsync();
             return Ok("Zaktualizowano ceny");            
@@ -139,8 +139,8 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 ShopID = (int)ShopNameEnum.CentrumPiwowarstwa,
                 CheckDateTime = DateTime.Now,
             };
-            //Problem do rozwiązania z bazą danych
-            _context.ShopLastCheck.Add(shopCheckHistory);
+            
+            _context.ShopCheckHistory.Add(shopCheckHistory);
             _context.SaveChanges();
             return Ok("Baza została zapełniona");
         }
@@ -167,7 +167,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
                     ProductID = product.ProductID,
                     CheckDateTime = DateTime.Now
                 };
-                await _context.ProductLastCheck.AddAsync(productCheckHistory);
+                await _context.ProductCheckHistory.AddAsync(productCheckHistory);
             }
             await _context.SaveChangesAsync();
             return Ok("Zaktualizowano ceny");
@@ -191,8 +191,8 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 ShopID = (int)ShopNameEnum.CentrumPiwowarstwa,
                 CheckDateTime = DateTime.Now,
             };
-            //Problem do rozwiązania z bazą danych
-            _context.ShopLastCheck.Add(shopCheckHistory);
+
+            _context.ShopCheckHistory.Add(shopCheckHistory);
             return Ok("Baza została zapełniona");
         }
 
@@ -218,7 +218,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
                     ProductID = product.ProductID,
                     CheckDateTime = DateTime.Now
                 };
-                await _context.ProductLastCheck.AddAsync(productCheckHistory);
+                await _context.ProductCheckHistory.AddAsync(productCheckHistory);
             }
             await _context.SaveChangesAsync();
             return Ok("Zaktualizowano ceny");
@@ -242,8 +242,8 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 ShopID = (int)ShopNameEnum.CentrumPiwowarstwa,
                 CheckDateTime = DateTime.Now,
             };
-            //Problem do rozwiązania z bazą danych
-            _context.ShopLastCheck.Add(shopCheckHistory);
+            
+            _context.ShopCheckHistory.Add(shopCheckHistory);
             return Ok("Baza została zapełniona");
         }
 
@@ -269,7 +269,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
                     ProductID = product.ProductID,
                     CheckDateTime = DateTime.Now
                 };
-                await _context.ProductLastCheck.AddAsync(productCheckHistory);
+                await _context.ProductCheckHistory.AddAsync(productCheckHistory);
             }
             await _context.SaveChangesAsync();
             return Ok("Zaktualizowano ceny");

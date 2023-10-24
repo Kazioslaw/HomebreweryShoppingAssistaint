@@ -16,8 +16,8 @@ namespace HomebreweryShoppingAssistaint.Data
 
         public DbSet<Shop> Shop { get; set; } = default!;
 
-        public DbSet<ProductCheckHistory> ProductLastCheck { get; set; } = default!;
+        public DbSet<ProductCheckHistory> ProductCheckHistory { get; set; } = default!;
 
-        public DbSet<ShopCheckHistory> ShopLastCheck { get; set; } = default!;
+        public DbSet<ShopCheckHistory> ShopCheckHistory { get; set; } = default!;
     }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HomebreweryShoppingAssistaint.Migrations
 {
     [DbContext(typeof(HomebreweryShoppingAssistaintContext))]
-    [Migration("20231013141006_changedLastCheckToCheckHistory")]
-    partial class changedLastCheckToCheckHistory
+    [Migration("20231024054345_changedToProductCheckHistoryAndShopCheckHistory")]
+    partial class changedToProductCheckHistoryAndShopCheckHistory
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -130,7 +130,7 @@ namespace HomebreweryShoppingAssistaint.Migrations
 
                     b.HasKey("ProductCheckHistoryID");
 
-                    b.ToTable("ProductLastCheck");
+                    b.ToTable("ProductCheckHistory");
                 });
 
             modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.Shop", b =>
@@ -171,7 +171,7 @@ namespace HomebreweryShoppingAssistaint.Migrations
 
                     b.HasIndex("ShopID");
 
-                    b.ToTable("ShopLastCheck");
+                    b.ToTable("ShopCheckHistory");
                 });
 
             modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.Product", b =>

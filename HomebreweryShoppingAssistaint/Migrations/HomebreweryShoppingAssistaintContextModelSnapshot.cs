@@ -127,7 +127,7 @@ namespace HomebreweryShoppingAssistaint.Migrations
 
                     b.HasKey("ProductCheckHistoryID");
 
-                    b.ToTable("ProductLastCheck");
+                    b.ToTable("ProductCheckHistory");
                 });
 
             modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.Shop", b =>
@@ -168,7 +168,7 @@ namespace HomebreweryShoppingAssistaint.Migrations
 
                     b.HasIndex("ShopID");
 
-                    b.ToTable("ShopLastCheck");
+                    b.ToTable("ShopCheckHistory");
                 });
 
             modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.Product", b =>
