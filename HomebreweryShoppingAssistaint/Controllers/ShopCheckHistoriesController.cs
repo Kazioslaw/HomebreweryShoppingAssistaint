@@ -10,6 +10,8 @@ using HomebreweryShoppingAssistaint.Models;
 
 namespace HomebreweryShoppingAssistaint.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class ShopCheckHistoriesController : Controller
     {
         private readonly HomebreweryShoppingAssistaintContext _context;
@@ -19,6 +21,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             _context = context;
         }
 
+        [HttpGet]
         // GET: ShopCheckHistories
         public async Task<IActionResult> Index()
         {
@@ -27,6 +30,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
                           Problem("Entity set 'HomebreweryShoppingAssistaintContext.ShopCheckHistory'  is null.");
         }
 
+        [HttpGet("Details/{id}")]
         // GET: ShopCheckHistories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -45,6 +49,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             return View(shopLastCheck);
         }
 
+        [HttpGet("Create")]
         // GET: ShopCheckHistories/Create
         public IActionResult Create()
         {
@@ -54,7 +59,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // POST: ShopCheckHistories/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ShopCheckHistoryID,ShopID,LastCheckDateTime")] ShopCheckHistory shopLastCheck)
         {
@@ -67,6 +72,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             return View(shopLastCheck);
         }
 
+        [HttpGet("Edit/{id}")]
         // GET: ShopCheckHistories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -86,7 +92,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // POST: ShopCheckHistories/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Edit/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ShopCheckHistoryID,ShopID,LastCheckDateTime")] ShopCheckHistory shopLastCheck)
         {
@@ -118,6 +124,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             return View(shopLastCheck);
         }
 
+        [HttpGet("Delete/{id}")]
         // GET: ShopCheckHistories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -137,7 +144,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         }
 
         // POST: ShopCheckHistories/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("Delete/{id}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

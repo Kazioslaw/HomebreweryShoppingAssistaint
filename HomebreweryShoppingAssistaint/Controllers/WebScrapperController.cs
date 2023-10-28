@@ -6,6 +6,8 @@ using System.Data.Entity;
 
 namespace HomebreweryShoppingAssistaint.Controllers
 {
+    //[ApiController]
+    //[Route("[Controller]")]
     public class WebScrapperController : Controller
     {
         private readonly HomebreweryShoppingAssistaintContext _context;
@@ -14,7 +16,8 @@ namespace HomebreweryShoppingAssistaint.Controllers
         {
             _context = context;
         }
-        
+
+        //[HttpPost("AddingCategories")]
         public ActionResult AddingCategories()
         {
             if (!_context.Category.Any())
@@ -27,12 +30,13 @@ namespace HomebreweryShoppingAssistaint.Controllers
                     new Category {CategoryName = ProductCategory.Inne }
                 };
                 _context.Category.AddRange(categories);
-                _context.SaveChanges();                
+                _context.SaveChanges();
             }
-            return Content("Baza została zapełniona.");
+            return Ok("Baza została zapełniona.");
         }
 
-        public ActionResult AddingShops() 
+        //[HttpPost("AddingShops")]
+        public ActionResult AddingShops()
         {
             if (!_context.Shop.Any())
             {
@@ -48,6 +52,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             return Ok("Baza została zapełniona.");
         }
 
+        //[HttpPost("ScrappingAlePiwo")]        
         //To Fix
         //public ActionResult ScappingAlePiwo() 
         //{
@@ -57,19 +62,9 @@ namespace HomebreweryShoppingAssistaint.Controllers
         //    }
         //    return Content("Baza została zapełniona");
         //}
+        //[HttpPost("AlePiwoPriceCheck")]
 
-        //To Fix
-        //public ActionResult ScrappingBrowamator()
-        //{
-        //    if (!_context.Product.Any(p => p.ProductLink.Contains("https://browamator.pl/")))
-        //    {
-        //        var products = BrowamatorWebScrapper.Run();
-        //        _context.Product.AddRange(products);
-        //        _context.SaveChanges();
-        //    }
-        //    return Content("Baza została zapełniona");
-        //}
-
+        //[HttpPost("ScrappingBrowamator")]
         public ActionResult ScrappingBrowamator()
         {
             List<Product> scrappedProducts = BrowamatorWebScrapper.Run();
@@ -90,20 +85,21 @@ namespace HomebreweryShoppingAssistaint.Controllers
             //Problem do rozwiązania związany z bazą danych
             _context.ShopCheckHistory.Add(shopCheckHistory);
             _context.SaveChanges();
-            return Content("Dodano produkty do bazy danych: ");
+            return Ok("Dodano produkty do bazy danych: ");
         }
 
+        //[HttpPost("BrowamatorPriceCheck")]
         public async Task<IActionResult> BrowamatorPriceChange()
         {
             List<Product> productsFromDatabase = await _context.Product.ToListAsync();
 
             List<Product> updatedProduct = new List<Product>();
 
-            foreach(var product in productsFromDatabase)
+            foreach (var product in productsFromDatabase)
             {
                 List<Product> scrapedProducts = BrowamatorWebScrapper.Run();
-                var matchingProduct = scrapedProducts.FirstOrDefault(p=>p.ProductID == product.ProductID);                
-                if(matchingProduct != null && matchingProduct.ProductPrice != product.ProductPrice)
+                var matchingProduct = scrapedProducts.FirstOrDefault(p => p.ProductID == product.ProductID);
+                if (matchingProduct != null && matchingProduct.ProductPrice != product.ProductPrice)
                 {
                     product.ProductPrice = matchingProduct.ProductPrice;
                     Console.WriteLine("Zaktualizowano cene dla produktu o ID: ");
@@ -114,24 +110,25 @@ namespace HomebreweryShoppingAssistaint.Controllers
                     ProductID = product.ProductID,
                     CheckDateTime = DateTime.Now,
                 };
-                
+
                 await _context.ProductCheckHistory.AddAsync(productCheckHistory);
-            }            
+            }
             await _context.SaveChangesAsync();
-            return Ok("Zaktualizowano ceny");            
+            return Ok("Zaktualizowano ceny");
         }
 
+        //[HttpPost("ScrappingCentrumPiwowarstwa")]
         public ActionResult ScrappingCentrumPiwowarstwa()
         {
             List<Product> scrappedProducts = CentrumPiwowarstwaWebScrapper.Run();
-            foreach(var scrappedProduct in scrappedProducts)            
+            foreach (var scrappedProduct in scrappedProducts)
             {
                 var existingProduct = _context.Product.FirstOrDefault(p => p.ProductLink == scrappedProduct.ProductLink);
-                if(existingProduct == null)
+                if (existingProduct == null)
                 {
                     _context.Product.Add(scrappedProduct);
                 }
-                
+
             }
 
             var shopCheckHistory = new ShopCheckHistory()
@@ -139,12 +136,13 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 ShopID = (int)ShopNameEnum.CentrumPiwowarstwa,
                 CheckDateTime = DateTime.Now,
             };
-            
+
             _context.ShopCheckHistory.Add(shopCheckHistory);
             _context.SaveChanges();
             return Ok("Baza została zapełniona");
         }
 
+        //[HttpPut("CentrumPiwowarstwaPriceCheck")]
         public async Task<IActionResult> CentrumPiwowarstwaPriceChange()
         {
             List<Product> productsFromDatabase = await _context.Product.ToListAsync();
@@ -173,6 +171,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             return Ok("Zaktualizowano ceny");
         }
 
+        //[HttpPost("ScrappingHomebrewing")]
         public ActionResult ScrappingHomeBrewing()
         {
             List<Product> scrappedProducts = HomeBrewingWebScrapper.Run();
@@ -196,6 +195,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             return Ok("Baza została zapełniona");
         }
 
+        //[HttpPost("HomebrewingPriceCheck")]
         public async Task<IActionResult> HomeBrewingPriceChange()
         {
             List<Product> productsFromDatabase = await _context.Product.ToListAsync();
@@ -224,6 +224,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             return Ok("Zaktualizowano ceny");
         }
 
+        //[HttpPost("ScrappingTwojBrowar")]
         public ActionResult ScrappingTwojBrowar()
         {
             List<Product> scrappedProducts = TwojBrowarWebScrapper.Run();
@@ -247,6 +248,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             return Ok("Baza została zapełniona");
         }
 
+        //[HttpPost("TwojBrowarPriceCheck")]
         public async Task<IActionResult> TwojBrowarPriceChange()
         {
             List<Product> productsFromDatabase = await _context.Product.ToListAsync();

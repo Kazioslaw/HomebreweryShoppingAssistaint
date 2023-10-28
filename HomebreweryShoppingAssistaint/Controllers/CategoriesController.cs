@@ -2,9 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using HomebreweryShoppingAssistaint.Data;
 using HomebreweryShoppingAssistaint.Models;
+using System.Net;
+using Swashbuckle.Swagger.Annotations;
 
 namespace HomebreweryShoppingAssistaint.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class CategoriesController : Controller
     {
         private readonly HomebreweryShoppingAssistaintContext _context;
@@ -14,6 +18,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             _context = context;
         }
 
+        [HttpGet]
         // GET: Categories
         public async Task<IActionResult> Index()
         {
@@ -22,6 +27,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
                          Problem("Entity set 'HomebreweryShoppingAssistaintContext.Category'  is null.");
         }
 
+        [HttpGet("Details/{id}")]
         // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -40,6 +46,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             return View(category);
         }
 
+        [HttpGet("Create")]
         // GET: Categories/Create
         public IActionResult Create()
         {
@@ -49,7 +56,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // POST: Categories/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CategoryID,CategoryName")] Category category)
         {
@@ -62,6 +69,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             return View(category);
         }
 
+        [HttpGet("Edit/{id}")]
         // GET: Categories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -81,7 +89,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // POST: Categories/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Edit/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CategoryID,CategoryName")] Category category)
         {
@@ -113,6 +121,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             return View(category);
         }
 
+        [HttpGet("Delete/{id}")]
         // GET: Categories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -132,7 +141,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         }
 
         // POST: Categories/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("Delete/{id}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
