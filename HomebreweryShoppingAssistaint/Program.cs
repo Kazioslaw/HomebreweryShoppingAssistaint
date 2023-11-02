@@ -2,15 +2,18 @@
 using Microsoft.Extensions.DependencyInjection;
 using HomebreweryShoppingAssistaint.Data;
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<HomebreweryShoppingAssistaintContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("HomebreweryShoppingAssistaintContext") ?? throw new InvalidOperationException("Connection string 'HomebreweryShoppingAssistaintContext' not found.")));
 // Add services to the container.
 
-builder.Services.AddControllersWithViews().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter())); ;
-builder.Services.AddSwaggerGen(c =>
-{});
+builder.Services.AddControllersWithViews().AddJsonOptions(options => { 
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+});
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 

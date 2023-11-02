@@ -62,7 +62,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                         {
                             ProductLink = link,
                             ProductName = name,
-                            ProductPrice = price,
+                            ProductPrice = decimal.Parse(price),
                             IsAvailable = isAvailable,
                             ShopID = (int)ShopNameEnum.TwojBrowar,
                             CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/

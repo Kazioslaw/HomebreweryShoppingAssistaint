@@ -17,7 +17,7 @@ namespace HomebreweryShoppingAssistaint.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.11")
+                .HasAnnotation("ProductVersion", "7.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -38,23 +38,6 @@ namespace HomebreweryShoppingAssistaint.Migrations
                     b.ToTable("Category");
                 });
 
-            modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.Company", b =>
-                {
-                    b.Property<int>("CompanyID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CompanyID"));
-
-                    b.Property<string>("CompanyName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CompanyID");
-
-                    b.ToTable("Company");
-                });
-
             modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.Product", b =>
                 {
                     b.Property<int>("ProductID")
@@ -66,22 +49,14 @@ namespace HomebreweryShoppingAssistaint.Migrations
                     b.Property<int>("CategoryID")
                         .HasColumnType("int");
 
-                    b.Property<int>("CompanyID")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Product30DaysPrice")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("Product30DaysPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("ProductCheckHistoryID")
                         .HasColumnType("int");
-
-                    b.Property<string>("ProductDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProductLink")
                         .IsRequired()
@@ -91,9 +66,8 @@ namespace HomebreweryShoppingAssistaint.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ProductPrice")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("ProductPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("ShopID")
                         .HasColumnType("int");
@@ -101,8 +75,6 @@ namespace HomebreweryShoppingAssistaint.Migrations
                     b.HasKey("ProductID");
 
                     b.HasIndex("CategoryID");
-
-                    b.HasIndex("CompanyID");
 
                     b.HasIndex("ProductCheckHistoryID");
 
@@ -179,12 +151,6 @@ namespace HomebreweryShoppingAssistaint.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HomebreweryShoppingAssistaint.Models.Company", "Company")
-                        .WithMany("Products")
-                        .HasForeignKey("CompanyID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("HomebreweryShoppingAssistaint.Models.ProductCheckHistory", null)
                         .WithMany("Product")
                         .HasForeignKey("ProductCheckHistoryID");
@@ -196,8 +162,6 @@ namespace HomebreweryShoppingAssistaint.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
-
-                    b.Navigation("Company");
 
                     b.Navigation("Shop");
                 });
@@ -216,11 +180,6 @@ namespace HomebreweryShoppingAssistaint.Migrations
             modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.Category", b =>
                 {
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.Company", b =>
-                {
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("HomebreweryShoppingAssistaint.Models.ProductCheckHistory", b =>

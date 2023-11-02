@@ -14,7 +14,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
     [Route("[controller]")]
     public class ProductsController : Controller
     {
-        
+
         private readonly HomebreweryShoppingAssistaintContext _context;
 
         public ProductsController(HomebreweryShoppingAssistaintContext context)
