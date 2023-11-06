@@ -10,8 +10,11 @@ using HomebreweryShoppingAssistaint.Models;
 
 namespace HomebreweryShoppingAssistaint.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class ProductsController : Controller
     {
+
         private readonly HomebreweryShoppingAssistaintContext _context;
 
         public ProductsController(HomebreweryShoppingAssistaintContext context)
@@ -19,6 +22,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             _context = context;
         }
 
+        [HttpGet]
         // GET: Products
         public async Task<IActionResult> Index()
         {
@@ -26,6 +30,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             return View(await homebreweryShoppingAssistaintContext.ToListAsync());
         }
 
+        [HttpGet("Details/{id}")]
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -46,6 +51,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             return View(product);
         }
 
+        [HttpGet("Create")]
         // GET: Products/Create
         public IActionResult Create()
         {
@@ -57,7 +63,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // POST: Products/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ProductID,ProductName,ProductDescription,ProductPrice,Product30DaysPrice,CategoryID,ShopID")] Product product)
         {
@@ -72,6 +78,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             return View(product);
         }
 
+        [HttpGet("Edit/{id}")]
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -93,7 +100,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // POST: Products/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Edit/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ProductID,ProductName,ProductDescription,ProductPrice,Product30DaysPrice,CategoryID,ShopID")] Product product)
         {
@@ -127,6 +134,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             return View(product);
         }
 
+        [HttpGet("Delete/{id}")]
         // GET: Products/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -148,7 +156,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         }
 
         // POST: Products/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("Delete/{id}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

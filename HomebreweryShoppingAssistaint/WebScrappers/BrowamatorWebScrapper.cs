@@ -7,7 +7,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
 {
     internal class BrowamatorWebScrapper
     {
-        public static void Run()
+        public static List<Product> Run()
         {
             var sites = new List<string> { "https://browamator.pl/produkty/piwo/2-282?sort=12&pageId=1#products",
                                            "https://browamator.pl/produkty/wino/2-94?sort=12&pageId=1#products",
@@ -56,14 +56,20 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                         var name = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("h2").InnerText);
                         var price = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("span:nth-child(4)").InnerText);
                         //var isAvailable = brak "niedostępnych" produktów jedynie na zamówienie.
-                        var product = new Product() { ProductLink = link, ProductName = name, ProductPrice = price };
+                        var product = new Product() 
+                        { 
+                            ProductLink = link, 
+                            ProductName = name, 
+                            ProductPrice = decimal.Parse(price), 
+                            ShopID = (int)ShopNameEnum.Browamator, 
+                            CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/ 
+                        };
                         products.Add(product);
                     }
 
                     Console.WriteLine("Scraped: " + i + " page");
                     i++;
                 }
-
                 /*
                 int itemNum = 1;
                 foreach (var product in products)
@@ -76,6 +82,8 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                     itemNum++;
                 } */
             }
+
+            return products;
             /*
             var jsonFile = "Browamator.json";
             var jsonString = JsonSerializer.Serialize(products);

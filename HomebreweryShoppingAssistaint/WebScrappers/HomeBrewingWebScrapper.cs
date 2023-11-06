@@ -8,7 +8,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
     internal class HomeBrewingWebScrapper
     {
 
-        public static void Run()
+        public static List<Product> Run()
         {
             var sites = new List<string>
             {
@@ -53,7 +53,16 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                         var name = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("td:nth-child(1)").InnerText);
                         var price = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("td:nth-child(2)").InnerText);
                         var oldPrice = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("td:nth-child(4)").InnerText);
-                        var product = new Product() { ProductLink = link, ProductName = name, ProductPrice = price, Product30DaysPrice = oldPrice };
+                        //var isAvailable = Brak jednoznacznego oznaczenia dostępności produktu.
+                        var product = new Product() 
+                        { 
+                            ProductLink = link, 
+                            ProductName = name, 
+                            ProductPrice = decimal.Parse(price), 
+                            Product30DaysPrice = decimal.Parse(oldPrice), 
+                            ShopID = (int)ShopNameEnum.Homebrewing,
+                            CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/  
+                        };
                         products.Add(product);
                     }
                     //Console.WriteLine(countTags);
@@ -76,6 +85,8 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                 */
 
             }
+            return products;
+
             /*
             var jsonFile = "HomeBrewery.json";
             var jsonString = JsonSerializer.Serialize(products);
