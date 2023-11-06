@@ -94,9 +94,9 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("Edit/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ShopCheckHistoryID,ShopID,CheckDateTime")] ShopCheckHistory shopCheckHistory)
+        public async Task<IActionResult> Edit(int id, [Bind("ShopCheckHistoryID,ShopID,CheckDateTime")] ShopCheckHistory shopLastCheck)
         {
-            if (id != shopCheckHistory.ShopCheckHistoryID)
+            if (id != shopLastCheck.ShopCheckHistoryID)
             {
                 return NotFound();
             }

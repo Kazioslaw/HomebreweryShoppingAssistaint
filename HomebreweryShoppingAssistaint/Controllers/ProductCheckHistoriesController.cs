@@ -58,7 +58,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // POST: ProductCheckHistories/Create
         [HttpPost("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductCheckHistoriesID,ProductID,ShopID,CheckDateTime")] ProductCheckHistories productLastCheck)
+        public async Task<IActionResult> Create([Bind("ProductCheckHistoryID,ProductID,ShopID,CheckDateTime")] ProductCheckHistory productLastCheck)
         {
             if (ModelState.IsValid)
             {
