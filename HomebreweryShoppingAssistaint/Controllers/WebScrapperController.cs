@@ -73,7 +73,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         //To Fix
         //public ActionResult ScappingAlePiwo() 
         //{
-        //    if(!_context.Product.Any(p=> p.ProductLink.Contains("https://alepiwp.pl/")))
+        //    if(!_context.Product.Any(p=> p.ProductLink.Contains("https://alepiwo.pl/")))
         //    {
         //        AlePiwoWebScrapper.Run();
         //    }
