@@ -10,6 +10,7 @@ using HomebreweryShoppingAssistaint.Models;
 
 namespace HomebreweryShoppingAssistaint.Controllers
 {
+<<<<<<<< HEAD:HomebreweryShoppingAssistaint/Controllers/ShopCheckHistoriesController.cs
     [ApiController]
     [Route("[controller]")]
     public class ShopCheckHistoriesController : Controller
@@ -17,12 +18,23 @@ namespace HomebreweryShoppingAssistaint.Controllers
         private readonly HomebreweryShoppingAssistaintContext _context;
 
         public ShopCheckHistoriesController(HomebreweryShoppingAssistaintContext context)
+========
+    public class ShopCheckHistoryController : Controller
+    {
+        private readonly HomebreweryShoppingAssistaintContext _context;
+
+        public ShopCheckHistoryController(HomebreweryShoppingAssistaintContext context)
+>>>>>>>> master:HomebreweryShoppingAssistaint/Controllers/ShopCheckHistoryController.cs
         {
             _context = context;
         }
 
+<<<<<<<< HEAD:HomebreweryShoppingAssistaint/Controllers/ShopCheckHistoriesController.cs
         [HttpGet]
         // GET: ShopCheckHistories
+========
+        // GET: ShopCheckHistory
+>>>>>>>> master:HomebreweryShoppingAssistaint/Controllers/ShopCheckHistoryController.cs
         public async Task<IActionResult> Index()
         {
               return _context.ShopCheckHistory != null ? 
@@ -30,8 +42,12 @@ namespace HomebreweryShoppingAssistaint.Controllers
                           Problem("Entity set 'HomebreweryShoppingAssistaintContext.ShopCheckHistory'  is null.");
         }
 
+<<<<<<<< HEAD:HomebreweryShoppingAssistaint/Controllers/ShopCheckHistoriesController.cs
         [HttpGet("Details/{id}")]
         // GET: ShopCheckHistories/Details/5
+========
+        // GET: ShopCheckHistory/Details/5
+>>>>>>>> master:HomebreweryShoppingAssistaint/Controllers/ShopCheckHistoryController.cs
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.ShopCheckHistory == null)
@@ -49,19 +65,31 @@ namespace HomebreweryShoppingAssistaint.Controllers
             return View(shopLastCheck);
         }
 
+<<<<<<<< HEAD:HomebreweryShoppingAssistaint/Controllers/ShopCheckHistoriesController.cs
         [HttpGet("Create")]
         // GET: ShopCheckHistories/Create
+========
+        // GET: ShopCheckHistory/Create
+>>>>>>>> master:HomebreweryShoppingAssistaint/Controllers/ShopCheckHistoryController.cs
         public IActionResult Create()
         {
             return View();
         }
 
+<<<<<<<< HEAD:HomebreweryShoppingAssistaint/Controllers/ShopCheckHistoriesController.cs
         // POST: ShopCheckHistories/Create
+========
+        // POST: ShopCheckHistory/Create
+>>>>>>>> master:HomebreweryShoppingAssistaint/Controllers/ShopCheckHistoryController.cs
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("Create")]
         [ValidateAntiForgeryToken]
+<<<<<<<< HEAD:HomebreweryShoppingAssistaint/Controllers/ShopCheckHistoriesController.cs
         public async Task<IActionResult> Create([Bind("ShopCheckHistoryID,ShopID,LastCheckDateTime")] ShopCheckHistory shopLastCheck)
+========
+        public async Task<IActionResult> Create([Bind("ShopCheckHistoryID,ShopID,CheckDateTime")] ShopCheckHistory shopLastCheck)
+>>>>>>>> master:HomebreweryShoppingAssistaint/Controllers/ShopCheckHistoryController.cs
         {
             if (ModelState.IsValid)
             {
@@ -72,8 +100,12 @@ namespace HomebreweryShoppingAssistaint.Controllers
             return View(shopLastCheck);
         }
 
+<<<<<<<< HEAD:HomebreweryShoppingAssistaint/Controllers/ShopCheckHistoriesController.cs
         [HttpGet("Edit/{id}")]
         // GET: ShopCheckHistories/Edit/5
+========
+        // GET: ShopCheckHistory/Edit/5
+>>>>>>>> master:HomebreweryShoppingAssistaint/Controllers/ShopCheckHistoryController.cs
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.ShopCheckHistory == null)
@@ -89,12 +121,20 @@ namespace HomebreweryShoppingAssistaint.Controllers
             return View(shopLastCheck);
         }
 
+<<<<<<<< HEAD:HomebreweryShoppingAssistaint/Controllers/ShopCheckHistoriesController.cs
         // POST: ShopCheckHistories/Edit/5
+========
+        // POST: ShopCheckHistory/Edit/5
+>>>>>>>> master:HomebreweryShoppingAssistaint/Controllers/ShopCheckHistoryController.cs
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("Edit/{id}")]
         [ValidateAntiForgeryToken]
+<<<<<<<< HEAD:HomebreweryShoppingAssistaint/Controllers/ShopCheckHistoriesController.cs
         public async Task<IActionResult> Edit(int id, [Bind("ShopCheckHistoryID,ShopID,LastCheckDateTime")] ShopCheckHistory shopLastCheck)
+========
+        public async Task<IActionResult> Edit(int id, [Bind("ShopCheckHistoryID,ShopID,CheckDateTime")] ShopCheckHistory shopLastCheck)
+>>>>>>>> master:HomebreweryShoppingAssistaint/Controllers/ShopCheckHistoryController.cs
         {
             if (id != shopLastCheck.ShopCheckHistoryID)
             {
@@ -124,8 +164,12 @@ namespace HomebreweryShoppingAssistaint.Controllers
             return View(shopLastCheck);
         }
 
+<<<<<<<< HEAD:HomebreweryShoppingAssistaint/Controllers/ShopCheckHistoriesController.cs
         [HttpGet("Delete/{id}")]
         // GET: ShopCheckHistories/Delete/5
+========
+        // GET: ShopCheckHistory/Delete/5
+>>>>>>>> master:HomebreweryShoppingAssistaint/Controllers/ShopCheckHistoryController.cs
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.ShopCheckHistory == null)
@@ -143,8 +187,13 @@ namespace HomebreweryShoppingAssistaint.Controllers
             return View(shopLastCheck);
         }
 
+<<<<<<<< HEAD:HomebreweryShoppingAssistaint/Controllers/ShopCheckHistoriesController.cs
         // POST: ShopCheckHistories/Delete/5
         [HttpPost("Delete/{id}"), ActionName("Delete")]
+========
+        // POST: ShopCheckHistory/Delete/5
+        [HttpPost, ActionName("Delete")]
+>>>>>>>> master:HomebreweryShoppingAssistaint/Controllers/ShopCheckHistoryController.cs
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
