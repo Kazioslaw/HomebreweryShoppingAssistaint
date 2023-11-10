@@ -51,17 +51,30 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                     {
                         var link = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("a").Attributes["href"].Value);
                         var name = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("td:nth-child(1)").InnerText);
-                        var price = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("td:nth-child(2)").InnerText);
-                        var oldPrice = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("td:nth-child(4)").InnerText);
+                        var price = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("td:nth-child(2)").InnerText.Replace(" zł", ""));
+                        var oldPrice = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("td:nth-child(4)").InnerText.Replace(" zł", ""));
                         //var isAvailable = Brak jednoznacznego oznaczenia dostępności produktu.
+
+                        decimal product30DaysPrice;
+
+                        if(!decimal.TryParse(oldPrice, out product30DaysPrice))
+                        {
+                            product30DaysPrice = 0;
+                        }
+                        else
+                        {
+                            product30DaysPrice = decimal.Parse(oldPrice);
+                        }
+
                         var product = new Product() 
                         { 
                             ProductLink = link, 
                             ProductName = name, 
-                            ProductPrice = decimal.Parse(price), 
-                            Product30DaysPrice = decimal.Parse(oldPrice), 
+                            ProductPrice = decimal.Parse(price),
+                            Product30DaysPrice = product30DaysPrice, 
                             ShopID = (int)ShopNameEnum.Homebrewing,
                             CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/  
+
                         };
                         products.Add(product);
                     }

@@ -108,7 +108,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         [HttpPost("BrowamatorPriceCheck")]
         public async Task<IActionResult> BrowamatorPriceChange()
         {
-            List<Product> productsFromDatabase = await _context.Product.ToListAsync();
+            List<Product> productsFromDatabase = _context.Product.ToList();
 
             List<Product> updatedProduct = new List<Product>();
 
@@ -162,7 +162,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         [HttpPost("CentrumPiwowarstwaPriceCheck")]
         public async Task<IActionResult> CentrumPiwowarstwaPriceChange()
         {
-            List<Product> productsFromDatabase = await _context.Product.ToListAsync();
+            List<Product> productsFromDatabase = _context.Product.ToList();
             List<Product> updatedProduct = new List<Product>();
 
             foreach (var product in productsFromDatabase)
@@ -197,6 +197,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 var existingProduct = _context.Product.FirstOrDefault(p => p.ProductLink == scrappedProduct.ProductLink);
                 if (existingProduct == null)
                 {
+                    Console.WriteLine("Added to DB");
                     _context.Product.Add(scrappedProduct);
                 }
 
@@ -204,18 +205,19 @@ namespace HomebreweryShoppingAssistaint.Controllers
 
             var shopCheckHistory = new ShopCheckHistory()
             {
-                ShopID = (int)ShopNameEnum.CentrumPiwowarstwa,
+                ShopID = (int)ShopNameEnum.Homebrewing,
                 CheckDateTime = DateTime.Now,
             };
 
             _context.ShopCheckHistory.Add(shopCheckHistory);
+            _context.SaveChanges();
             return Ok("Baza została zapełniona");
         }
 
         [HttpPost("HomebrewingPriceCheck")]
         public async Task<IActionResult> HomeBrewingPriceChange()
         {
-            List<Product> productsFromDatabase = await _context.Product.ToListAsync();
+            List<Product> productsFromDatabase = _context.Product.ToList();
             List<Product> updatedProduct = new List<Product>();
 
             foreach (var product in productsFromDatabase)
@@ -257,18 +259,19 @@ namespace HomebreweryShoppingAssistaint.Controllers
 
             var shopCheckHistory = new ShopCheckHistory()
             {
-                ShopID = (int)ShopNameEnum.CentrumPiwowarstwa,
+                ShopID = (int)ShopNameEnum.TwojBrowar,
                 CheckDateTime = DateTime.Now,
             };
             
             _context.ShopCheckHistory.Add(shopCheckHistory);
+            _context.SaveChanges();
             return Ok("Baza została zapełniona");
         }
 
         [HttpPost("TwojBrowarPriceCheck")]
         public async Task<IActionResult> TwojBrowarPriceChange()
         {
-            List<Product> productsFromDatabase = await _context.Product.ToListAsync();
+            List<Product> productsFromDatabase = _context.Product.ToList();
             List<Product> updatedProduct = new List<Product>();
 
             foreach (var product in productsFromDatabase)

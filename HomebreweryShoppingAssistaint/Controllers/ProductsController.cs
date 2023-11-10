@@ -27,7 +27,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         public async Task<IActionResult> Index()
         {
             var homebreweryShoppingAssistaintContext = _context.Product.Include(p => p.Category).Include(p => p.Shop);
-            return View(await homebreweryShoppingAssistaintContext.ToListAsync());
+            return Ok(homebreweryShoppingAssistaintContext);
         }
 
         [HttpGet("Details/{id}")]
