@@ -17,21 +17,6 @@ namespace HomebreweryShoppingAssistaint.Controllers
             _context = context;
         }
 
-        [HttpPost("Test")]
-        public ActionResult Test() {
-            var company = new List<Company>
-        {
-            new Company { CompanyName = "Heniek Strajkt"},
-            new Company
-            {
-                CompanyName = "Test",
-            },
-        };
-            _context.AddRange(company);
-            _context.SaveChanges();
-            return Ok("Dodano do bazy");
-        }
-
         [HttpPost("AddingCategories")]
         public ActionResult AddingCategories()
         {
