@@ -21,15 +21,15 @@ namespace HomebreweryShoppingAssistaint.Controllers
             _context = context;
         }
 
-        [HttpGet("Details/{id}")]
+        [HttpGet]
         // GET: ProductCheckHistories
         public async Task<IActionResult> Index()
         {
-              return _context.ProductCheckHistory != null ? 
-                          View(await _context.ProductCheckHistory.ToListAsync()) :
-                          Problem("Entity set 'HomebreweryShoppingAssistaintContext.ProductLastCheck'  is null.");
+            var productCheckHistory = _context.ProductCheckHistory;
+            return Ok(productCheckHistory);
         }
 
+        [HttpGet("Details/{id}")]
         // GET: ProductCheckHistories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -38,14 +38,14 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 return NotFound();
             }
 
-            var productLastCheck = await _context.ProductCheckHistory
+            var productCheckHistory = await _context.ProductCheckHistory
                 .FirstOrDefaultAsync(m => m.ProductCheckHistoryID == id);
-            if (productLastCheck == null)
+            if (productCheckHistory == null)
             {
                 return NotFound();
             }
 
-            return View(productLastCheck);
+            return View(productCheckHistory);
         }
 
         [HttpGet("Create")]
@@ -58,15 +58,15 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // POST: ProductCheckHistories/Create
         [HttpPost("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductCheckHistoryID,ProductID,ShopID,CheckDateTime")] ProductCheckHistory productLastCheck)
+        public async Task<IActionResult> Create([Bind("ProductCheckHistoryID,ProductID,ShopID,CheckDateTime")] ProductCheckHistory productCheckHistory)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(productLastCheck);
+                _context.Add(productCheckHistory);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(productLastCheck);
+            return View(productCheckHistory);
         }
 
         [HttpGet("Edit/{id}")]
@@ -78,12 +78,12 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 return NotFound();
             }
 
-            var productLastCheck = await _context.ProductCheckHistory.FindAsync(id);
-            if (productLastCheck == null)
+            var productCheckHistory = await _context.ProductCheckHistory.FindAsync(id);
+            if (productCheckHistory == null)
             {
                 return NotFound();
             }
-            return View(productLastCheck);
+            return View(productCheckHistory);
         }
 
         // POST: ProductCheckHistories/Edit/5
@@ -91,9 +91,9 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("Edit/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductCheckHistoryID,ProductID,ShopID,CheckDateTime")] ProductCheckHistory productLastCheck)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductCheckHistoryID,ProductID,ShopID,CheckDateTime")] ProductCheckHistory productCheckHistory)
         {
-            if (id != productLastCheck.ProductCheckHistoryID)
+            if (id != productCheckHistory.ProductCheckHistoryID)
             {
                 return NotFound();
             }
@@ -102,12 +102,12 @@ namespace HomebreweryShoppingAssistaint.Controllers
             {
                 try
                 {
-                    _context.Update(productLastCheck);
+                    _context.Update(productCheckHistory);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductCheckHistoryExists(productLastCheck.ProductCheckHistoryID))
+                    if (!ProductCheckHistoryExists(productCheckHistory.ProductCheckHistoryID))
                     {
                         return NotFound();
                     }
@@ -118,7 +118,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(productLastCheck);
+            return View(productCheckHistory);
         }
 
         [HttpGet("Delete/{id}")]
@@ -130,14 +130,14 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 return NotFound();
             }
 
-            var productLastCheck = await _context.ProductCheckHistory
+            var productCheckHistory = await _context.ProductCheckHistory
                 .FirstOrDefaultAsync(m => m.ProductCheckHistoryID == id);
-            if (productLastCheck == null)
+            if (productCheckHistory == null)
             {
                 return NotFound();
             }
 
-            return View(productLastCheck);
+            return View(productCheckHistory);
         }
 
         // POST: ProductCheckHistories/Delete/5
@@ -148,10 +148,10 @@ namespace HomebreweryShoppingAssistaint.Controllers
             {
                 return Problem("Entity set 'HomebreweryShoppingAssistaintContext.ProductCheckHistory'  is null.");
             }
-            var productLastCheck = await _context.ProductCheckHistory.FindAsync(id);
-            if (productLastCheck != null)
+            var productCheckHistory = await _context.ProductCheckHistory.FindAsync(id);
+            if (productCheckHistory != null)
             {
-                _context.ProductCheckHistory.Remove(productLastCheck);
+                _context.ProductCheckHistory.Remove(productCheckHistory);
             }
             
             await _context.SaveChangesAsync();

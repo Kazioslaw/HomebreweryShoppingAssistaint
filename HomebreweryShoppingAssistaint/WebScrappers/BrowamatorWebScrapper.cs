@@ -54,7 +54,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                     {
                         var link = "https://browamator.pl/" + HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("a").Attributes["href"].Value);
                         var name = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("h2").InnerText);
-                        var price = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("span:nth-child(4)").InnerText);
+                        var price = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("span:nth-child(4)").InnerText.Replace(" zł", ""));
                         //var isAvailable = brak "niedostępnych" produktów jedynie na zamówienie.
                         var product = new Product() 
                         { 

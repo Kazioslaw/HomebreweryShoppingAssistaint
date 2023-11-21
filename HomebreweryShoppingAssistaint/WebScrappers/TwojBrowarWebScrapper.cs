@@ -56,7 +56,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                     {
                         var link = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("a.product-name").Attributes["href"].Value);
                         var name = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("a.product-name").InnerText);
-                        var price = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("span.product-price").InnerText);
+                        var price = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("span.product-price").InnerText.Replace(" zł", ""));
                         var isAvailable = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector(".pb-available-title > span:nth-child(1)").InnerText) == "Chwilowy brak towaru" ? false : true;
                         var product = new Product()
                         {
