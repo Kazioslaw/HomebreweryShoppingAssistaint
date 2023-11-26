@@ -25,9 +25,8 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: Shops
         public async Task<IActionResult> Index()
         {
-            return _context.Shop != null ?
-                        View(await _context.Shop.ToListAsync()) :
-                        Problem("Entity set 'HomebreweryShoppingAssistaintContext.Shop'  is null.");
+            var shop = _context.Shop;
+            return Ok(shop);
         }
 
         [HttpGet("Details/{id}")]
