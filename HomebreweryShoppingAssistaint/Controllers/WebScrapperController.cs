@@ -2,7 +2,6 @@
 using HomebreweryShoppingAssistaint.Models;
 using HomebreweryShoppingAssistaint.WebScrappers;
 using Microsoft.AspNetCore.Mvc;
-using System.Data.Entity;
 
 namespace HomebreweryShoppingAssistaint.Controllers
 {
@@ -54,6 +53,60 @@ namespace HomebreweryShoppingAssistaint.Controllers
             return Ok("Baza została zapełniona.");
         }
 
+        [HttpPost("AddingDelivery")]
+        public ActionResult AddingDelivery()
+        {
+            if (!_context.Delivery.Any()) 
+            {
+                var delivery = new List<Delivery>
+                {
+                    // CentrumPiwowarstwa
+                    new Delivery {DeliveryName = DeliverySupplier.DPD, DeliveryWeight = 0.99m, DeliveryPrice = 15.99m, ShopID = 3 },
+                    new Delivery {DeliveryName = DeliverySupplier.DPD, DeliveryWeight = 4.99m, DeliveryPrice = 18.55m, ShopID = 3 },
+                    new Delivery {DeliveryName = DeliverySupplier.DPD, DeliveryWeight = 29.99m, DeliveryPrice = 22.03m, ShopID = 3 },
+                    new Delivery {DeliveryName = DeliverySupplier.DPD, DeliveryWeight = 59.99m, DeliveryPrice = 44.08m, ShopID = 3 },
+                    new Delivery {DeliveryName = DeliverySupplier.DPD, DeliveryWeight = 89.99m, DeliveryPrice = 66.12m, ShopID = 3 },
+                    new Delivery {DeliveryName = DeliverySupplier.DPD, DeliveryWeight = 119.99m, DeliveryPrice = 88.16m, ShopID = 3 },
+                    new Delivery {DeliveryName = DeliverySupplier.DPD, DeliveryWeight = 149.99m, DeliveryPrice = 110.20m, ShopID = 3 },
+                    new Delivery {DeliveryName = DeliverySupplier.DPD, DeliveryWeight = 179.99m, DeliveryPrice = 132.24m, ShopID = 3 },
+                    new Delivery {DeliveryName = DeliverySupplier.DPD, DeliveryWeight = 209.99m, DeliveryPrice = 154.28m, ShopID = 3 },
+                    new Delivery {DeliveryName = DeliverySupplier.DPD, DeliveryWeight = 239.99m, DeliveryPrice = 176.32m, ShopID = 3 },
+
+                    new Delivery {DeliveryName = DeliverySupplier.DPD_Pobraniowa, DeliveryWeight = 4.99m, DeliveryPrice = 23.19m, ShopID = 3 },
+                    new Delivery {DeliveryName = DeliverySupplier.DPD_Pobraniowa, DeliveryWeight = 29.99m, DeliveryPrice = 27.83m, ShopID = 3 },
+                    new Delivery {DeliveryName = DeliverySupplier.DPD_Pobraniowa, DeliveryWeight = 59.99m, DeliveryPrice = 49.88m, ShopID = 3 },
+                    new Delivery {DeliveryName = DeliverySupplier.DPD_Pobraniowa, DeliveryWeight = 89.99m, DeliveryPrice = 71.92m, ShopID = 3 },
+                    new Delivery {DeliveryName = DeliverySupplier.DPD_Pobraniowa, DeliveryWeight = 119.99m, DeliveryPrice = 93.96m, ShopID = 3 },
+                    new Delivery {DeliveryName = DeliverySupplier.DPD_Pobraniowa, DeliveryWeight = 149.99m, DeliveryPrice = 116.00m, ShopID = 3 },
+                    new Delivery {DeliveryName = DeliverySupplier.DPD_Pobraniowa, DeliveryWeight = 179.99m, DeliveryPrice = 138.04m, ShopID = 3 },
+                    new Delivery {DeliveryName = DeliverySupplier.DPD_Pobraniowa, DeliveryWeight = 209.99m, DeliveryPrice = 160.08m, ShopID = 3 },
+                    new Delivery {DeliveryName = DeliverySupplier.DPD_Pobraniowa, DeliveryWeight = 239.99m, DeliveryPrice = 182.12m, ShopID = 3 },
+
+                    // Homebrewing
+                    new Delivery {DeliveryName = DeliverySupplier.GLS, DeliveryWeight = 15, DeliveryPrice = 22.90m, ShopID = 4},
+                    new Delivery {DeliveryName = DeliverySupplier.GLS, DeliveryWeight = 30, DeliveryPrice = 24.90m, ShopID = 4},
+                    new Delivery {DeliveryName = DeliverySupplier.GLS, DeliveryWeight = 60, DeliveryPrice = 49.80m, ShopID = 4},
+                    new Delivery {DeliveryName = DeliverySupplier.GLS, DeliveryWeight = 90, DeliveryPrice = 68.70m, ShopID = 4},
+                    new Delivery {DeliveryName = DeliverySupplier.GLS, DeliveryWeight = 120, DeliveryPrice = 91.20m, ShopID = 4},
+                    new Delivery {DeliveryName = DeliverySupplier.GLS, DeliveryWeight = 150, DeliveryPrice = 114.50m, ShopID = 4},
+                    new Delivery {DeliveryName = DeliverySupplier.GLS, DeliveryWeight = 180, DeliveryPrice = 137.40m, ShopID = 4},
+
+                    new Delivery {DeliveryName = DeliverySupplier.Inpost, DeliveryWeight = 20, DeliveryPrice = 24.90m, ShopID = 4 },
+                    new Delivery {DeliveryName = DeliverySupplier.Inpost_Paczkomat, DeliveryWeight = 13, DeliveryPrice = 14.95m, ShopID = 4},
+
+                    // TwojBrowar
+                    new Delivery {DeliveryName = DeliverySupplier.Inpost, DeliveryWeight = 25, DeliveryPrice = 17.50m, ShopID = 5},
+                    new Delivery {DeliveryName = DeliverySupplier.GLS, DeliveryWeight = 30, DeliveryPrice = 23.90m, ShopID = 5 },
+                    new Delivery {DeliveryName = DeliverySupplier.GLS_Pobraniowa, DeliveryWeight = 30, DeliveryPrice = 29.90m, ShopID = 5},
+                    new Delivery {DeliveryName = DeliverySupplier.DPD, DeliveryWeight = 30, DeliveryPrice = 25.90m, ShopID = 5}
+                };
+
+                _context.Delivery.AddRange(delivery);
+                _context.SaveChanges();
+            }
+            return Ok("Baza została zapełniona");
+        }
+
         //[HttpPost("ScrappingAlePiwo")]        
         //To Fix
         //public ActionResult ScappingAlePiwo() 
@@ -94,13 +147,11 @@ namespace HomebreweryShoppingAssistaint.Controllers
         public async Task<IActionResult> BrowamatorPriceChange()
         {
             List<Product> productsFromDatabase = _context.Product.ToList();
-
-            List<Product> updatedProduct = new List<Product>();
+            List<Product> updatedProduct = BrowamatorWebScrapper.Run();
 
             foreach (var product in productsFromDatabase)
             {
-                List<Product> scrapedProducts = BrowamatorWebScrapper.Run();
-                var matchingProduct = scrapedProducts.FirstOrDefault(p => p.ProductID == product.ProductID);
+                var matchingProduct = updatedProduct.FirstOrDefault(p => p.ProductID == product.ProductID);
                 if (matchingProduct != null && matchingProduct.ProductPrice != product.ProductPrice)
                 {
                     product.ProductPrice = matchingProduct.ProductPrice;
@@ -148,12 +199,11 @@ namespace HomebreweryShoppingAssistaint.Controllers
         public async Task<IActionResult> CentrumPiwowarstwaPriceChange()
         {
             List<Product> productsFromDatabase = _context.Product.ToList();
-            List<Product> updatedProduct = new List<Product>();
+            List<Product> updatedProduct = CentrumPiwowarstwaWebScrapper.Run();
 
             foreach (var product in productsFromDatabase)
-            {
-                List<Product> scrappedProducts = CentrumPiwowarstwaWebScrapper.Run();
-                var matchingProduct = scrappedProducts.FirstOrDefault(p => p.ProductID == product.ProductID);
+            {                 
+                var matchingProduct = updatedProduct.FirstOrDefault(p => p.ProductID == product.ProductID);
                 if (matchingProduct != null && matchingProduct.ProductPrice != product.ProductPrice)
                 {
                     product.Product30DaysPrice = product.ProductPrice;
@@ -203,12 +253,11 @@ namespace HomebreweryShoppingAssistaint.Controllers
         public async Task<IActionResult> HomeBrewingPriceChange()
         {
             List<Product> productsFromDatabase = _context.Product.ToList();
-            List<Product> updatedProduct = new List<Product>();
+            List<Product> updatedProduct = HomeBrewingWebScrapper.Run();
 
             foreach (var product in productsFromDatabase)
             {
-                List<Product> scrappedProducts = CentrumPiwowarstwaWebScrapper.Run();
-                var matchingProduct = scrappedProducts.FirstOrDefault(p => p.ProductID == product.ProductID);
+                var matchingProduct = updatedProduct.FirstOrDefault(p => p.ProductID == product.ProductID);
                 if (matchingProduct != null && matchingProduct.ProductPrice != product.ProductPrice)
                 {
                     product.Product30DaysPrice = product.ProductPrice;
@@ -257,12 +306,11 @@ namespace HomebreweryShoppingAssistaint.Controllers
         public async Task<IActionResult> TwojBrowarPriceChange()
         {
             List<Product> productsFromDatabase = _context.Product.ToList();
-            List<Product> updatedProduct = new List<Product>();
+            List<Product> updatedProduct = TwojBrowarWebScrapper.Run();
 
             foreach (var product in productsFromDatabase)
             {
-                List<Product> scrappedProducts = CentrumPiwowarstwaWebScrapper.Run();
-                var matchingProduct = scrappedProducts.FirstOrDefault(p => p.ProductID == product.ProductID);
+                var matchingProduct = updatedProduct.FirstOrDefault(p => p.ProductID == product.ProductID);
                 if (matchingProduct.ProductPrice != product.ProductPrice)
                 {
                     product.Product30DaysPrice = product.ProductPrice;

@@ -1,5 +1,6 @@
 ﻿using HomebreweryShoppingAssistaint.Models;
 using HtmlAgilityPack;
+using HtmlAgilityPack.CssSelectors.NetCore;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -51,8 +52,8 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                     {
                         var link = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("a").Attributes["href"].Value);
                         var name = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("td:nth-child(1)").InnerText);
-                        var price = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("td:nth-child(2)").InnerText.Replace(" zł", ""));
-                        var oldPrice = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("td:nth-child(4)").InnerText.Replace(" zł", ""));
+                        var price = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("td:nth-child(2)").InnerText.Replace(" zł", "").Replace(" ", ""));
+                        var oldPrice = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("td:nth-child(4)").InnerText.Replace(" zł", "").Replace(" ", ""));
                         //var isAvailable = Brak jednoznacznego oznaczenia dostępności produktu.
 
                         decimal product30DaysPrice;
