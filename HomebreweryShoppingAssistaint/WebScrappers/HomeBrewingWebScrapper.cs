@@ -36,12 +36,12 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                 "https://homebrewing.pl/pobierz-cennik.html/typ=html/id=55"
             };
 
-            var html = new HtmlWeb();
+            var web = new HtmlWeb();
             var products = new List<Product>();
 
             foreach (var site in sites)
             {
-                var currentDoc = html.Load(site);
+                var currentDoc = web.Load(site);
                 var i = 7;
                 var countTags = currentDoc.DocumentNode.QuerySelectorAll("tr").Count();
 

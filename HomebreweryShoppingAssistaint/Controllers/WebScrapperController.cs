@@ -1,6 +1,8 @@
 ﻿using HomebreweryShoppingAssistaint.Data;
 using HomebreweryShoppingAssistaint.Models;
 using HomebreweryShoppingAssistaint.WebScrappers;
+using HtmlAgilityPack;
+using HtmlAgilityPack.CssSelectors.NetCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HomebreweryShoppingAssistaint.Controllers
@@ -328,6 +330,88 @@ namespace HomebreweryShoppingAssistaint.Controllers
             }
             await _context.SaveChangesAsync();
             return Ok("Zaktualizowano ceny");
+        }
+
+        [HttpPost("OneProductPriceCheck")]
+        public async Task/*<IActionResult>*/ OneProductPriceCheck()
+        {          
+            //var tempSite = "";
+            var tempPage = new List<string>
+            {
+                "https://browamator.pl/siateczka-muslinowa-1-szt-do-gotowania-chmielu-i/3-4-192",
+                "https://browamator.pl/warzelnia-ba-200-zt-gum/3-4-432",
+                "https://www.browar.biz/centrumpiwowarstwa/chmiele/szyszki/iunga-pl-2022-100-g",
+                "https://www.browar.biz/centrumpiwowarstwa/chmiele/produkty-chmielowe/hopzoil-majik-juicy-fruitbomb",
+                "https://homebrewing.pl/white-labs-wlp500-o-monastery-ale-p-2368.html",
+                "https://homebrewing.pl/drozdze-gornej-fermentacji-gozdawa-pure-ale-yeast-7-pay7-p-244.html",
+                "https://twojbrowar.pl/pl/akcesoria-piwowarskie/zestawy-sprzetowe/niezbednik-inflacyjny",
+                "https://twojbrowar.pl/pl/akcesoria-piwowarskie/zestawy-sprzetowe/tyci-browar-brewkit",
+
+
+            };
+            var web = new HtmlWeb();
+            Product newProduct;
+            
+            foreach (var tempSite in tempPage)
+            {
+                var currentDoc = web.Load(tempSite);
+
+                if (tempSite.Contains("browamator"))
+                {
+                    var name = HtmlEntity.DeEntitize(currentDoc.QuerySelector(".product-details__add-to-cart > h1:nth-child(2)").InnerText);
+                    var price = HtmlEntity.DeEntitize(currentDoc.QuerySelector("div.price > span:nth-child(1) > span:nth-child(1)").InnerText);
+                    var isAvailable = HtmlEntity.DeEntitize(currentDoc.QuerySelector(".availability-container > span:nth-child(3)").InnerText.ToLower()) == "od ręki" ? true : false;
+                    var quantity = HtmlEntity.DeEntitize(currentDoc.QuerySelector(".value-to-replace").InnerText);
+
+                    newProduct = new Product()
+                    {
+                        ProductName = name,
+                        ProductPrice = decimal.Parse(price),
+                        IsAvailable = isAvailable,
+                        //Quantity = quantity,
+                    };
+
+                }
+                else if (tempSite.Contains("browarbiz"))
+                {
+                    var name = HtmlEntity.DeEntitize(currentDoc.QuerySelector(".column-prod > h2:nth-child(3) > a:nth-child(1)").InnerText);
+                    var price = HtmlEntity.DeEntitize(currentDoc.QuerySelector(".amount").InnerText + "," + currentDoc.QuerySelector(".amount > span:nth-child(1)").InnerText);
+                    var isAvailable = HtmlEntity.DeEntitize(currentDoc.QuerySelector("div.row:nth-child(2)").InnerText.ToLower()) == "\r\nprodukt znajduje się w magazynie" ? true : false;
+                    newProduct = new Product()
+                    {
+                        ProductName = name,
+                        ProductPrice = decimal.Parse(price),
+                        IsAvailable = isAvailable,
+                        //Quantity = quantity,
+                    };
+                }
+                else if (tempSite.Contains("homebrewing"))
+                {
+                    var name = HtmlEntity.DeEntitize(currentDoc.QuerySelector(".NazwaProducent > h1:nth-child(1)").InnerText);
+                    var price = HtmlEntity.DeEntitize(currentDoc.QuerySelector("#CenaGlownaProduktuBrutto > strong:nth-child(1) > span:nth-child(1)").InnerText.Replace(" zł", "").Replace(" ", ""));
+                    var isAvailable = HtmlEntity.DeEntitize(currentDoc.QuerySelector("#Dostepnosc > strong:nth-child(2)").InnerText.ToLower()) == "dostępny" ? true : false;
+                    newProduct = new Product()
+                    {
+                        ProductName = name,
+                        ProductPrice = decimal.Parse(price),
+                        IsAvailable = isAvailable,
+                        //Quantity = quantity,
+                    };
+                }
+                else if (tempSite.Contains("twojbrowar"))
+                {
+                    var name = HtmlEntity.DeEntitize(currentDoc.QuerySelector(".pb-center-column > h1:nth-child(1)").InnerText);
+                    var price = HtmlEntity.DeEntitize(currentDoc.QuerySelector("#our_price_display").InnerText.Replace(" zł", "").Replace(" ", ""));
+                    var isAvailable = HtmlEntity.DeEntitize(currentDoc.QuerySelector("#pb-available-title > span").InnerText.ToLower()) == "chwilowy brak towaru" ? false : true;
+                    newProduct = new Product()
+                    {
+                        ProductName = name,
+                        ProductPrice = decimal.Parse(price),
+                        IsAvailable = isAvailable,
+                        //Quantity = quantity,
+                    };
+                }
+            }                      
         }
     }
 }
