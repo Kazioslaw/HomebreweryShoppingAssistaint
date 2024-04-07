@@ -1,6 +1,7 @@
 ﻿using HomebreweryShoppingAssistaint.Models;
 using HtmlAgilityPack;
 using HtmlAgilityPack.CssSelectors.NetCore;
+using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -14,7 +15,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                                            "https://browamator.pl/produkty/wino/2-94?sort=12&pageId=1#products",
                                            "https://browamator.pl/produkty/cydr/2-236?sort=12&pageId=1#products",
                                            "https://browamator.pl/produkty/nalewki/2-158?sort=12&pageId=1#products",
-                                           "https://browamator.pl/produkty/destylaty/2-203?sort=12&pageId=1#products" };
+                                           "https://browamator.pl/produkty/destylaty/2-203?sort=12&pageId=1#products" };            
 
             var web = new HtmlWeb();
             var products = new List<Product>();
@@ -56,19 +57,19 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                         var link = "https://browamator.pl/" + HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("a").Attributes["href"].Value);
                         var name = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("h2").InnerText);
                         var price = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("span:nth-child(4)").InnerText.Replace(" zł", "").Replace(" ", ""));
-                        //var isAvailable = brak "niedostępnych" produktów jedynie na zamówienie.
-                        var product = new Product() 
-                        { 
-                            ProductLink = link, 
-                            ProductName = name, 
-                            ProductPrice = decimal.Parse(price), 
+                        var isAvailable = HtmlEntity.DeEntitize(productHTMLElement.QuerySelector("span:nth-child(5)").Attributes["class"].Value) == "notify-about-availability" ? false : true;
+                        var product = new Product()
+                        {
+                            ProductLink = link,
+                            ProductName = name,
+                            ProductPrice = decimal.Parse(price),
+                            IsAvailable = isAvailable, // Prawdopodobnie działa do przetestowania mocnego w późniejszym czasie.
                             ShopID = (int)ShopNameEnum.Browamator, 
                             CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/ 
-                        };
+                        };                        
                         products.Add(product);
                     }
-
-                    Console.WriteLine("Scraped: " + i + " page");
+                    Console.WriteLine("Scraped: " + i + " page.");
                     i++;
                 }
                 /*

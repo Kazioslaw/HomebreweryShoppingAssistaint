@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using HomebreweryShoppingAssistaint.Data;
+﻿using HomebreweryShoppingAssistaint.Data;
 using HomebreweryShoppingAssistaint.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HomebreweryShoppingAssistaint.Controllers
 {
@@ -25,7 +20,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: ShopCheckHistories
         public async Task<IActionResult> Index()
         {
-            var shopCheckHistory = _context.ShopCheckHistory;
+            var shopCheckHistory = await _context.ShopCheckHistory.ToListAsync();
             return Ok(shopCheckHistory);
         }
 
@@ -157,14 +152,14 @@ namespace HomebreweryShoppingAssistaint.Controllers
             {
                 _context.ShopCheckHistory.Remove(shopCheckHistory);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ShopCheckHistoryExists(int id)
         {
-          return (_context.ShopCheckHistory?.Any(e => e.ShopCheckHistoryID == id)).GetValueOrDefault();
+            return (_context.ShopCheckHistory?.Any(e => e.ShopCheckHistoryID == id)).GetValueOrDefault();
         }
     }
 }

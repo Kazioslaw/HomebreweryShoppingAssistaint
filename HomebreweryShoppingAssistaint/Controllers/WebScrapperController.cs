@@ -1,6 +1,8 @@
 ﻿using HomebreweryShoppingAssistaint.Data;
 using HomebreweryShoppingAssistaint.Models;
 using HomebreweryShoppingAssistaint.WebScrappers;
+using HtmlAgilityPack;
+using HtmlAgilityPack.CssSelectors.NetCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HomebreweryShoppingAssistaint.Controllers
@@ -16,7 +18,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             _context = context;
         }
 
-        [HttpPost("AddingCategories")]
+        /*[HttpPost("AddingCategories")]
         public ActionResult AddingCategories()
         {
             if (!_context.Category.Any())
@@ -56,7 +58,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         [HttpPost("AddingDelivery")]
         public ActionResult AddingDelivery()
         {
-            if (!_context.Delivery.Any()) 
+            if (!_context.Delivery.Any())
             {
                 var delivery = new List<Delivery>
                 {
@@ -118,6 +120,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         //    return Content("Baza została zapełniona");
         //}
         //[HttpPost("AlePiwoPriceCheck")]
+        */
 
         [HttpPost("ScrappingBrowamator")]
         public ActionResult ScrappingBrowamator()
@@ -156,7 +159,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 {
                     product.ProductPrice = matchingProduct.ProductPrice;
                     Console.WriteLine("Zaktualizowano cene dla produktu o ID: ");
-                    updatedProduct.Add(product);
+                    _context.Product.Update(product);
                 }
                 var productCheckHistory = new ProductCheckHistory()
                 {
@@ -202,14 +205,14 @@ namespace HomebreweryShoppingAssistaint.Controllers
             List<Product> updatedProduct = CentrumPiwowarstwaWebScrapper.Run();
 
             foreach (var product in productsFromDatabase)
-            {                 
+            {
                 var matchingProduct = updatedProduct.FirstOrDefault(p => p.ProductID == product.ProductID);
                 if (matchingProduct != null && matchingProduct.ProductPrice != product.ProductPrice)
                 {
                     product.Product30DaysPrice = product.ProductPrice;
                     product.ProductPrice = matchingProduct.ProductPrice;
                     Console.WriteLine("Zaktualizowano cene dla produktu o ID: " + product.ProductID);
-                    _context.Product.Add(product);
+                    _context.Product.Update(product);
                 }
 
                 var productCheckHistory = new ProductCheckHistory()
@@ -263,7 +266,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
                     product.Product30DaysPrice = product.ProductPrice;
                     product.ProductPrice = matchingProduct.ProductPrice;
                     Console.WriteLine("Zaktualizowano cene dla produktu o ID: " + product.ProductID);
-                    _context.Product.Add(product);
+                    _context.Product.Update(product);
                 }
 
                 var productCheckHistory = new ProductCheckHistory()
@@ -296,7 +299,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 ShopID = (int)ShopNameEnum.TwojBrowar,
                 CheckDateTime = DateTime.Now,
             };
-            
+
             _context.ShopCheckHistory.Add(shopCheckHistory);
             _context.SaveChanges();
             return Ok("Baza została zapełniona");
@@ -316,7 +319,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
                     product.Product30DaysPrice = product.ProductPrice;
                     product.ProductPrice = matchingProduct.ProductPrice;
                     Console.WriteLine("Zaktualizowano cene dla produktu o ID: " + product.ProductID);
-                    _context.Product.Add(product);
+                    _context.Product.Update(product);
                 }
 
                 var productCheckHistory = new ProductCheckHistory()
@@ -328,6 +331,86 @@ namespace HomebreweryShoppingAssistaint.Controllers
             }
             await _context.SaveChangesAsync();
             return Ok("Zaktualizowano ceny");
+        }
+
+        [HttpPost("OneProductPriceCheck")]
+        public async Task<IActionResult> OneProductPriceCheck([FromBody] Product product)
+        {
+            var web = new HtmlWeb();
+
+            var currentDoc = web.Load(product.ProductLink);
+
+            if (product.ProductLink.Contains("browamator"))
+            {
+                var name = HtmlEntity.DeEntitize(currentDoc.QuerySelector(".product-details__add-to-cart > h1:nth-child(2)").InnerText);
+                var price = decimal.Parse(HtmlEntity.DeEntitize(currentDoc.QuerySelector("div.price > span:nth-child(1) > span:nth-child(1)").InnerText));
+                var isAvailable = HtmlEntity.DeEntitize(currentDoc.QuerySelector(".availability-container > span:nth-child(3)").InnerText.ToLower()) == "od ręki" ? true : false;
+                var quantity = HtmlEntity.DeEntitize(currentDoc.QuerySelector(".value-to-replace").InnerText);
+
+                if (product.ProductPrice != price)
+                {
+                    product.ProductName = name;
+                    product.Product30DaysPrice = product.ProductPrice;
+                    product.ProductPrice = price;
+                    product.IsAvailable = isAvailable;
+                    //Quantity = quantity,
+                    _context.Product.Update(product);
+                }
+            }
+            else if (product.ProductLink.Contains("centrumpiwowarstwa"))
+            {
+                var name = HtmlEntity.DeEntitize(currentDoc.QuerySelector(".column-prod > h2:nth-child(3) > a:nth-child(1)").InnerText);
+                var price = decimal.Parse(HtmlEntity.DeEntitize(currentDoc.QuerySelector(".amount").InnerText + "," + currentDoc.QuerySelector(".amount > span:nth-child(1)").InnerText));
+                var isAvailable = HtmlEntity.DeEntitize(currentDoc.QuerySelector("div.row:nth-child(2)").InnerText.ToLower()) == "\r\nprodukt znajduje się w magazynie" ? true : false;
+
+                if (product.ProductPrice != price)
+                {
+                    product.ProductName = name;
+                    product.Product30DaysPrice = product.ProductPrice;
+                    product.ProductPrice = price;
+                    product.IsAvailable = isAvailable;
+                    //Quantity = quantity,
+                    _context.Product.Update(product);
+                }
+            }
+            else if (product.ProductLink.Contains("homebrewing"))
+            {
+                var name = HtmlEntity.DeEntitize(currentDoc.QuerySelector(".NazwaProducent > h1:nth-child(1)").InnerText);
+                var price = decimal.Parse(HtmlEntity.DeEntitize(currentDoc.QuerySelector("#CenaGlownaProduktuBrutto > strong:nth-child(1) > span:nth-child(1)").InnerText.Replace(" zł", "").Replace(" ", "")));
+                var isAvailable = HtmlEntity.DeEntitize(currentDoc.QuerySelector("#Dostepnosc > strong:nth-child(2)").InnerText.ToLower()) == "dostępny" ? true : false;
+                var harvestYear = HtmlEntity.DeEntitize(currentDoc.QuerySelector(".widoczna > div:nth-child(1) > table:nth-child(22) > tbody:nth-child(1) > tr:nth-child(3) > td:nth-child(2)").InnerText);
+
+                if (product.ProductPrice != price)
+                {
+                    product.ProductName = name;
+                    product.Product30DaysPrice = product.ProductPrice;
+                    product.ProductPrice = price;
+                    product.IsAvailable = isAvailable;
+                    product.ProductHarvestYear = int.TryParse(harvestYear, out int result) ? result : 0;
+                    //Quantity = quantity,
+                    _context.Product.Update(product);
+                }
+            }
+            else if (product.ProductLink.Contains("twojbrowar"))
+            {
+                var name = HtmlEntity.DeEntitize(currentDoc.QuerySelector(".pb-center-column > h1:nth-child(1)").InnerText);
+                var price = decimal.Parse(HtmlEntity.DeEntitize(currentDoc.QuerySelector("#our_price_display").InnerText.Replace(" zł", "").Replace(" ", "")));
+                var isAvailable = HtmlEntity.DeEntitize(currentDoc.QuerySelector("#pb-available-title > span").InnerText.ToLower()) == "chwilowy brak towaru" ? false : true;
+                var harvestYear = HtmlEntity.DeEntitize(currentDoc.QuerySelector("#value_23949").InnerText);
+
+                if (product.ProductPrice != price)
+                {
+                    product.ProductName = name;
+                    product.Product30DaysPrice = product.ProductPrice;
+                    product.ProductPrice = price;
+                    product.IsAvailable = isAvailable;
+                    product.ProductHarvestYear = int.TryParse(harvestYear, out int result) ? result : 0;
+                    //Quantity = quantity,
+                    _context.Product.Update(product);
+                }
+            }
+            await _context.SaveChangesAsync();
+            return Ok("Cena podanego produktu została sprawdzona i w razie potrzeby zaktualizowana.");
         }
     }
 }

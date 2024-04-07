@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using HomebreweryShoppingAssistaint.Data;
+﻿using HomebreweryShoppingAssistaint.Data;
 using HomebreweryShoppingAssistaint.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HomebreweryShoppingAssistaint.Controllers
 {
@@ -25,7 +20,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: Shops
         public async Task<IActionResult> Index()
         {
-            var shop = _context.Shop;
+            var shop = await _context.Shop.ToListAsync();
             return Ok(shop);
         }
 
