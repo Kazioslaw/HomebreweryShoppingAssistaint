@@ -1,8 +1,6 @@
 ﻿using HomebreweryShoppingAssistaint.Models;
 using HtmlAgilityPack;
 using HtmlAgilityPack.CssSelectors.NetCore;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 //Do naprawy bo nadal nie działa
 namespace HomebreweryShoppingAssistaint.WebScrappers
@@ -47,13 +45,13 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                     var name = HtmlEntity.DeEntitize(productElement.QuerySelector("p.title > a").InnerText);
                     var price = HtmlEntity.DeEntitize(productElement.QuerySelector("div.prices > div.price").InnerText);
                     //var isAvailable = Brak jednoznacznego oznaczenia dostępności produktu.
-                    var product = new Product() 
-                    { 
-                        ProductLink = link, 
-                        ProductName = name, 
-                        ProductPrice = decimal.Parse(price), 
-                        ShopID = (int)ShopNameEnum.AlePiwo, 
-                        CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/ 
+                    var product = new Product()
+                    {
+                        ProductLink = link,
+                        ProductName = name,
+                        ProductPrice = decimal.Parse(price),
+                        ShopID = (int)ShopNameEnum.AlePiwo,
+                        CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/,
                     };
                     products.Add(product);
                 }

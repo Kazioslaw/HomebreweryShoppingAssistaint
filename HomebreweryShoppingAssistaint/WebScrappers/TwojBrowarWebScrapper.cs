@@ -1,8 +1,6 @@
 ﻿using HomebreweryShoppingAssistaint.Models;
 using HtmlAgilityPack;
 using HtmlAgilityPack.CssSelectors.NetCore;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace HomebreweryShoppingAssistaint.WebScrappers
 {
@@ -70,9 +68,9 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                         };
                         products.Add(product);
                     }
-                    Console.WriteLine("Scraped: " + i + " page");
+                    Console.WriteLine("Scraped: " + i + " page.");
                     i++;
-
+                    Thread.Sleep(10000);
                 }
                 /*
                 int itemNum = 1;

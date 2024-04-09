@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using HomebreweryShoppingAssistaint.Models;
+﻿using HomebreweryShoppingAssistaint.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HomebreweryShoppingAssistaint.Data
 {
     public class HomebreweryShoppingAssistaintContext : DbContext
     {
-        public HomebreweryShoppingAssistaintContext (DbContextOptions<HomebreweryShoppingAssistaintContext> options)
+        public HomebreweryShoppingAssistaintContext(DbContextOptions<HomebreweryShoppingAssistaintContext> options)
             : base(options)
         {
         }
@@ -22,13 +22,15 @@ namespace HomebreweryShoppingAssistaint.Data
 
         public DbSet<Delivery> Delivery { get; set; }
 
+        //public DbSet<Company> Company { get; set; } = default!;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Shop>().HasData(new Shop {ShopID = (int)ShopNameEnum.AlePiwo, ShopName = ShopNameEnum.AlePiwo, ShopLink = "https://alepiwo.pl" },
-                    new Shop {ShopID = (int)ShopNameEnum.Browamator, ShopName = ShopNameEnum.Browamator, ShopLink = "https://browamator.pl" },
+            modelBuilder.Entity<Shop>().HasData(new Shop { ShopID = (int)ShopNameEnum.AlePiwo, ShopName = ShopNameEnum.AlePiwo, ShopLink = "https://alepiwo.pl" },
+                    new Shop { ShopID = (int)ShopNameEnum.Browamator, ShopName = ShopNameEnum.Browamator, ShopLink = "https://browamator.pl" },
                     new Shop { ShopID = (int)ShopNameEnum.CentrumPiwowarstwa, ShopName = ShopNameEnum.CentrumPiwowarstwa, ShopLink = "https://www.browar.biz/centrumpiwowarstwa" },
-                    new Shop {ShopID = (int)ShopNameEnum.Homebrewing, ShopName = ShopNameEnum.Homebrewing, ShopLink = "https://homebrewing.pl/" },
-                    new Shop {ShopID = (int)ShopNameEnum.TwojBrowar, ShopName = ShopNameEnum.TwojBrowar, ShopLink = "https://twojbrowar.pl/pl/" });
+                    new Shop { ShopID = (int)ShopNameEnum.Homebrewing, ShopName = ShopNameEnum.Homebrewing, ShopLink = "https://homebrewing.pl/" },
+                    new Shop { ShopID = (int)ShopNameEnum.TwojBrowar, ShopName = ShopNameEnum.TwojBrowar, ShopLink = "https://twojbrowar.pl/pl/" });
 
             modelBuilder.Entity<Category>().HasData(
                     new Category { CategoryID = (int)ProductCategory.Chmiel, CategoryName = ProductCategory.Chmiel },
@@ -76,6 +78,5 @@ namespace HomebreweryShoppingAssistaint.Data
                     new Delivery { DeliveryID = 31, DeliveryName = DeliverySupplier.GLS_Pobraniowa, DeliveryWeight = 30, DeliveryPrice = 29.90m, ShopID = 5 },
                     new Delivery { DeliveryID = 32, DeliveryName = DeliverySupplier.DPD, DeliveryWeight = 30, DeliveryPrice = 25.90m, ShopID = 5 });
         }
-        public DbSet<HomebreweryShoppingAssistaint.Models.Company> Company { get; set; } = default!;
     }
 }
