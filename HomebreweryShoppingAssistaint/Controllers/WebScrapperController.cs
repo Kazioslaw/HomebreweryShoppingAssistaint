@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace HomebreweryShoppingAssistaint.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class WebScrapperController : Controller
+    [Route("api/[controller]")]
+    public class WebScrapperController : ControllerBase
     {
         private readonly HomebreweryShoppingAssistaintContext _context;
 

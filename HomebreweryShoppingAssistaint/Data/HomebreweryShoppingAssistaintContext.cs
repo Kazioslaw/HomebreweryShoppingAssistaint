@@ -76,5 +76,6 @@ namespace HomebreweryShoppingAssistaint.Data
                     new Delivery { DeliveryID = 31, DeliveryName = DeliverySupplier.GLS_Pobraniowa, DeliveryWeight = 30, DeliveryPrice = 29.90m, ShopID = 5 },
                     new Delivery { DeliveryID = 32, DeliveryName = DeliverySupplier.DPD, DeliveryWeight = 30, DeliveryPrice = 25.90m, ShopID = 5 });
         }
+        public DbSet<HomebreweryShoppingAssistaint.Models.Company> Company { get; set; } = default!;
     }
 }
