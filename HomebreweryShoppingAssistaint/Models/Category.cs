@@ -15,6 +15,6 @@ namespace HomebreweryShoppingAssistaint.Models
         public int CategoryID { get; set; }
         public ProductCategory CategoryName { get; set; }
 
-        public ICollection<Product> Product { get; set; }
+        public ICollection<GeneralProduct> GeneralProduct { get; set; }
     }
 }
