@@ -1,8 +1,6 @@
 ﻿using HomebreweryShoppingAssistaint.Models;
 using HtmlAgilityPack;
 using HtmlAgilityPack.CssSelectors.NetCore;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 //Do naprawy bo nadal nie działa
 namespace HomebreweryShoppingAssistaint.WebScrappers
@@ -47,13 +45,13 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                     var name = HtmlEntity.DeEntitize(productElement.QuerySelector("p.title > a").InnerText);
                     var price = HtmlEntity.DeEntitize(productElement.QuerySelector("div.prices > div.price").InnerText);
                     //var isAvailable = Brak jednoznacznego oznaczenia dostępności produktu.
-                    var product = new Product() 
-                    { 
-                        ProductLink = link, 
-                        ProductName = name, 
-                        ProductPrice = decimal.Parse(price), 
-                        ShopID = (int)ShopNameEnum.AlePiwo, 
-                        CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/ 
+                    var product = new Product()
+                    {
+                        ProductLink = link,
+                        ProductName = name,
+                        ProductPrice = decimal.Parse(price),
+                        ShopID = (int)ShopNameEnum.AlePiwo,
+                        //CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/ 
                     };
                     products.Add(product);
                 }
@@ -62,29 +60,6 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
             }
 
             return products;
-
-            /*
-            int itemNum = 1;
-            foreach (var product in products)
-            {
-                Console.WriteLine("ID: " + itemNum);
-                Console.WriteLine("Nazwa: " + product.ProductName);
-                Console.WriteLine("Cena: " + product.ProductPrice);
-                Console.WriteLine("Link do produktu: " + product.ProductLink);
-                Console.WriteLine("Nazwa Sklepu: " + product.Shop.ShopName);
-                Console.WriteLine();
-                itemNum++;
-
-            }
-
-            var jsonFile = "AlePiwo.json";
-            var jsonString = JsonSerializer.Serialize(products);
-            using (StreamWriter writer = new StreamWriter(jsonFile, true))
-            {
-                writer.WriteLine(jsonString + ",");
-            }
-            Console.WriteLine("Serialized?");
-            */
         }
     }
 }

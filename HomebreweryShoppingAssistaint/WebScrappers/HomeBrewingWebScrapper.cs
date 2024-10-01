@@ -1,8 +1,6 @@
 ﻿using HomebreweryShoppingAssistaint.Models;
 using HtmlAgilityPack;
 using HtmlAgilityPack.CssSelectors.NetCore;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace HomebreweryShoppingAssistaint.WebScrappers
 {
@@ -58,7 +56,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
 
                         decimal product30DaysPrice;
 
-                        if(!decimal.TryParse(oldPrice, out product30DaysPrice))
+                        if (!decimal.TryParse(oldPrice, out product30DaysPrice))
                         {
                             product30DaysPrice = 0;
                         }
@@ -67,14 +65,14 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                             product30DaysPrice = decimal.Parse(oldPrice);
                         }
 
-                        var product = new Product() 
-                        { 
-                            ProductLink = link, 
-                            ProductName = name, 
+                        var product = new Product()
+                        {
+                            ProductLink = link,
+                            ProductName = name,
                             ProductPrice = decimal.Parse(price),
-                            Product30DaysPrice = product30DaysPrice, 
+                            Product30DaysPrice = product30DaysPrice,
                             ShopID = (int)ShopNameEnum.Homebrewing,
-                            CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/  
+                            //CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/  
 
                         };
                         products.Add(product);
@@ -83,35 +81,9 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                     Console.WriteLine("Scraped: " + i + " line");
                     i++;
                 }
-                /*
-                int itemNum = 1;
-
-                foreach (var product in products)
-                {
-                    Console.WriteLine("ID: " + itemNum);
-                    Console.WriteLine("Nazwa: " + product.ProductName);
-                    Console.WriteLine("Cena: " + product.ProductPrice);
-                    Console.WriteLine("Stara Cena: " + product.Product30DaysPrice);
-                    Console.WriteLine("Link: " + product.ProductLink);
-                    Console.WriteLine();
-                    itemNum++;
-                }
-                */
-
             }
             return products;
-
-            /*
-            var jsonFile = "HomeBrewery.json";
-            var jsonString = JsonSerializer.Serialize(products);
-            using (StreamWriter writer = new StreamWriter(jsonFile, true))
-            {
-                writer.WriteLine(jsonString);
-            }
-            Console.WriteLine("Serialized?");
-            */
         }
-
     }
 
 }

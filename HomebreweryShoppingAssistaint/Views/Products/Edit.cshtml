@@ -34,9 +34,9 @@
                 <span asp-validation-for="Product30DaysPrice" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CategoryID" class="control-label"></label>
-                <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.CategoryID"></select>
-                <span asp-validation-for="CategoryID" class="text-danger"></span>
+                <label asp-for="GeneralProductID" class="control-label"></label>
+                <select asp-for="GeneralProductID" class="form-control" asp-items="ViewBag.CategoryID"></select>
+                <span asp-validation-for="GeneralProductID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ShopID" class="control-label"></label>
@@ -55,5 +55,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

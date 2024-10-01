@@ -1,8 +1,6 @@
 ﻿using HomebreweryShoppingAssistaint.Models;
 using HtmlAgilityPack;
 using HtmlAgilityPack.CssSelectors.NetCore;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace HomebreweryShoppingAssistaint.WebScrappers
 {
@@ -30,34 +28,13 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                     Product30DaysPrice = 0,
                     IsAvailable = isAvailable,
                     ShopID = (int)ShopNameEnum.CentrumPiwowarstwa,
-                    CategoryID = (int)ProductCategory.Inne, /* Tymczasowe przypisywanie do kategori inne*/
+                    //CategoryID = (int)ProductCategory.Inne, /* Tymczasowe przypisywanie do kategori inne*/
                 };
                 products.Add(product);
             }
 
             return products;
-            /*
-            // Weryfikator scrappera
-            int itemNum = 1;
-            foreach (var product in products)
-            {
-                Console.WriteLine("ID: " + itemNum);
-                Console.WriteLine("Nazwa: " + product.ProductName);
-                Console.WriteLine("Cena: " + product.ProductPrice);
-                Console.WriteLine("Link do produktu: " + product.ProductLink);
-                Console.WriteLine();
-                itemNum++;
 
-            }
-
-            var jsonFile = "CentrumPiwowarstwa.json";
-            var jsonString = JsonSerializer.Serialize(products);
-            using (StreamWriter writer = new StreamWriter(jsonFile, true))
-            {
-                writer.WriteLine(jsonString);
-            }
-            Console.WriteLine("Serialized?");
-            */
         }
     }
 }
