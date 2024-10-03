@@ -1,17 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using HomebreweryShoppingAssistaint.Data;
 using System.Text.Json.Serialization;
-using Microsoft.Extensions.Options;
 using System.Globalization;
 
-var builder = WebApplication.CreateBuilder(args);
+var globalApplicationCulture = CultureInfo.GetCultureInfo("pl-PL");
+CultureInfo.DefaultThreadCurrentCulture = globalApplicationCulture;
+CultureInfo.DefaultThreadCurrentUICulture = globalApplicationCulture;
 
-builder.Services.Configure<RequestLocalizationOptions>(options =>
-{
-    var supportedCulture = "pl-PL";
-    options.SetDefaultCulture(supportedCulture);
-}); // Sprawdzić czy to zadziała.
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<HomebreweryShoppingAssistaintContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("HomebreweryShoppingAssistaintContext") ?? throw new InvalidOperationException("Connection string 'HomebreweryShoppingAssistaintContext' not found.")));

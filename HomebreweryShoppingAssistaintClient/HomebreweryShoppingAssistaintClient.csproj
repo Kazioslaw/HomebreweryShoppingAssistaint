@@ -7,7 +7,15 @@
   </PropertyGroup>
  
   <ItemGroup>
-    <PackageReference Include="MudBlazor" Version="6.*" />
+    <PackageReference Include="MudBlazor" Version="7.4.0" />
+  </ItemGroup>
+ 
+  <ItemGroup>
+    <ProjectReference Include="..\HomebreweryShoppingAssistaint\HomebreweryShoppingAssistaint.csproj" />
+  </ItemGroup>
+ 
+  <ItemGroup>
+    <Folder Include="ApiClient\" />
   </ItemGroup>
   
 </Project>

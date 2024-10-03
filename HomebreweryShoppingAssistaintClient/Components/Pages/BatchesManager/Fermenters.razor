@@ -1,0 +1,47 @@
+﻿@page "/fermenters"
+@using HomebreweryShoppingAssistaint.Enums
+@rendermode InteractiveServer
+@inject IDialogService DialogService
+
+
+<MyMudProviders />
+
+<PageTitle>@Title</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">@Title</MudText>
+
+@if (fermenters == null)
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+}
+else
+{
+    <MudTabs @ref="tabs" ActivePanelIndexChanged="OnActiveTabIndexChanged">
+        <MudTabPanel Text="@EnumFermenterType.PlasticBucket.ToString()">
+            <MudTable Items="@fermenters.Where(x => x.Type == EnumFermenterType.PlasticBucket).ToList()">
+                <HeaderContent>
+                    <MudTh>Nr</MudTh>
+                    <MudTh>Nazwa</MudTh>
+                    <MudTh>Data rozpoczęcia używania</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                <MudTd DataLabel="Nr">@context.Number</MudTd>
+                    <MudTd DataLabel="Nazwa">@context.Name</MudTd>
+                    <MudTd DataLabel="Data rozpoczęcia używania">@context.StartDate</MudTd>
+                </RowTemplate>
+            </MudTable>
+        </MudTabPanel>
+        <MudTabPanel Text="@EnumFermenterType.GlassJar.ToString()">
+            <MudTable Items="@fermenters.Where(x => x.Type == EnumFermenterType.GlassJar).ToList()">
+            </MudTable>
+        </MudTabPanel>
+        <MudTabPanel Text="@EnumFermenterType.CorneliusKeg.ToString()">
+            <MudTable Items="@fermenters.Where(x => x.Type == EnumFermenterType.CorneliusKeg).ToList()">
+            </MudTable>
+        </MudTabPanel>
+        <MudTabPanel Text="@EnumFermenterType.PetainerKeg.ToString()">
+            <MudTable Items="@fermenters.Where(x => x.Type == EnumFermenterType.PetainerKeg).ToList()">
+            </MudTable>
+        </MudTabPanel>
+    </MudTabs>
+}
