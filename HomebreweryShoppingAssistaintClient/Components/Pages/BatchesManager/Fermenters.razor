@@ -1,5 +1,6 @@
 ﻿@page "/fermenters"
 @using HomebreweryShoppingAssistaint.Enums
+@using HomebreweryShoppingAssistaint.Helpers
 @rendermode InteractiveServer
 @inject IDialogService DialogService
 
@@ -17,7 +18,7 @@
 else
 {
     <MudTabs @ref="tabs" ActivePanelIndexChanged="OnActiveTabIndexChanged">
-        <MudTabPanel Text="@EnumFermenterType.PlasticBucket.ToString()">
+        <MudTabPanel Text="@EnumHelper.GetEnumDescription(EnumFermenterType.PlasticBucket)">
             <MudTable Items="@fermenters.Where(x => x.Type == EnumFermenterType.PlasticBucket).ToList()">
                 <HeaderContent>
                     <MudTh>Nr</MudTh>
@@ -31,15 +32,15 @@ else
                 </RowTemplate>
             </MudTable>
         </MudTabPanel>
-        <MudTabPanel Text="@EnumFermenterType.GlassJar.ToString()">
+        <MudTabPanel Text="@EnumHelper.GetEnumDescription(EnumFermenterType.GlassJar)">
             <MudTable Items="@fermenters.Where(x => x.Type == EnumFermenterType.GlassJar).ToList()">
             </MudTable>
         </MudTabPanel>
-        <MudTabPanel Text="@EnumFermenterType.CorneliusKeg.ToString()">
+        <MudTabPanel Text="@EnumHelper.GetEnumDescription(EnumFermenterType.CorneliusKeg)">
             <MudTable Items="@fermenters.Where(x => x.Type == EnumFermenterType.CorneliusKeg).ToList()">
             </MudTable>
         </MudTabPanel>
-        <MudTabPanel Text="@EnumFermenterType.PetainerKeg.ToString()">
+        <MudTabPanel Text="@EnumHelper.GetEnumDescription(EnumFermenterType.PetainerKeg)">
             <MudTable Items="@fermenters.Where(x => x.Type == EnumFermenterType.PetainerKeg).ToList()">
             </MudTable>
         </MudTabPanel>
