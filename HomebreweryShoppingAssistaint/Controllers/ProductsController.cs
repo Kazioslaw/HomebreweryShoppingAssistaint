@@ -26,7 +26,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var product = _context.Product.Include(p => p.Category).Include(p => p.Shop);
+            var product = _context.Products.Include(p => p.Category).Include(p => p.Shop);
             return Ok(product);
         }
 
@@ -34,12 +34,12 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Product == null)
+            if (id == null || _context.Products == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Product
+            var product = await _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.Shop)
                 .FirstOrDefaultAsync(m => m.ProductID == id);
@@ -55,7 +55,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryID", "CategoryID");
+            ViewData["CategoryID"] = new SelectList(_context.Categories, "CategoryID", "CategoryID");
             ViewData["ShopID"] = new SelectList(_context.Set<Shop>(), "ShopID", "ShopID");
             return View();
         }
@@ -73,7 +73,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryID", "CategoryID", product.CategoryID);
+            ViewData["CategoryID"] = new SelectList(_context.Categories, "CategoryID", "CategoryID", product.CategoryID);
             ViewData["ShopID"] = new SelectList(_context.Set<Shop>(), "ShopID", "ShopID", product.ShopID);
             return View(product);
         }
@@ -82,17 +82,17 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Product == null)
+            if (id == null || _context.Products == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Product.FindAsync(id);
+            var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
             }
-            ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryID", "CategoryID", product.CategoryID);
+            ViewData["CategoryID"] = new SelectList(_context.Categories, "CategoryID", "CategoryID", product.CategoryID);
             ViewData["ShopID"] = new SelectList(_context.Set<Shop>(), "ShopID", "ShopID", product.ShopID);
             return View(product);
         }
@@ -129,7 +129,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryID", "CategoryID", product.CategoryID);
+            ViewData["CategoryID"] = new SelectList(_context.Categories, "CategoryID", "CategoryID", product.CategoryID);
             ViewData["ShopID"] = new SelectList(_context.Set<Shop>(), "ShopID", "ShopID", product.ShopID);
             return View(product);
         }
@@ -138,12 +138,12 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: Products/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Product == null)
+            if (id == null || _context.Products == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Product
+            var product = await _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.Shop)
                 .FirstOrDefaultAsync(m => m.ProductID == id);
@@ -160,14 +160,14 @@ namespace HomebreweryShoppingAssistaint.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Product == null)
+            if (_context.Products == null)
             {
                 return Problem("Entity set 'HomebreweryShoppingAssistaintContext.Product'  is null.");
             }
-            var product = await _context.Product.FindAsync(id);
+            var product = await _context.Products.FindAsync(id);
             if (product != null)
             {
-                _context.Product.Remove(product);
+                _context.Products.Remove(product);
             }
             
             await _context.SaveChangesAsync();
@@ -176,7 +176,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
 
         private bool ProductExists(int id)
         {
-          return (_context.Product?.Any(e => e.ProductID == id)).GetValueOrDefault();
+          return (_context.Products?.Any(e => e.ProductID == id)).GetValueOrDefault();
         }
     }
 }
