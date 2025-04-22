@@ -1,8 +1,6 @@
 ﻿using HomebreweryShoppingAssistaint.Models;
 using HtmlAgilityPack;
 using HtmlAgilityPack.CssSelectors.NetCore;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace HomebreweryShoppingAssistaint.WebScrappers
 {

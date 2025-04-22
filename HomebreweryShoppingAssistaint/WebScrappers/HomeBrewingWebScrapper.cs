@@ -56,7 +56,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
 
                         decimal product30DaysPrice;
 
-                        if(!decimal.TryParse(oldPrice, out product30DaysPrice))
+                        if (!decimal.TryParse(oldPrice, out product30DaysPrice))
                         {
                             product30DaysPrice = 0;
                         }
@@ -65,20 +65,20 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                             product30DaysPrice = decimal.Parse(oldPrice);
                         }
 
-                        var product = new Product() 
-                        { 
-                            ProductLink = link, 
-                            ProductName = name, 
+                        var product = new Product()
+                        {
+                            ProductLink = link,
+                            ProductName = name,
                             ProductPrice = decimal.Parse(price),
-                            Product30DaysPrice = product30DaysPrice, 
+                            Product30DaysPrice = product30DaysPrice,
                             ShopID = (int)ShopNameEnum.Homebrewing,
-                            CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/  
+                            CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/
 
                         };
                         products.Add(product);
                     }
                     //Console.WriteLine(countTags);
-                    Console.WriteLine("Scraped: " + i + " line");
+                    Console.WriteLine("Scraped: " + i + " line.");
                     i++;
                 }
                 /*

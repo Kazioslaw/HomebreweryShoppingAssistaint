@@ -1,15 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using HomebreweryShoppingAssistaint.Data;
+﻿using HomebreweryShoppingAssistaint.Data;
 using HomebreweryShoppingAssistaint.Models;
-using System.Net;
-using Swashbuckle.Swagger.Annotations;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HomebreweryShoppingAssistaint.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class CategoriesController : Controller
+    [Route("api/[controller]")]
+    public class CategoriesController : ControllerBase
     {
         private readonly HomebreweryShoppingAssistaintContext _context;
 
@@ -18,17 +16,17 @@ namespace HomebreweryShoppingAssistaint.Controllers
             _context = context;
         }
 
+        // GET: api/Categories
         [HttpGet]
-        // GET: Categories
-        public async Task<IActionResult> Index()
+        public async Task<ActionResult<IEnumerable<Category>>> GetCategory()
         {
-            var category = _context.Categories;
+            var category = await _context.Categories.ToListAsync();
             return Ok(category);
         }
 
-        [HttpGet("Details/{id}")]
-        // GET: Categories/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: api/Categories/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Category>> GetCategory(int? id)
         {
             if (id == null || _context.Categories == null)
             {
@@ -36,131 +34,73 @@ namespace HomebreweryShoppingAssistaint.Controllers
             }
 
             var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.CategoryID == id);
+                .FindAsync(id);
             if (category == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return Ok(category);
         }
 
-        [HttpGet("Create")]
-        // GET: Categories/Create
-        public IActionResult Create()
+        [HttpPost]
+        public async Task<ActionResult<Category>> PostCategory(Category category)
         {
-            return View();
+            _context.Categories.Add(category);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction("GetCategory", new { id = category.CategoryID }, category);
         }
 
-        // POST: Categories/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("Create")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CategoryID,CategoryName")] Category category)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(category);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(category);
-        }
-
-        [HttpGet("Edit/{id}")]
-        // GET: Categories/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Categories == null)
-            {
-                return NotFound();
-            }
-
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-            return View(category);
-        }
-
-        // POST: Categories/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("Edit/{id}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CategoryID,CategoryName")] Category category)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutCategory(int id, Category category)
         {
             if (id != category.CategoryID)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            if (ModelState.IsValid)
+            _context.Categories.Update(category);
+
+            try
             {
-                try
-                {
-                    _context.Update(category);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CategoryExists(category.CategoryID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                await _context.SaveChangesAsync();
             }
-            return View(category);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CategoryExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return Ok();
         }
 
-        [HttpGet("Delete/{id}")]
-        // GET: Categories/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Categories == null)
-            {
-                return NotFound();
-            }
 
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.CategoryID == id);
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCategory(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
             if (category == null)
             {
                 return NotFound();
             }
 
-            return View(category);
-        }
-
-        // POST: Categories/Delete/5
-        [HttpPost("Delete/{id}"), ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Categories == null)
-            {
-                return Problem("Entity set 'HomebreweryShoppingAssistaintContext.Category'  is null.");
-            }
-            var category = await _context.Categories.FindAsync(id);
-            if (category != null)
-            {
-                _context.Categories.Remove(category);
-            }
-
+            _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return Ok();
         }
+
 
         private bool CategoryExists(int id)
         {
-            return (_context.Categories?.Any(e => e.CategoryID == id)).GetValueOrDefault();
+            return _context.Categories.Any(c => c.CategoryID == id);
         }
     }
 }

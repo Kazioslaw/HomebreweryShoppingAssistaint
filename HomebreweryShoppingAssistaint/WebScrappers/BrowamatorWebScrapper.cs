@@ -1,9 +1,6 @@
 ﻿using HomebreweryShoppingAssistaint.Models;
 using HtmlAgilityPack;
 using HtmlAgilityPack.CssSelectors.NetCore;
-using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace HomebreweryShoppingAssistaint.WebScrappers
 {
@@ -15,7 +12,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                                            "https://browamator.pl/produkty/wino/2-94?sort=12&pageId=1#products",
                                            "https://browamator.pl/produkty/cydr/2-236?sort=12&pageId=1#products",
                                            "https://browamator.pl/produkty/nalewki/2-158?sort=12&pageId=1#products",
-                                           "https://browamator.pl/produkty/destylaty/2-203?sort=12&pageId=1#products" };            
+                                           "https://browamator.pl/produkty/destylaty/2-203?sort=12&pageId=1#products" };
 
             var web = new HtmlWeb();
             var products = new List<Product>();
@@ -29,7 +26,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                 sitesToScrape.Enqueue(firstSiteToScrape);
 
                 int i = 1;
-                int limit = 100;
+                int limit = 1000;
 
                 while (sitesToScrape.Count != 0 && i < limit)
                 {
@@ -64,13 +61,14 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                             ProductName = name,
                             ProductPrice = decimal.Parse(price),
                             IsAvailable = isAvailable, // Prawdopodobnie działa do przetestowania mocnego w późniejszym czasie.
-                            ShopID = (int)ShopNameEnum.Browamator, 
-                            CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/ 
-                        };                        
+                            ShopID = (int)ShopNameEnum.Browamator,
+                            CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/
+                        };
                         products.Add(product);
                     }
                     Console.WriteLine("Scraped: " + i + " page.");
                     i++;
+                    Thread.Sleep(10000);
                 }
                 /*
                 int itemNum = 1;

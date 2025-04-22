@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 namespace HomebreweryShoppingAssistaint.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class ShopsController : Controller
+    [Route("api/[controller]")]
+    public class ShopsController : ControllerBase
     {
         private readonly HomebreweryShoppingAssistaintContext _context;
 
@@ -17,143 +17,75 @@ namespace HomebreweryShoppingAssistaint.Controllers
         }
 
         [HttpGet]
-        // GET: Shops
-        public async Task<IActionResult> Index()
+        public async Task<ActionResult<IEnumerable<Shop>>> GetShop()
         {
             var shop = await _context.Shops.ToListAsync();
             return Ok(shop);
         }
 
-        [HttpGet("Details/{id}")]
-        // GET: Shops/Details/5
-        public async Task<IActionResult> Details(int? id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Shop>> GetShop(int id)
         {
             if (id == null || _context.Shops == null)
             {
                 return NotFound();
             }
-
-            var shop = await _context.Shops
-                .FirstOrDefaultAsync(m => m.ShopID == id);
-            if (shop == null)
-            {
-                return NotFound();
-            }
-
-            return View(shop);
-        }
-
-        [HttpGet("Create")]
-        // GET: Shops/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Shops/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("Create")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ShopID,ShopName,ShopLink")] Shop shop)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(shop);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(shop);
-        }
-
-        [HttpGet("Edit/{id}")]
-        // GET: Shops/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Shops == null)
-            {
-                return NotFound();
-            }
-
             var shop = await _context.Shops.FindAsync(id);
             if (shop == null)
             {
                 return NotFound();
             }
-            return View(shop);
+            return Ok(shop);
         }
 
-        // POST: Shops/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("Edit/{id}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ShopID,ShopName,ShopLink")] Shop shop)
+        [HttpPost]
+        public async Task<ActionResult<Shop>> PostShop(Shop shop)
+        {
+            _context.Shops.Add(shop);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction("GetProduct", new { id = shop.ShopID }, shop);
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutShop(int id, Shop shop)
         {
             if (id != shop.ShopID)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            if (ModelState.IsValid)
+            _context.Shops.Update(shop);
+
+            try
             {
-                try
-                {
-                    _context.Update(shop);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ShopExists(shop.ShopID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                await _context.SaveChangesAsync();
             }
-            return View(shop);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ShopExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return Ok();
         }
 
-        [HttpGet("Delete/{id}")]
-        // GET: Shops/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteShop(int id)
         {
-            if (id == null || _context.Shops == null)
-            {
-                return NotFound();
-            }
-
-            var shop = await _context.Shops
-                .FirstOrDefaultAsync(m => m.ShopID == id);
+            var shop = await _context.Shops.FindAsync(id);
             if (shop == null)
             {
                 return NotFound();
             }
 
-            return View(shop);
-        }
-
-        // POST: Shops/Delete/5
-        [HttpPost("Delete/{id}"), ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Shops == null)
-            {
-                return Problem("Entity set 'HomebreweryShoppingAssistaintContext.Shop'  is null.");
-            }
-            var shop = await _context.Shops.FindAsync(id);
-            if (shop != null)
-            {
-                _context.Shops.Remove(shop);
-            }
-
+            _context.Shops.Remove(shop);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return Ok();
         }
 
         private bool ShopExists(int id)
