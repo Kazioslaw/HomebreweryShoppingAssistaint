@@ -1,26 +1,27 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using HomebreweryShoppingAssistaint.Converters;
 using HomebreweryShoppingAssistaint.Data;
-using System.Text.Json.Serialization;
-using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using System.Text.Json.Serialization;
+
+var globalApplicationCulture = CultureInfo.GetCultureInfo("pl-PL");
+CultureInfo.DefaultThreadCurrentCulture = globalApplicationCulture;
+CultureInfo.DefaultThreadCurrentUICulture = globalApplicationCulture;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.Configure<RequestLocalizationOptions>(options =>
-{
-    var supportedCulture = "pl-PL";
-    options.SetDefaultCulture(supportedCulture);
-}); // Sprawdzić czy to zadziała.
 
 builder.Services.AddDbContext<HomebreweryShoppingAssistaintContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("HomebreweryShoppingAssistaintContext") ?? throw new InvalidOperationException("Connection string 'HomebreweryShoppingAssistaintContext' not found.")));
 // Add services to the container.
 
-builder.Services.AddControllersWithViews().AddJsonOptions(options => { 
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    options.JsonSerializerOptions.Converters.Add(new CustomDateTimeConverter());
+    options.JsonSerializerOptions.Converters.Add(new CustomDateOnlyConverter());
 });
+
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
@@ -31,7 +32,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-if(app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();

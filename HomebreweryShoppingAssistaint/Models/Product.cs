@@ -17,12 +17,12 @@ namespace HomebreweryShoppingAssistaint.Models
         public int GeneralProductID { get; set; }
         //public int CompanyID { get; set; }
         public int ShopID { get; set; }
+        //public int ProductCheckHistoryID { get; set; }
 
         //public Company Company { get; set; }
         public GeneralProduct GeneralProduct { get; set; }
         public Shop Shop { get; set; }
-
-
+        //public ProductCheckHistory ProductCheckHistory { get; set; }
     }
 
 }

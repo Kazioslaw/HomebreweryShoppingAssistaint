@@ -3,6 +3,7 @@ using HomebreweryShoppingAssistaint.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace HomebreweryShoppingAssistaint.Controllers
 {
@@ -19,23 +20,20 @@ namespace HomebreweryShoppingAssistaint.Controllers
         }
 
         [HttpGet]
-        // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<ActionResult<IEnumerable<Product>>> GetProduct()
         {
-            var product = _context.Product.Include(p => p.GeneralProduct).Include(p => p.Shop);
+            var product = _context.Products.Include(p => p.GeneralProduct).Include(p => p.Shop);
             return Ok(product);
         }
 
-        [HttpGet("Details/{id}")]
-        // GET: Products/Details/5
-        public async Task<IActionResult> Details(int? id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Product>> GetProduct(int? id)
         {
-            if (id == null || _context.Product == null)
+            if (id == null || _context.Products == null)
             {
                 return NotFound();
             }
-
-            var product = await _context.Product
+            var product = await _context.Products
                 .Include(p => p.GeneralProduct)
                 .Include(p => p.Shop)
                 .FirstOrDefaultAsync(m => m.ProductID == id);
@@ -43,13 +41,11 @@ namespace HomebreweryShoppingAssistaint.Controllers
             {
                 return NotFound();
             }
-
-            return View(product);
+            return Ok(product);
         }
 
-        [HttpGet("Create")]
-        // GET: Products/Create
-        public IActionResult Create()
+        [HttpPost]
+        public async Task<ActionResult<Product>> PostProduct(Product product)
         {
             ViewData["GeneralProductID"] = new SelectList(_context.GeneralProduct, "GeneralProductID", "GeneralProductID");
             ViewData["ShopID"] = new SelectList(_context.Set<Shop>(), "ShopID", "ShopID");
@@ -74,16 +70,14 @@ namespace HomebreweryShoppingAssistaint.Controllers
             return View(product);
         }
 
-        [HttpGet("Edit/{id}")]
-        // GET: Products/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutProduct(int id, Product product)
         {
-            if (id == null || _context.Product == null)
+            if (id != product.ProductID)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            var product = await _context.Product.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
@@ -105,25 +99,20 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
+                await _context.SaveChangesAsync();
+            }
+            catch (DBConcurrencyException)
+            {
+                if (!ProductExists(id))
                 {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!ProductExists(product.ProductID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
-                return RedirectToAction(nameof(Index));
             }
             ViewData["GeneralProductID"] = new SelectList(_context.GeneralProduct, "GeneralProductID", "GeneralProductID", product.GeneralProductID);
             ViewData["ShopID"] = new SelectList(_context.Set<Shop>(), "ShopID", "ShopID", product.ShopID);
@@ -134,12 +123,12 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: Products/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Product == null)
+            if (id == null || _context.Products == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Product
+            var product = await _context.Products
                 .Include(p => p.GeneralProduct)
                 .Include(p => p.Shop)
                 .FirstOrDefaultAsync(m => m.ProductID == id);
@@ -148,7 +137,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 return NotFound();
             }
 
-            return View(product);
+            return Ok(product);
         }
 
         // POST: Products/Delete/5
@@ -156,23 +145,23 @@ namespace HomebreweryShoppingAssistaint.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Product == null)
+            if (_context.Products == null)
             {
                 return Problem("Entity set 'HomebreweryShoppingAssistaintContext.Product'  is null.");
             }
-            var product = await _context.Product.FindAsync(id);
+            var product = await _context.Products.FindAsync(id);
             if (product != null)
             {
-                _context.Product.Remove(product);
+                _context.Products.Remove(product);
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return Ok();
         }
 
         private bool ProductExists(int id)
         {
-            return (_context.Product?.Any(e => e.ProductID == id)).GetValueOrDefault();
+            return (_context.Products?.Any(e => e.ProductID == id)).GetValueOrDefault();
         }
     }
 }

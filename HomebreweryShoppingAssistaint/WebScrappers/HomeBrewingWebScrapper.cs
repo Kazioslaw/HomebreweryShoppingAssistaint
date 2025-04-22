@@ -78,7 +78,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                         products.Add(product);
                     }
                     //Console.WriteLine(countTags);
-                    Console.WriteLine("Scraped: " + i + " line");
+                    Console.WriteLine("Scraped: " + i + " line.");
                     i++;
                 }
             }

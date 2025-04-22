@@ -26,7 +26,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                 sitesToScrape.Enqueue(firstSiteToScrape);
 
                 int i = 1;
-                int limit = 100;
+                int limit = 1000;
 
                 while (sitesToScrape.Count != 0 && i < limit)
                 {
@@ -68,6 +68,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                     }
                     Console.WriteLine("Scraped: " + i + " page.");
                     i++;
+                    Thread.Sleep(10000);
                 }
             }
 

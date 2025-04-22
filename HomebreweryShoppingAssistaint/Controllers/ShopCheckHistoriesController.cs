@@ -2,12 +2,13 @@
 using HomebreweryShoppingAssistaint.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace HomebreweryShoppingAssistaint.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class ShopCheckHistoriesController : Controller
+    [Route("api/[controller]")]
+    public class ShopCheckHistoriesController : ControllerBase
     {
         private readonly HomebreweryShoppingAssistaintContext _context;
 
@@ -15,151 +16,83 @@ namespace HomebreweryShoppingAssistaint.Controllers
         {
             _context = context;
         }
-
         [HttpGet]
-        // GET: ShopCheckHistories
-        public async Task<IActionResult> Index()
+        public async Task<ActionResult<IEnumerable<ShopCheckHistory>>> GetShopCheckHistories()
         {
-            var shopCheckHistory = await _context.ShopCheckHistory.ToListAsync();
-            return Ok(shopCheckHistory);
+            var ShopCheckHistories = await _context.ShopCheckHistories.ToListAsync();
+            return Ok(ShopCheckHistories);
         }
 
-        [HttpGet("Details/{id}")]
-        // GET: ShopCheckHistories/Details/5
-        public async Task<IActionResult> Details(int? id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ShopCheckHistory>> GetShopCheckHistories(int? id)
         {
-            if (id == null || _context.ShopCheckHistory == null)
+            if (id == null || _context.ShopCheckHistories == null)
             {
                 return NotFound();
             }
 
-            var shopCheckHistory = await _context.ShopCheckHistory
-                .FirstOrDefaultAsync(m => m.ShopCheckHistoryID == id);
-            if (shopCheckHistory == null)
+            var ShopCheckHistories = await _context.ShopCheckHistories.FindAsync(id);
+            if (ShopCheckHistories == null)
             {
                 return NotFound();
             }
 
-            return View(shopCheckHistory);
+            return Ok(ShopCheckHistories);
+
         }
+        [HttpPost]
 
-        [HttpGet("Create")]
-        // GET: ShopCheckHistories/Create
-        public IActionResult Create()
+        public async Task<ActionResult<ShopCheckHistory>> PostShopCheckHistories(ShopCheckHistory ShopCheckHistories)
         {
-            return View();
-        }
-
-        // POST: ShopCheckHistories/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("Create")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ShopCheckHistoryID,ShopID,CheckDateTime")] ShopCheckHistory shopCheckHistory)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(shopCheckHistory);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(shopCheckHistory);
-        }
-
-        [HttpGet("Edit/{id}")]
-        // GET: ShopCheckHistories/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.ShopCheckHistory == null)
-            {
-                return NotFound();
-            }
-
-            var shopCheckHistory = await _context.ShopCheckHistory.FindAsync(id);
-            if (shopCheckHistory == null)
-            {
-                return NotFound();
-            }
-            return View(shopCheckHistory);
-        }
-
-        // POST: ShopCheckHistories/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("Edit/{id}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ShopCheckHistoryID,ShopID,CheckDateTime")] ShopCheckHistory shopCheckHistory)
-        {
-            if (id != shopCheckHistory.ShopCheckHistoryID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(shopCheckHistory);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ShopCheckHistoryExists(shopCheckHistory.ShopCheckHistoryID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(shopCheckHistory);
-        }
-
-        [HttpGet("Delete/{id}")]
-        // GET: ShopCheckHistories/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.ShopCheckHistory == null)
-            {
-                return NotFound();
-            }
-
-            var shopCheckHistory = await _context.ShopCheckHistory
-                .FirstOrDefaultAsync(m => m.ShopCheckHistoryID == id);
-            if (shopCheckHistory == null)
-            {
-                return NotFound();
-            }
-
-            return View(shopCheckHistory);
-        }
-
-
-        // POST: ShopCheckHistories/Delete/5
-        [HttpPost("Delete/{id}"), ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.ShopCheckHistory == null)
-            {
-                return Problem("Entity set 'HomebreweryShoppingAssistaintContext.ShopCheckHistory'  is null.");
-            }
-            var shopCheckHistory = await _context.ShopCheckHistory.FindAsync(id);
-            if (shopCheckHistory != null)
-            {
-                _context.ShopCheckHistory.Remove(shopCheckHistory);
-            }
-
+            _context.ShopCheckHistories.Add(ShopCheckHistories);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return CreatedAtAction("GetShopCheckCategory", new { id = ShopCheckHistories.ShopCheckHistoryID }, ShopCheckHistories);
         }
 
-        private bool ShopCheckHistoryExists(int id)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutShopCheckHistories(int id, ShopCheckHistory ShopCheckHistories)
         {
-            return (_context.ShopCheckHistory?.Any(e => e.ShopCheckHistoryID == id)).GetValueOrDefault();
+            if (id != ShopCheckHistories.ShopCheckHistoryID)
+            {
+                return BadRequest();
+            }
+
+            _context.ShopCheckHistories.Update(ShopCheckHistories);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DBConcurrencyException)
+            {
+                if (!ShopCheckHistoriesExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteShopCheckHistories(int id)
+        {
+            var ShopCheckHistories = await _context.ShopCheckHistories.FindAsync(id);
+            if (ShopCheckHistories == null)
+            {
+                return NotFound();
+            }
+
+            _context.ShopCheckHistories.Remove(ShopCheckHistories);
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+        private bool ShopCheckHistoriesExists(int id)
+        {
+            return (_context.ShopCheckHistories?.Any(e => e.ShopCheckHistoryID == id)).GetValueOrDefault();
         }
     }
 }

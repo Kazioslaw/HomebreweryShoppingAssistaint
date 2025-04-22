@@ -68,9 +68,9 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                         };
                         products.Add(product);
                     }
-                    Console.WriteLine("Scraped: " + i + " page");
+                    Console.WriteLine("Scraped: " + i + " page.");
                     i++;
-
+                    Thread.Sleep(10000);
                 }
 
             }
