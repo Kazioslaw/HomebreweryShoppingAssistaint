@@ -20,19 +20,19 @@ namespace HomebreweryShoppingAssistaint.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductCheckHistory>>> GetProductCheckHistory()
         {
-            var productCheckHistory = await _context.ProductCheckHistory.ToListAsync();
+            var productCheckHistory = await _context.ProductCheckHistories.ToListAsync();
             return Ok(productCheckHistory);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductCheckHistory>> GetProductCheckHistory(int id)
         {
-            if (id == null || _context.ProductCheckHistory == null)
+            if (id == null || _context.ProductCheckHistories == null)
             {
                 return NotFound();
             }
 
-            var productCheckHistory = await _context.ProductCheckHistory.FindAsync(id);
+            var productCheckHistory = await _context.ProductCheckHistories.FindAsync(id);
 
             if (productCheckHistory == null)
             {
@@ -45,7 +45,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         [HttpPost]
         public async Task<ActionResult<ProductCheckHistory>> PostProductCheckHistory(ProductCheckHistory productCheckHistory)
         {
-            _context.ProductCheckHistory.Add(productCheckHistory);
+            _context.ProductCheckHistories.Add(productCheckHistory);
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetProductCheckHistory", new { id = productCheckHistory.ProductCheckHistoryID }, productCheckHistory);
         }
@@ -58,7 +58,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 return BadRequest();
             }
 
-            _context.ProductCheckHistory.Update(productCheckHistory);
+            _context.ProductCheckHistories.Update(productCheckHistory);
 
             try
             {
@@ -82,13 +82,13 @@ namespace HomebreweryShoppingAssistaint.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProductCheckHistory(int id)
         {
-            var productCheckHistory = await _context.ProductCheckHistory.FindAsync(id);
+            var productCheckHistory = await _context.ProductCheckHistories.FindAsync(id);
             if (productCheckHistory == null)
             {
                 return NotFound();
             }
 
-            _context.ProductCheckHistory.Remove(productCheckHistory);
+            _context.ProductCheckHistories.Remove(productCheckHistory);
             await _context.SaveChangesAsync();
             return Ok();
         }
@@ -96,7 +96,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
 
         private bool ProductCheckHistoryExists(int id)
         {
-            return (_context.ProductCheckHistory?.Any(e => e.ProductCheckHistoryID == id)).GetValueOrDefault();
+            return (_context.ProductCheckHistories?.Any(e => e.ProductCheckHistoryID == id)).GetValueOrDefault();
         }
     }
 }

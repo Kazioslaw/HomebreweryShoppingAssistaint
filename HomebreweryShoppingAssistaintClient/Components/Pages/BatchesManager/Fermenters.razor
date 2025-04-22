@@ -1,0 +1,41 @@
+﻿@page "/fermenters"
+@using HomebreweryShoppingAssistaint.Enums
+@using HomebreweryShoppingAssistaint.Helpers
+@using HomebreweryShoppingAssistaint.Models
+@using HomebreweryShoppingAssistaintClient.ApiClient.Services
+@rendermode InteractiveServer
+@inject IDialogService DialogService
+@inject IApiService<Fermenter, int> FermenterService
+
+<MyMudProviders />
+
+<PageTitle>@Title</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">@Title</MudText>
+
+@if (Model == null)
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+}
+else
+{
+    <MudTabs @ref="tabs" ActivePanelIndexChanged="OnActiveTabIndexChanged">
+        @foreach (var fermenterType in Enum.GetValues<EnumFermenterType>())
+        {
+            <MudTabPanel Text="@EnumHelper.GetEnumDescription(fermenterType)">
+                <MudTable Items="@Model.Where(x => x.Type == fermenterType).ToList()">
+                    <HeaderContent>
+                        <MudTh>Nr</MudTh>
+                        <MudTh>Nazwa</MudTh>
+                        <MudTh>Data rozpoczęcia używania</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Nr">@context.Number</MudTd>
+                            <MudTd DataLabel="Nazwa">@context.Name</MudTd>
+                            <MudTd DataLabel="Data rozpoczęcia używania">@context.StartDate</MudTd>
+                        </RowTemplate>
+                    </MudTable>
+                </MudTabPanel>
+        }
+    </MudTabs>
+}

@@ -1,0 +1,54 @@
+﻿using System.Text;
+using System.Text.Json;
+
+namespace HomebreweryShoppingAssistaintClient.ApiClient
+{
+    public class ApiClient : IApiClient
+    {
+        private readonly HttpClient _httpClient;
+
+        public ApiClient(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
+
+        public async Task<TResponse> GetAsync<TResponse>(string uri)
+        {
+            var response = await _httpClient.GetAsync(uri);
+            response.EnsureSuccessStatusCode();
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<TResponse>(json)!;
+        }
+
+        public async Task<TResponse> PostAsync<TRequest, TResponse>(string uri, TRequest data)
+        {
+            var jsonContent = JsonSerializer.Serialize(data);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync(uri, content);
+            response.EnsureSuccessStatusCode();
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<TResponse>(json)!;
+        }
+
+        public async Task<TResponse> PutAsync<TRequest, TResponse>(string uri, TRequest data)
+        {
+            var jsonContent = JsonSerializer.Serialize(data);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PutAsync(uri, content);
+            response.EnsureSuccessStatusCode();
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<TResponse>(json)!;
+        }
+
+        public async Task DeleteAsync(string uri)
+        {
+            var response = await _httpClient.DeleteAsync(uri);
+            response.EnsureSuccessStatusCode();
+        }
+    }
+}

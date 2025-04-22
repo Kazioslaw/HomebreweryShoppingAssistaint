@@ -17,47 +17,47 @@ namespace HomebreweryShoppingAssistaint.Controllers
             _context = context;
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ShopCheckHistory>>> GetShopCheckHistory()
+        public async Task<ActionResult<IEnumerable<ShopCheckHistory>>> GetShopCheckHistories()
         {
-            var shopCheckHistory = await _context.ShopCheckHistory.ToListAsync();
-            return Ok(shopCheckHistory);
+            var ShopCheckHistories = await _context.ShopCheckHistories.ToListAsync();
+            return Ok(ShopCheckHistories);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ShopCheckHistory>> GetShopCheckHistory(int? id)
+        public async Task<ActionResult<ShopCheckHistory>> GetShopCheckHistories(int? id)
         {
-            if (id == null || _context.ShopCheckHistory == null)
+            if (id == null || _context.ShopCheckHistories == null)
             {
                 return NotFound();
             }
 
-            var shopCheckHistory = await _context.ShopCheckHistory.FindAsync(id);
-            if (shopCheckHistory == null)
+            var ShopCheckHistories = await _context.ShopCheckHistories.FindAsync(id);
+            if (ShopCheckHistories == null)
             {
                 return NotFound();
             }
 
-            return Ok(shopCheckHistory);
+            return Ok(ShopCheckHistories);
 
         }
         [HttpPost]
 
-        public async Task<ActionResult<ShopCheckHistory>> PostShopCheckHistory(ShopCheckHistory shopCheckHistory)
+        public async Task<ActionResult<ShopCheckHistory>> PostShopCheckHistories(ShopCheckHistory ShopCheckHistories)
         {
-            _context.ShopCheckHistory.Add(shopCheckHistory);
+            _context.ShopCheckHistories.Add(ShopCheckHistories);
             await _context.SaveChangesAsync();
-            return CreatedAtAction("GetShopCheckCategory", new { id = shopCheckHistory.ShopCheckHistoryID }, shopCheckHistory);
+            return CreatedAtAction("GetShopCheckCategory", new { id = ShopCheckHistories.ShopCheckHistoryID }, ShopCheckHistories);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutShopCheckHistory(int id, ShopCheckHistory shopCheckHistory)
+        public async Task<IActionResult> PutShopCheckHistories(int id, ShopCheckHistory ShopCheckHistories)
         {
-            if (id != shopCheckHistory.ShopCheckHistoryID)
+            if (id != ShopCheckHistories.ShopCheckHistoryID)
             {
                 return BadRequest();
             }
 
-            _context.ShopCheckHistory.Update(shopCheckHistory);
+            _context.ShopCheckHistories.Update(ShopCheckHistories);
 
             try
             {
@@ -65,7 +65,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
             }
             catch (DBConcurrencyException)
             {
-                if (!ShopCheckHistoryExists(id))
+                if (!ShopCheckHistoriesExists(id))
                 {
                     return NotFound();
                 }
@@ -78,21 +78,21 @@ namespace HomebreweryShoppingAssistaint.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteShopCheckHistory(int id)
+        public async Task<IActionResult> DeleteShopCheckHistories(int id)
         {
-            var shopCheckHistory = await _context.ShopCheckHistory.FindAsync(id);
-            if (shopCheckHistory == null)
+            var ShopCheckHistories = await _context.ShopCheckHistories.FindAsync(id);
+            if (ShopCheckHistories == null)
             {
                 return NotFound();
             }
 
-            _context.ShopCheckHistory.Remove(shopCheckHistory);
+            _context.ShopCheckHistories.Remove(ShopCheckHistories);
             await _context.SaveChangesAsync();
             return Ok();
         }
-        private bool ShopCheckHistoryExists(int id)
+        private bool ShopCheckHistoriesExists(int id)
         {
-            return (_context.ShopCheckHistory?.Any(e => e.ShopCheckHistoryID == id)).GetValueOrDefault();
+            return (_context.ShopCheckHistories?.Any(e => e.ShopCheckHistoryID == id)).GetValueOrDefault();
         }
     }
 }

@@ -21,18 +21,18 @@ namespace HomebreweryShoppingAssistaint.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProduct()
         {
-            var product = await _context.Product.ToListAsync();
+            var product = await _context.Products.ToListAsync();
             return Ok(product);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int? id)
         {
-            if (id == null || _context.Product == null)
+            if (id == null || _context.Products == null)
             {
                 return NotFound();
             }
-            var product = await _context.Product.FindAsync(id);
+            var product = await _context.Products.FindAsync(id);
 
             if (product == null)
             {
@@ -44,7 +44,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
-            _context.Product.Add(product);
+            _context.Products.Add(product);
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetProduct", new { id = product.ProductID }, product);
         }
@@ -57,7 +57,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 return BadRequest();
             }
 
-            _context.Product.Update(product);
+            _context.Products.Update(product);
 
             try
             {
@@ -80,20 +80,20 @@ namespace HomebreweryShoppingAssistaint.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            var product = await _context.Product.FindAsync(id);
+            var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
             }
 
-            _context.Product.Remove(product);
+            _context.Products.Remove(product);
             await _context.SaveChangesAsync();
             return Ok();
         }
 
         private bool ProductExists(int id)
         {
-            return (_context.Product?.Any(e => e.ProductID == id)).GetValueOrDefault();
+            return (_context.Products?.Any(e => e.ProductID == id)).GetValueOrDefault();
         }
     }
 }

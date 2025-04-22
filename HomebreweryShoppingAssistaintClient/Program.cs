@@ -1,3 +1,5 @@
+using HomebreweryShoppingAssistaint.Models;
+using HomebreweryShoppingAssistaintClient.ApiClient.Extensions;
 using HomebreweryShoppingAssistaintClient.Components;
 using MudBlazor.Services;
 
@@ -8,6 +10,11 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddMudServices();
+
+builder.Services.AddApiService<Fermenter, int>(
+    resourcePath: "fermenters",
+    baseUrl: "https://localhost:7009/"
+);
 
 var app = builder.Build();
 

@@ -19,18 +19,18 @@ namespace HomebreweryShoppingAssistaint.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Shop>>> GetShop()
         {
-            var shop = await _context.Shop.ToListAsync();
+            var shop = await _context.Shops.ToListAsync();
             return Ok(shop);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Shop>> GetShop(int id)
         {
-            if (id == null || _context.Shop == null)
+            if (id == null || _context.Shops == null)
             {
                 return NotFound();
             }
-            var shop = await _context.Shop.FindAsync(id);
+            var shop = await _context.Shops.FindAsync(id);
             if (shop == null)
             {
                 return NotFound();
@@ -41,7 +41,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         [HttpPost]
         public async Task<ActionResult<Shop>> PostShop(Shop shop)
         {
-            _context.Shop.Add(shop);
+            _context.Shops.Add(shop);
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetProduct", new { id = shop.ShopID }, shop);
         }
@@ -53,7 +53,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 return BadRequest();
             }
 
-            _context.Shop.Update(shop);
+            _context.Shops.Update(shop);
 
             try
             {
@@ -77,20 +77,20 @@ namespace HomebreweryShoppingAssistaint.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteShop(int id)
         {
-            var shop = await _context.Shop.FindAsync(id);
+            var shop = await _context.Shops.FindAsync(id);
             if (shop == null)
             {
                 return NotFound();
             }
 
-            _context.Shop.Remove(shop);
+            _context.Shops.Remove(shop);
             await _context.SaveChangesAsync();
             return Ok();
         }
 
         private bool ShopExists(int id)
         {
-            return (_context.Shop?.Any(e => e.ShopID == id)).GetValueOrDefault();
+            return (_context.Shops?.Any(e => e.ShopID == id)).GetValueOrDefault();
         }
     }
 }

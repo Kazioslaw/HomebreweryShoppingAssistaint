@@ -10,17 +10,19 @@ namespace HomebreweryShoppingAssistaint.Data
         {
         }
 
-        public DbSet<Category> Category { get; set; } = default!;
+        public DbSet<Category> Categories { get; set; } = default!;
 
-        public DbSet<Product> Product { get; set; } = default!;
+        public DbSet<Product> Products { get; set; } = default!;
 
-        public DbSet<Shop> Shop { get; set; } = default!;
+        public DbSet<Shop> Shops { get; set; } = default!;
 
-        public DbSet<ProductCheckHistory> ProductCheckHistory { get; set; } = default!;
+        public DbSet<ProductCheckHistory> ProductCheckHistories { get; set; } = default!;
 
-        public DbSet<ShopCheckHistory> ShopCheckHistory { get; set; } = default!;
+        public DbSet<ShopCheckHistory> ShopCheckHistories { get; set; } = default!;
 
-        public DbSet<Delivery> Delivery { get; set; }
+        public DbSet<Delivery> Deliveries { get; set; }
+
+        public DbSet<Fermenter> Fermenters { get; set; }
 
         //public DbSet<Company> Company { get; set; } = default!;
 
