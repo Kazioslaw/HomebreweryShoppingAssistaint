@@ -51,7 +51,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                         ProductName = name,
                         ProductPrice = decimal.Parse(price),
                         ShopID = (int)ShopNameEnum.AlePiwo,
-                        CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/,
+                        //CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/ 
                     };
                     products.Add(product);
                 }
@@ -60,29 +60,6 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
             }
 
             return products;
-
-            /*
-            int itemNum = 1;
-            foreach (var product in products)
-            {
-                Console.WriteLine("ID: " + itemNum);
-                Console.WriteLine("Nazwa: " + product.ProductName);
-                Console.WriteLine("Cena: " + product.ProductPrice);
-                Console.WriteLine("Link do produktu: " + product.ProductLink);
-                Console.WriteLine("Nazwa Sklepu: " + product.Shop.ShopName);
-                Console.WriteLine();
-                itemNum++;
-
-            }
-
-            var jsonFile = "AlePiwo.json";
-            var jsonString = JsonSerializer.Serialize(products);
-            using (StreamWriter writer = new StreamWriter(jsonFile, true))
-            {
-                writer.WriteLine(jsonString + ",");
-            }
-            Console.WriteLine("Serialized?");
-            */
         }
     }
 }

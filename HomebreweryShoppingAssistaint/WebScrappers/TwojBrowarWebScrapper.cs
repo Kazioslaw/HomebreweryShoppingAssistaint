@@ -64,7 +64,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                             ProductPrice = decimal.Parse(price),
                             IsAvailable = isAvailable,
                             ShopID = (int)ShopNameEnum.TwojBrowar,
-                            CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/
+                            //CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/
                         };
                         products.Add(product);
                     }
@@ -72,30 +72,9 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                     i++;
                     Thread.Sleep(10000);
                 }
-                /*
-                int itemNum = 1;
-                foreach (var product in products)
-                {
-                    Console.WriteLine("ID: " + itemNum);
-                    Console.WriteLine("Nazwa: " + product.ProductName);
-                    Console.WriteLine("Cena: " + product.ProductPrice);
-                    Console.WriteLine("Link: " + product.ProductLink);
-                    Console.WriteLine();
-                    itemNum++;
-                }
-                */
 
             }
             return products;
-            /*
-            var jsonFile = "TwojBrowar.json";
-            var jsonString = JsonSerializer.Serialize(products);
-            using (StreamWriter writer = new StreamWriter(jsonFile, true))
-            {
-                writer.WriteLine(jsonString);
-            }
-            Console.WriteLine("Serialized?");
-            */
         }
     }
 }

@@ -321,10 +321,11 @@ namespace HomebreweryShoppingAssistaint.Controllers
                     product.Product30DaysPrice = product.ProductPrice;
                     product.ProductPrice = price;
                     product.IsAvailable = isAvailable;
-                    if (product.CategoryID == (int)ProductCategory.Chmiel)
-                    {
-                        product.ProductHarvestYear = int.TryParse(harvestYear, out int result) ? result : 0;
-                    }
+                    //dolozyc implementacje uzycia GeneralProduct
+                    //if (product.CategoryID == (int)ProductCategory.Chmiel)
+                    //{
+                    //    product.ProductHarvestYear = int.TryParse(harvestYear, out int result) ? result : 0;
+                    //}
                     //Quantity = quantity,
                     _context.Products.Update(product);
                 }
@@ -342,10 +343,11 @@ namespace HomebreweryShoppingAssistaint.Controllers
                     product.Product30DaysPrice = product.ProductPrice;
                     product.ProductPrice = price;
                     product.IsAvailable = isAvailable;
-                    if (product.CategoryID == (int)ProductCategory.Chmiel)
-                    {
-                        product.ProductHarvestYear = int.TryParse(harvestYear, out int result) ? result : 0;
-                    }
+                    //dolozyc implementacje uzycia GeneralProduct
+                    //if (product.CategoryID == (int)ProductCategory.Chmiel)
+                    //{
+                    //    product.ProductHarvestYear = int.TryParse(harvestYear, out int result) ? result : 0;
+                    //}
                     //Quantity = quantity,
                     _context.Products.Update(product);
                 }

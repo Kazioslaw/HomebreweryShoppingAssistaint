@@ -62,7 +62,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                             ProductPrice = decimal.Parse(price),
                             IsAvailable = isAvailable, // Prawdopodobnie działa do przetestowania mocnego w późniejszym czasie.
                             ShopID = (int)ShopNameEnum.Browamator,
-                            CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/
+                            //CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/ 
                         };
                         products.Add(product);
                     }
@@ -70,30 +70,9 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                     i++;
                     Thread.Sleep(10000);
                 }
-                /*
-                int itemNum = 1;
-                foreach (var product in products)
-                {
-                    Console.WriteLine("ID: " + itemNum);
-                    Console.WriteLine("Nazwa: " + product.ProductName);
-                    Console.WriteLine("Cena: " + product.ProductPrice);
-                    Console.WriteLine("Link do produktu: " + product.ProductLink);
-                    Console.WriteLine();
-                    itemNum++;
-                } */
             }
 
             return products;
-            /*
-            var jsonFile = "Browamator.json";
-            var jsonString = JsonSerializer.Serialize(products);
-            using (StreamWriter writer = new StreamWriter(jsonFile, true))
-            {
-                writer.WriteLine(jsonString);
-            }
-
-            Console.WriteLine("Serialized?");
-            */
         }
     }
 }

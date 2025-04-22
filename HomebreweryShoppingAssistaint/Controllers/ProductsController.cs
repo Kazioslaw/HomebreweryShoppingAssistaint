@@ -1,14 +1,15 @@
 ﻿using HomebreweryShoppingAssistaint.Data;
 using HomebreweryShoppingAssistaint.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace HomebreweryShoppingAssistaint.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class ProductsController : ControllerBase
+    [Route("[controller]")]
+    public class ProductsController : Controller
     {
 
         private readonly HomebreweryShoppingAssistaintContext _context;
@@ -21,7 +22,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProduct()
         {
-            var product = await _context.Products.ToListAsync();
+            var product = _context.Products.Include(p => p.GeneralProduct).Include(p => p.Shop);
             return Ok(product);
         }
 
@@ -32,8 +33,10 @@ namespace HomebreweryShoppingAssistaint.Controllers
             {
                 return NotFound();
             }
-            var product = await _context.Products.FindAsync(id);
-
+            var product = await _context.Products
+                .Include(p => p.GeneralProduct)
+                .Include(p => p.Shop)
+                .FirstOrDefaultAsync(m => m.ProductID == id);
             if (product == null)
             {
                 return NotFound();
@@ -44,9 +47,27 @@ namespace HomebreweryShoppingAssistaint.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction("GetProduct", new { id = product.ProductID }, product);
+            ViewData["GeneralProductID"] = new SelectList(_context.GeneralProduct, "GeneralProductID", "GeneralProductID");
+            ViewData["ShopID"] = new SelectList(_context.Set<Shop>(), "ShopID", "ShopID");
+            return View();
+        }
+
+        // POST: Products/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost("Create")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("ProductID,ProductName,ProductDescription,ProductPrice,Product30DaysPrice,GeneralProductID,ShopID")] Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(product);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["GeneralProductID"] = new SelectList(_context.GeneralProduct, "GeneralProductID", "GeneralProductID", product.GeneralProductID);
+            ViewData["ShopID"] = new SelectList(_context.Set<Shop>(), "ShopID", "ShopID", product.ShopID);
+            return View(product);
         }
 
         [HttpPut("{id}")]
@@ -57,7 +78,26 @@ namespace HomebreweryShoppingAssistaint.Controllers
                 return BadRequest();
             }
 
-            _context.Products.Update(product);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            ViewData["GeneralProductID"] = new SelectList(_context.GeneralProduct, "GeneralProductID", "GeneralProductID", product.GeneralProductID);
+            ViewData["ShopID"] = new SelectList(_context.Set<Shop>(), "ShopID", "ShopID", product.ShopID);
+            return View(product);
+        }
+
+        // POST: Products/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost("Edit/{id}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("ProductID,ProductName,ProductDescription,ProductPrice,Product30DaysPrice,GeneralProductID,ShopID")] Product product)
+        {
+            if (id != product.ProductID)
+            {
+                return NotFound();
+            }
 
             try
             {
@@ -74,19 +114,47 @@ namespace HomebreweryShoppingAssistaint.Controllers
                     throw;
                 }
             }
-            return Ok();
+            ViewData["GeneralProductID"] = new SelectList(_context.GeneralProduct, "GeneralProductID", "GeneralProductID", product.GeneralProductID);
+            ViewData["ShopID"] = new SelectList(_context.Set<Shop>(), "ShopID", "ShopID", product.ShopID);
+            return View(product);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct(int id)
+        [HttpGet("Delete/{id}")]
+        // GET: Products/Delete/5
+        public async Task<IActionResult> Delete(int? id)
         {
-            var product = await _context.Products.FindAsync(id);
+            if (id == null || _context.Products == null)
+            {
+                return NotFound();
+            }
+
+            var product = await _context.Products
+                .Include(p => p.GeneralProduct)
+                .Include(p => p.Shop)
+                .FirstOrDefaultAsync(m => m.ProductID == id);
             if (product == null)
             {
                 return NotFound();
             }
 
-            _context.Products.Remove(product);
+            return Ok(product);
+        }
+
+        // POST: Products/Delete/5
+        [HttpPost("Delete/{id}"), ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (_context.Products == null)
+            {
+                return Problem("Entity set 'HomebreweryShoppingAssistaintContext.Product'  is null.");
+            }
+            var product = await _context.Products.FindAsync(id);
+            if (product != null)
+            {
+                _context.Products.Remove(product);
+            }
+
             await _context.SaveChangesAsync();
             return Ok();
         }

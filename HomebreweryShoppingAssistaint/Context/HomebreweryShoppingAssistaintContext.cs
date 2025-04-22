@@ -26,6 +26,8 @@ namespace HomebreweryShoppingAssistaint.Data
 
         //public DbSet<Company> Company { get; set; } = default!;
 
+        public DbSet<GeneralProduct> GeneralProduct { get; set; } = default!;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Shop>().HasData(new Shop { ShopID = (int)ShopNameEnum.AlePiwo, ShopName = ShopNameEnum.AlePiwo, ShopLink = "https://alepiwo.pl" },
