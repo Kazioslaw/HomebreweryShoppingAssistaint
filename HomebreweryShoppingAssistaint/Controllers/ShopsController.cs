@@ -20,7 +20,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: Shops
         public async Task<IActionResult> Index()
         {
-            var shop = await _context.Shop.ToListAsync();
+            var shop = await _context.Shops.ToListAsync();
             return Ok(shop);
         }
 
@@ -28,12 +28,12 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: Shops/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Shop == null)
+            if (id == null || _context.Shops == null)
             {
                 return NotFound();
             }
 
-            var shop = await _context.Shop
+            var shop = await _context.Shops
                 .FirstOrDefaultAsync(m => m.ShopID == id);
             if (shop == null)
             {
@@ -70,12 +70,12 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: Shops/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Shop == null)
+            if (id == null || _context.Shops == null)
             {
                 return NotFound();
             }
 
-            var shop = await _context.Shop.FindAsync(id);
+            var shop = await _context.Shops.FindAsync(id);
             if (shop == null)
             {
                 return NotFound();
@@ -122,12 +122,12 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: Shops/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Shop == null)
+            if (id == null || _context.Shops == null)
             {
                 return NotFound();
             }
 
-            var shop = await _context.Shop
+            var shop = await _context.Shops
                 .FirstOrDefaultAsync(m => m.ShopID == id);
             if (shop == null)
             {
@@ -142,14 +142,14 @@ namespace HomebreweryShoppingAssistaint.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Shop == null)
+            if (_context.Shops == null)
             {
                 return Problem("Entity set 'HomebreweryShoppingAssistaintContext.Shop'  is null.");
             }
-            var shop = await _context.Shop.FindAsync(id);
+            var shop = await _context.Shops.FindAsync(id);
             if (shop != null)
             {
-                _context.Shop.Remove(shop);
+                _context.Shops.Remove(shop);
             }
 
             await _context.SaveChangesAsync();
@@ -158,7 +158,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
 
         private bool ShopExists(int id)
         {
-            return (_context.Shop?.Any(e => e.ShopID == id)).GetValueOrDefault();
+            return (_context.Shops?.Any(e => e.ShopID == id)).GetValueOrDefault();
         }
     }
 }

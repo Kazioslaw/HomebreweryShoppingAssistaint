@@ -20,7 +20,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: ShopCheckHistories
         public async Task<IActionResult> Index()
         {
-            var shopCheckHistory = await _context.ShopCheckHistory.ToListAsync();
+            var shopCheckHistory = await _context.ShopCheckHistories.ToListAsync();
             return Ok(shopCheckHistory);
         }
 
@@ -28,12 +28,12 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: ShopCheckHistories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.ShopCheckHistory == null)
+            if (id == null || _context.ShopCheckHistories == null)
             {
                 return NotFound();
             }
 
-            var shopCheckHistory = await _context.ShopCheckHistory
+            var shopCheckHistory = await _context.ShopCheckHistories
                 .FirstOrDefaultAsync(m => m.ShopCheckHistoryID == id);
             if (shopCheckHistory == null)
             {
@@ -70,12 +70,12 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: ShopCheckHistories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.ShopCheckHistory == null)
+            if (id == null || _context.ShopCheckHistories == null)
             {
                 return NotFound();
             }
 
-            var shopCheckHistory = await _context.ShopCheckHistory.FindAsync(id);
+            var shopCheckHistory = await _context.ShopCheckHistories.FindAsync(id);
             if (shopCheckHistory == null)
             {
                 return NotFound();
@@ -122,12 +122,12 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: ShopCheckHistories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.ShopCheckHistory == null)
+            if (id == null || _context.ShopCheckHistories == null)
             {
                 return NotFound();
             }
 
-            var shopCheckHistory = await _context.ShopCheckHistory
+            var shopCheckHistory = await _context.ShopCheckHistories
                 .FirstOrDefaultAsync(m => m.ShopCheckHistoryID == id);
             if (shopCheckHistory == null)
             {
@@ -143,14 +143,14 @@ namespace HomebreweryShoppingAssistaint.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.ShopCheckHistory == null)
+            if (_context.ShopCheckHistories == null)
             {
                 return Problem("Entity set 'HomebreweryShoppingAssistaintContext.ShopCheckHistory'  is null.");
             }
-            var shopCheckHistory = await _context.ShopCheckHistory.FindAsync(id);
+            var shopCheckHistory = await _context.ShopCheckHistories.FindAsync(id);
             if (shopCheckHistory != null)
             {
-                _context.ShopCheckHistory.Remove(shopCheckHistory);
+                _context.ShopCheckHistories.Remove(shopCheckHistory);
             }
 
             await _context.SaveChangesAsync();
@@ -159,7 +159,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
 
         private bool ShopCheckHistoryExists(int id)
         {
-            return (_context.ShopCheckHistory?.Any(e => e.ShopCheckHistoryID == id)).GetValueOrDefault();
+            return (_context.ShopCheckHistories?.Any(e => e.ShopCheckHistoryID == id)).GetValueOrDefault();
         }
     }
 }

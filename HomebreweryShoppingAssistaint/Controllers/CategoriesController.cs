@@ -22,7 +22,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-            var category = _context.Category;
+            var category = _context.Categories;
             return Ok(category);
         }
 
@@ -30,12 +30,12 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Category == null)
+            if (id == null || _context.Categories == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Category
+            var category = await _context.Categories
                 .FirstOrDefaultAsync(m => m.CategoryID == id);
             if (category == null)
             {
@@ -72,12 +72,12 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: Categories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Category == null)
+            if (id == null || _context.Categories == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Category.FindAsync(id);
+            var category = await _context.Categories.FindAsync(id);
             if (category == null)
             {
                 return NotFound();
@@ -124,12 +124,12 @@ namespace HomebreweryShoppingAssistaint.Controllers
         // GET: Categories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Category == null)
+            if (id == null || _context.Categories == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Category
+            var category = await _context.Categories
                 .FirstOrDefaultAsync(m => m.CategoryID == id);
             if (category == null)
             {
@@ -144,14 +144,14 @@ namespace HomebreweryShoppingAssistaint.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Category == null)
+            if (_context.Categories == null)
             {
                 return Problem("Entity set 'HomebreweryShoppingAssistaintContext.Category'  is null.");
             }
-            var category = await _context.Category.FindAsync(id);
+            var category = await _context.Categories.FindAsync(id);
             if (category != null)
             {
-                _context.Category.Remove(category);
+                _context.Categories.Remove(category);
             }
 
             await _context.SaveChangesAsync();
@@ -160,7 +160,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
 
         private bool CategoryExists(int id)
         {
-            return (_context.Category?.Any(e => e.CategoryID == id)).GetValueOrDefault();
+            return (_context.Categories?.Any(e => e.CategoryID == id)).GetValueOrDefault();
         }
     }
 }
