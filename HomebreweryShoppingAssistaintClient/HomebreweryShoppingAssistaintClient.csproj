@@ -13,9 +13,5 @@
   <ItemGroup>
     <ProjectReference Include="..\HomebreweryShoppingAssistaint\HomebreweryShoppingAssistaint.csproj" />
   </ItemGroup>
- 
-  <ItemGroup>
-    <Folder Include="ApiClient\" />
-  </ItemGroup>
   
 </Project>

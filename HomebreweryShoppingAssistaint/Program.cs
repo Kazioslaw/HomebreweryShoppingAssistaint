@@ -2,6 +2,7 @@
 using HomebreweryShoppingAssistaint.Data;
 using System.Text.Json.Serialization;
 using System.Globalization;
+using HomebreweryShoppingAssistaint.Converters;
 
 var globalApplicationCulture = CultureInfo.GetCultureInfo("pl-PL");
 CultureInfo.DefaultThreadCurrentCulture = globalApplicationCulture;
@@ -15,7 +16,9 @@ builder.Services.AddDbContext<HomebreweryShoppingAssistaintContext>(options =>
 
 builder.Services.AddControllersWithViews().AddJsonOptions(options => { 
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    options.JsonSerializerOptions.Converters.Add(new CustomDateTimeConverter());
+    options.JsonSerializerOptions.Converters.Add(new CustomDateOnlyConverter());
 });
 builder.Services.AddSwaggerGen();
 

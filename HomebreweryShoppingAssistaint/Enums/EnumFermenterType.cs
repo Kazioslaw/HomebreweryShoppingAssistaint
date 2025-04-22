@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel;
+using System.Text.Json.Serialization;
 
 namespace HomebreweryShoppingAssistaint.Enums
 {
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum EnumFermenterType
     {
         [Description("Wiadro plastikowe")]

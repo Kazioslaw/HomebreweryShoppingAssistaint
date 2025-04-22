@@ -1,5 +1,4 @@
-﻿using HomebreweryShoppingAssistaint.Enums;
-using HomebreweryShoppingAssistaint.Models;
+﻿using HomebreweryShoppingAssistaint.Models;
 using HomebreweryShoppingAssistaintClient.Components.Dialog;
 using MudBlazor;
 
@@ -8,7 +7,7 @@ namespace HomebreweryShoppingAssistaintClient.Components.Pages.BatchesManager
     public partial class Fermenters
     {
         private string Title = "Zbiorniki fermentacyjne";
-        private Fermenter[]? fermenters;
+        private Fermenter[]? Model;
 
         bool isDoubledAfterChange;
         int tabToStay = 0;
@@ -23,16 +22,16 @@ namespace HomebreweryShoppingAssistaintClient.Components.Pages.BatchesManager
             // Simulate asynchronous loading to demonstrate streaming rendering
             await Task.Delay(500);
 
-            var startDate = DateOnly.FromDateTime(DateTime.Now);
-            var names = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-            var types = new[] { EnumFermenterType.PlasticBucket, EnumFermenterType.GlassJar, EnumFermenterType.CorneliusKeg, EnumFermenterType.PetainerKeg };
-            fermenters = Enumerable.Range(1, 10).Select(index => new Fermenter
+            var fermenters = await FermenterService.GetAllAsync();
+
+            if (fermenters != null && fermenters.Any())
             {
-                Number = index,
-                StartDate = startDate.AddDays(index),
-                Name = names[Random.Shared.Next(names.Length)],
-                Type = types[Random.Shared.Next(types.Length)]
-            }).ToArray();
+                Model = fermenters.ToArray();
+            }
+            else
+            {
+                Console.WriteLine("No fermenters found.");
+            }
         }
 
         private void OpenDialog()
