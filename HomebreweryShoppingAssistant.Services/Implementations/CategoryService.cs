@@ -25,20 +25,14 @@ namespace HomebreweryShoppingAssistant.Services
 		{
 			var category = await this._db.Categories.FindAsync(id);
 
-			if (category is null)
-			{
-				throw new DataErrorException(StatusCodes.Status404NotFound, "Category with this id is not exist.");
-			}
+			Validations<Category>.IsNull(category, StatusCodes.Status404NotFound);
 
-			return category;
+			return category!;
 		}
 
 		public async Task<Category> CreateAsync(Category entity)
 		{
-			if (entity is null)
-			{
-				throw new DataErrorException(StatusCodes.Status400BadRequest, "Category can't be null.");
-			}
+			Validations<Category>.IsNull(entity, StatusCodes.Status400BadRequest);
 
 			this._db.Categories.Add(entity);
 			await this._db.SaveChangesAsync();
@@ -47,33 +41,24 @@ namespace HomebreweryShoppingAssistant.Services
 
 		public async Task UpdateAsync(int id, Category entity)
 		{
+			Validations<Category>.IsNull(entity, StatusCodes.Status400BadRequest);
+
 			var existingCategory = await this._db.Categories.FindAsync(id);
 
-			if (existingCategory is null)
-			{
-				throw new DataErrorException(StatusCodes.Status404NotFound, "Category with this id is not exist.");
-			}
+			Validations<Category>.IsNull(existingCategory, StatusCodes.Status404NotFound);
 
-			if (entity is null)
-			{
-				throw new DataErrorException(StatusCodes.Status400BadRequest, "Category can't be null");
-			}
-
-			existingCategory.CategoryName = entity.CategoryName;
+			existingCategory!.CategoryName = entity.CategoryName;
 
 			await this._db.SaveChangesAsync();
 		}
 
 		public async Task DeleteAsync(int id)
 		{
-			var category = await this._db.Categories.FindAsync(id);
+			var categoryToDelete = await this._db.Categories.FindAsync(id);
 
-			if (category is null)
-			{
-				throw new DataErrorException(StatusCodes.Status404NotFound, "Category with this id is not exist.");
-			}
+			Validations<Category>.IsNull(categoryToDelete, StatusCodes.Status404NotFound);
 
-			this._db.Categories.Remove(category);
+			this._db.Categories.Remove(categoryToDelete!);
 			await this._db.SaveChangesAsync();
 		}
 	}

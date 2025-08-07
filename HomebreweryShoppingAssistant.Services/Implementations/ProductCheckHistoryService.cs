@@ -24,12 +24,9 @@ namespace HomebreweryShoppingAssistant.Services
 		{
 			var productCheckHistory = await this._db.ProductCheckHistories.FindAsync(id);
 
-			if (productCheckHistory is null)
-			{
-				throw new DataErrorException(StatusCodes.Status404NotFound, "Product check history with this id is not exist.");
-			}
+			Validations<ProductCheckHistory>.IsNull(productCheckHistory, StatusCodes.Status404NotFound);
 
-			return productCheckHistory;
+			return productCheckHistory!;
 		}
 
 		public async Task<ProductCheckHistory> CreateAsync(ProductCheckHistory entity)
@@ -39,6 +36,8 @@ namespace HomebreweryShoppingAssistant.Services
 				throw new DataErrorException(StatusCodes.Status400BadRequest, "Product chech history can't be null.");
 			}
 
+			Validations<ProductCheckHistory>.IsNull(entity, StatusCodes.Status400BadRequest);
+
 			await this._db.ProductCheckHistories.AddAsync(entity);
 			await this._db.SaveChangesAsync();
 			return entity;
@@ -46,19 +45,12 @@ namespace HomebreweryShoppingAssistant.Services
 
 		public async Task UpdateAsync(int id, ProductCheckHistory entity)
 		{
-			if (entity is null)
-			{
-				throw new DataErrorException(StatusCodes.Status400BadRequest, "Product check history can't be null.");
-			}
+			Validations<ProductCheckHistory>.IsNull(entity, StatusCodes.Status400BadRequest);
 
 			var existingProductCheckHistory = await this._db.ProductCheckHistories.FindAsync(id);
+			Validations<ProductCheckHistory>.IsNull(existingProductCheckHistory, StatusCodes.Status404NotFound);
 
-			if (existingProductCheckHistory is null)
-			{
-				throw new DataErrorException(StatusCodes.Status404NotFound, "Product check history with this id is not exist.");
-			}
-
-			existingProductCheckHistory.ProductID = entity.ProductID;
+			existingProductCheckHistory!.ProductID = entity.ProductID;
 			existingProductCheckHistory.CheckDateTime = entity.CheckDateTime;
 
 			await this._db.SaveChangesAsync();
@@ -68,10 +60,10 @@ namespace HomebreweryShoppingAssistant.Services
 		{
 			var productCheckHistoryToDelete = await this._db.ProductCheckHistories.FindAsync(id);
 
-			if (productCheckHistoryToDelete is null)
-			{
-				throw new DataErrorException(StatusCodes.Status404NotFound, "Product check history with this id is not exist");
-			}
+			Validations<ProductCheckHistory>.IsNull(productCheckHistoryToDelete, StatusCodes.Status404NotFound);
+
+			this._db.ProductCheckHistories.Remove(productCheckHistoryToDelete!);
+			await this._db.SaveChangesAsync();
 		}
 	}
 }

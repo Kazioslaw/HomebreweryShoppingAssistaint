@@ -27,7 +27,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                     ProductPrice = decimal.Parse(price),
                     Product30DaysPrice = 0,
                     IsAvailable = isAvailable,
-                    ShopID = (int)ShopNameEnum.CentrumPiwowarstwa,
+                    ShopID = (int)ShopName.CentrumPiwowarstwa,
                     //CategoryID = (int)ProductCategory.Inne, /* Tymczasowe przypisywanie do kategori inne*/
                 };
                 products.Add(product);

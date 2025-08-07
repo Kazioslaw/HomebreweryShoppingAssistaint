@@ -8,7 +8,7 @@ namespace HomebreweryShoppingAssistant.Services
 {
 	public class GeneralProductService : IGeneralProductService
 	{
-		private HomebreweryShoppingAssistaintContext _db;
+		private readonly HomebreweryShoppingAssistaintContext _db;
 
 		public GeneralProductService(HomebreweryShoppingAssistaintContext db)
 		{
@@ -24,19 +24,13 @@ namespace HomebreweryShoppingAssistant.Services
 		{
 			var generalProduct = await this._db.GeneralProduct.FindAsync(id);
 
-			if (generalProduct is null)
-			{
-				throw new DataErrorException(StatusCodes.Status404NotFound, "General product with this id is not found.");
-			}
+			Validations<GeneralProduct>.IsNull(generalProduct, StatusCodes.Status404NotFound);
 
-			return generalProduct;
+			return generalProduct!;
 		}
 		public async Task<GeneralProduct> CreateAsync(GeneralProduct entity)
 		{
-			if (entity is null)
-			{
-				throw new DataErrorException(StatusCodes.Status400BadRequest, "General product can't be null.");
-			}
+			Validations<GeneralProduct>.IsNull(entity, StatusCodes.Status400BadRequest);
 
 			await this._db.GeneralProduct.AddAsync(entity);
 			await this._db.SaveChangesAsync();
@@ -46,18 +40,13 @@ namespace HomebreweryShoppingAssistant.Services
 
 		public async Task UpdateAsync(int id, GeneralProduct entity)
 		{
-			if (entity is null)
-			{
-				throw new DataErrorException(StatusCodes.Status400BadRequest, "General product can't be null.");
-			}
+			Validations<GeneralProduct>.IsNull(entity, StatusCodes.Status400BadRequest);
 
 			var existingGeneralProduct = await this._db.GeneralProduct.FindAsync(id);
 
-			if (existingGeneralProduct is null)
-			{
-				throw new DataErrorException(StatusCodes.Status404NotFound, "General product with this id is not found.");
-			}
+			Validations<GeneralProduct>.IsNull(existingGeneralProduct, StatusCodes.Status404NotFound);
 
+			existingGeneralProduct!.Name = entity.Name;
 			existingGeneralProduct.CategoryID = entity.CategoryID;
 
 			await this._db.SaveChangesAsync();
@@ -66,12 +55,9 @@ namespace HomebreweryShoppingAssistant.Services
 		{
 			var generalProductToDelete = await this._db.GeneralProduct.FindAsync(id);
 
-			if (generalProductToDelete is null)
-			{
-				throw new DataErrorException(StatusCodes.Status404NotFound, "General product with this id is not found.");
-			}
+			Validations<GeneralProduct>.IsNull(generalProductToDelete, StatusCodes.Status404NotFound);
 
-			this._db.GeneralProduct.Remove(generalProductToDelete);
+			this._db.GeneralProduct.Remove(generalProductToDelete!);
 			await this._db.SaveChangesAsync();
 		}
 	}

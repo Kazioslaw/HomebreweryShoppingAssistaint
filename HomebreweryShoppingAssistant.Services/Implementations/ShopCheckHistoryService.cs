@@ -24,20 +24,14 @@ namespace HomebreweryShoppingAssistant.Services
 		{
 			var shopCheckHistory = await this._db.ShopCheckHistories.FindAsync(id);
 
-			if (shopCheckHistory is null)
-			{
-				throw new DataErrorException(StatusCodes.Status404NotFound, "Shop check history with this id is not exist");
-			}
+			Validations<ShopCheckHistory>.IsNull(shopCheckHistory, StatusCodes.Status404NotFound);
 
-			return shopCheckHistory;
+			return shopCheckHistory!;
 		}
 
 		public async Task<ShopCheckHistory> CreateAsync(ShopCheckHistory entity)
 		{
-			if (entity is null)
-			{
-				throw new DataErrorException(StatusCodes.Status400BadRequest, "Shop check history can't be null.");
-			}
+			Validations<ShopCheckHistory>.IsNull(entity, StatusCodes.Status400BadRequest);
 
 			await this._db.ShopCheckHistories.AddAsync(entity);
 			await this._db.SaveChangesAsync();
@@ -46,19 +40,13 @@ namespace HomebreweryShoppingAssistant.Services
 
 		public async Task UpdateAsync(int id, ShopCheckHistory entity)
 		{
-			if (entity is null)
-			{
-				throw new DataErrorException(StatusCodes.Status400BadRequest, "Shop check history can't be null.");
-			}
+			Validations<ShopCheckHistory>.IsNull(entity, StatusCodes.Status400BadRequest);
 
 			var existingShopCheckHistory = await this._db.ShopCheckHistories.FindAsync(id);
 
-			if (existingShopCheckHistory is null)
-			{
-				throw new DataErrorException(StatusCodes.Status404NotFound, "Shop check history with this id is not exist");
-			}
+			Validations<ShopCheckHistory>.IsNull(existingShopCheckHistory, StatusCodes.Status404NotFound);
 
-			existingShopCheckHistory.CheckDateTime = entity.CheckDateTime;
+			existingShopCheckHistory!.CheckDateTime = entity.CheckDateTime;
 			existingShopCheckHistory.ShopID = entity.ShopID;
 
 			await this._db.SaveChangesAsync();
@@ -68,12 +56,9 @@ namespace HomebreweryShoppingAssistant.Services
 		{
 			var shopCheckHistoryToDelete = await this._db.ShopCheckHistories.FindAsync(id);
 
-			if (shopCheckHistoryToDelete is null)
-			{
-				throw new DataErrorException(StatusCodes.Status404NotFound, "Shop check history with this id is not exist");
-			}
+			Validations<ShopCheckHistory>.IsNull(shopCheckHistoryToDelete, StatusCodes.Status404NotFound);
 
-			this._db.ShopCheckHistories.Remove(shopCheckHistoryToDelete);
+			this._db.ShopCheckHistories.Remove(shopCheckHistoryToDelete!);
 			await this._db.SaveChangesAsync();
 		}
 	}

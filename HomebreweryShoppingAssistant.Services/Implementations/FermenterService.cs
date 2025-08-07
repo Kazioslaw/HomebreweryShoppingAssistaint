@@ -23,20 +23,15 @@ namespace HomebreweryShoppingAssistant.Services
 		{
 			var fermenter = await this._db.Fermenters.FindAsync(id);
 
-			if (fermenter is null)
-			{
-				throw new DataErrorException(StatusCodes.Status404NotFound, "Fermenter with this id is not found.");
-			}
+			Validations<Fermenter>.IsNull(fermenter, StatusCodes.Status404NotFound);
 
-			return fermenter;
+			return fermenter!;
 		}
 
 		public async Task<Fermenter> CreateAsync(Fermenter entity)
 		{
-			if (entity is null)
-			{
-				throw new DataErrorException(StatusCodes.Status400BadRequest, "Fermenter can't be null.");
-			}
+
+			Validations<Fermenter>.IsNull(entity, StatusCodes.Status400BadRequest);
 
 			await this._db.Fermenters.AddAsync(entity);
 			await this._db.SaveChangesAsync();
@@ -46,17 +41,17 @@ namespace HomebreweryShoppingAssistant.Services
 
 		public async Task UpdateAsync(int id, Fermenter entity)
 		{
-			if (entity is null)
-			{
-				throw new DataErrorException(StatusCodes.Status400BadRequest, "Fermenter can't be null.");
-			}
+
+			Validations<Fermenter>.IsNull(entity, StatusCodes.Status400BadRequest);
 
 			var existingFermenter = await this._db.Fermenters.FindAsync(id);
 
-			if (existingFermenter is null)
-			{
-				throw new DataErrorException(StatusCodes.Status404NotFound, "Fermenter with this id is not found.");
-			}
+			Validations<Fermenter>.IsNull(existingFermenter, StatusCodes.Status404NotFound);
+
+			existingFermenter!.Number = entity.Number;
+			existingFermenter.Name = entity.Name;
+			existingFermenter.Type = entity.Type;
+			existingFermenter.StartDate = entity.StartDate;
 
 			await this._db.SaveChangesAsync();
 		}
@@ -65,12 +60,10 @@ namespace HomebreweryShoppingAssistant.Services
 		{
 			var fermenterToDelete = await this._db.Fermenters.FindAsync(id);
 
-			if (fermenterToDelete is null)
-			{
-				throw new DataErrorException(StatusCodes.Status404NotFound, "Fermenter with this id is not found.");
-			}
 
-			this._db.Fermenters.Remove(fermenterToDelete);
+			Validations<Fermenter>.IsNull(fermenterToDelete, StatusCodes.Status404NotFound);
+
+			this._db.Fermenters.Remove(fermenterToDelete!);
 			await this._db.SaveChangesAsync();
 		}
 	}

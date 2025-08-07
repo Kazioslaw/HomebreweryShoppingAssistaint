@@ -61,7 +61,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                             ProductName = name,
                             ProductPrice = decimal.Parse(price),
                             IsAvailable = isAvailable, // Prawdopodobnie działa do przetestowania mocnego w późniejszym czasie.
-                            ShopID = (int)ShopNameEnum.Browamator,
+                            ShopID = (int)ShopName.Browamator,
                             //CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/ 
                         };
                         products.Add(product);

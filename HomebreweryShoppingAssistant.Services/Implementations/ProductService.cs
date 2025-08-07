@@ -22,20 +22,14 @@ namespace HomebreweryShoppingAssistant.Services
 		{
 			var product = await this._db.Products.FindAsync(id);
 
-			if (product is null)
-			{
-				throw new DataErrorException(StatusCodes.Status404NotFound, "Product with this id is not exist.");
-			}
+			Validations<Product>.IsNull(product, StatusCodes.Status404NotFound);
 
-			return product;
+			return product!;
 		}
 
 		public async Task<Product> CreateAsync(Product entity)
 		{
-			if (entity is null)
-			{
-				throw new DataErrorException(StatusCodes.Status400BadRequest, "Product can't be null.");
-			}
+			Validations<Product>.IsNull(entity, StatusCodes.Status400BadRequest);
 
 			await this._db.Products.AddAsync(entity);
 			await this._db.SaveChangesAsync();
@@ -43,19 +37,13 @@ namespace HomebreweryShoppingAssistant.Services
 		}
 		public async Task UpdateAsync(int id, Product entity)
 		{
-			if (entity is null)
-			{
-				throw new DataErrorException(StatusCodes.Status400BadRequest, "Product can't be null.");
-			}
+			Validations<Product>.IsNull(entity, StatusCodes.Status400BadRequest);
 
 			var existingProduct = await this._db.Products.FindAsync(id);
 
-			if (existingProduct is null)
-			{
-				throw new DataErrorException(StatusCodes.Status404NotFound, "Product with this id is not found.");
-			}
+			Validations<Product>.IsNull(existingProduct, StatusCodes.Status404NotFound);
 
-			existingProduct.ProductName = entity.ProductName;
+			existingProduct!.ProductName = entity.ProductName;
 			existingProduct.ProductHarvestYear = entity.ProductHarvestYear;
 			existingProduct.ProductPrice = entity.ProductPrice;
 			existingProduct.Product30DaysPrice = entity.Product30DaysPrice;
@@ -70,12 +58,9 @@ namespace HomebreweryShoppingAssistant.Services
 		{
 			var productToDelete = await this._db.Products.FindAsync(id);
 
-			if (productToDelete is null)
-			{
-				throw new DataErrorException(StatusCodes.Status404NotFound, "Product with this id is not found.");
-			}
+			Validations<Product>.IsNull(productToDelete, StatusCodes.Status404NotFound);
 
-			this._db.Products.Remove(productToDelete);
+			this._db.Products.Remove(productToDelete!);
 			await this._db.SaveChangesAsync();
 		}
 	}

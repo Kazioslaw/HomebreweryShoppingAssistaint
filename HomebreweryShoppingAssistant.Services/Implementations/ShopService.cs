@@ -23,20 +23,14 @@ namespace HomebreweryShoppingAssistant.Services
 		{
 			var shop = await this._db.Shops.FindAsync(id);
 
-			if (shop is null)
-			{
-				throw new DataErrorException(StatusCodes.Status404NotFound, "Shop with this id is not exist.");
-			}
+			Validations<Shop>.IsNull(shop, StatusCodes.Status404NotFound);
 
-			return shop;
+			return shop!;
 		}
 
 		public async Task<Shop> CreateAsync(Shop entity)
 		{
-			if (entity is null)
-			{
-				throw new DataErrorException(StatusCodes.Status400BadRequest, "Shop can't be null.");
-			}
+			Validations<Shop>.IsNull(entity, StatusCodes.Status400BadRequest);
 
 			await this._db.Shops.AddAsync(entity);
 			await this._db.SaveChangesAsync();
@@ -46,19 +40,13 @@ namespace HomebreweryShoppingAssistant.Services
 
 		public async Task UpdateAsync(int id, Shop entity)
 		{
-			if (entity is null)
-			{
-				throw new DataErrorException(StatusCodes.Status400BadRequest, "Shop can't be null.");
-			}
+			Validations<Shop>.IsNull(entity, StatusCodes.Status400BadRequest);
 
 			var existingShop = await this._db.Shops.FindAsync(id);
 
-			if (existingShop is null)
-			{
-				throw new DataErrorException(StatusCodes.Status404NotFound, "Shop with this id is not exist.");
-			}
+			Validations<Shop>.IsNull(existingShop, StatusCodes.Status404NotFound);
 
-			existingShop.ShopName = entity.ShopName;
+			existingShop!.ShopName = entity.ShopName;
 			existingShop.ShopLink = entity.ShopLink;
 
 			await this._db.SaveChangesAsync();
@@ -68,12 +56,9 @@ namespace HomebreweryShoppingAssistant.Services
 		{
 			var shopToDelete = await this._db.Shops.FindAsync(id);
 
-			if (shopToDelete is null)
-			{
-				throw new DataErrorException(StatusCodes.Status404NotFound, "Shop with this id is not exist.");
-			}
+			Validations<Shop>.IsNull(shopToDelete, StatusCodes.Status404NotFound);
 
-			this._db.Shops.Remove(shopToDelete);
+			this._db.Shops.Remove(shopToDelete!);
 			await this._db.SaveChangesAsync();
 		}
 	}
