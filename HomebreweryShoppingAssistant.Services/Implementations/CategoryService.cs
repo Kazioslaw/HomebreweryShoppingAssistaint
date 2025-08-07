@@ -18,12 +18,12 @@ namespace HomebreweryShoppingAssistant.Services
 
 		public async Task<IEnumerable<Category>> GetListAsync()
 		{
-			return await _db.Categories.ToListAsync();
+			return await this._db.Categories.ToListAsync();
 		}
 
 		public async Task<Category> GetAsync(int id)
 		{
-			var category = await _db.Categories.FindAsync(id);
+			var category = await this._db.Categories.FindAsync(id);
 
 			if (category is null)
 			{
@@ -40,14 +40,14 @@ namespace HomebreweryShoppingAssistant.Services
 				throw new DataErrorException(StatusCodes.Status400BadRequest, "Category can't be null.");
 			}
 
-			_db.Categories.Add(entity);
-			await _db.SaveChangesAsync();
+			this._db.Categories.Add(entity);
+			await this._db.SaveChangesAsync();
 			return entity;
 		}
 
 		public async Task UpdateAsync(int id, Category entity)
 		{
-			var existingCategory = await _db.Categories.FindAsync(id);
+			var existingCategory = await this._db.Categories.FindAsync(id);
 
 			if (existingCategory is null)
 			{
@@ -61,20 +61,20 @@ namespace HomebreweryShoppingAssistant.Services
 
 			existingCategory.CategoryName = entity.CategoryName;
 
-			await _db.SaveChangesAsync();
+			await this._db.SaveChangesAsync();
 		}
 
 		public async Task DeleteAsync(int id)
 		{
-			var category = await _db.Categories.FindAsync(id);
+			var category = await this._db.Categories.FindAsync(id);
 
 			if (category is null)
 			{
 				throw new DataErrorException(StatusCodes.Status404NotFound, "Category with this id is not exist.");
 			}
 
-			_db.Categories.Remove(category);
-			await _db.SaveChangesAsync();
+			this._db.Categories.Remove(category);
+			await this._db.SaveChangesAsync();
 		}
 	}
 }

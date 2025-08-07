@@ -2,19 +2,19 @@
 
 namespace HomebreweryShoppingAssistaint.Models
 {
-    public enum ProductCategory
-    {
-        Słód = 1,
-        Drożdże,
-        Chmiel,
-        Inne
-    }
-    public class Category
-    {
-        [Key]
-        public int CategoryID { get; set; }
-        public ProductCategory CategoryName { get; set; }
+	public enum ProductCategory
+	{
+		Słód = 1,
+		Drożdże,
+		Chmiel,
+		Inne
+	}
+	public class Category
+	{
+		[Key]
+		public int CategoryID { get; set; }
+		public ProductCategory CategoryName { get; set; }
 
-        public ICollection<GeneralProduct> GeneralProduct { get; set; }
-    }
+		public ICollection<GeneralProduct> GeneralProducts { get; set; }
+	}
 }
