@@ -1,7 +1,7 @@
 ﻿@page "/fermenters"
-@using HomebreweryShoppingAssistaint.Enums
-@using HomebreweryShoppingAssistaint.Helpers
-@using HomebreweryShoppingAssistaint.Models
+@using HomebreweryShoppingAssistant.Enums
+@using HomebreweryShoppingAssistant.Helpers
+@using HomebreweryShoppingAssistant.Models
 @using HomebreweryShoppingAssistaintClient.ApiClient.Services
 @rendermode InteractiveServer
 @inject IDialogService DialogService
@@ -15,27 +15,27 @@
 
 @if (Model == null)
 {
-    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+	<MudProgressCircular Color="Color.Default" Indeterminate="true" />
 }
 else
 {
-    <MudTabs @ref="tabs" ActivePanelIndexChanged="OnActiveTabIndexChanged">
-        @foreach (var fermenterType in Enum.GetValues<EnumFermenterType>())
-        {
-            <MudTabPanel Text="@EnumHelper.GetEnumDescription(fermenterType)">
-                <MudTable Items="@Model.Where(x => x.Type == fermenterType).ToList()">
-                    <HeaderContent>
-                        <MudTh>Nr</MudTh>
-                        <MudTh>Nazwa</MudTh>
-                        <MudTh>Data rozpoczęcia używania</MudTh>
-                    </HeaderContent>
-                    <RowTemplate>
-                        <MudTd DataLabel="Nr">@context.Number</MudTd>
-                            <MudTd DataLabel="Nazwa">@context.Name</MudTd>
-                            <MudTd DataLabel="Data rozpoczęcia używania">@context.StartDate</MudTd>
-                        </RowTemplate>
-                    </MudTable>
-                </MudTabPanel>
-        }
-    </MudTabs>
+	<MudTabs @ref="tabs" ActivePanelIndexChanged="OnActiveTabIndexChanged">
+		@foreach (var fermenterType in Enum.GetValues<EnumFermenterType>())
+		{
+			<MudTabPanel Text="@EnumHelper.GetEnumDescription(fermenterType)">
+				<MudTable Items="@Model.Where(x => x.Type == fermenterType).ToList()">
+					<HeaderContent>
+						<MudTh>Nr</MudTh>
+						<MudTh>Nazwa</MudTh>
+						<MudTh>Data rozpoczęcia używania</MudTh>
+					</HeaderContent>
+					<RowTemplate>
+						<MudTd DataLabel="Nr">@context.Number</MudTd>
+						<MudTd DataLabel="Nazwa">@context.Name</MudTd>
+						<MudTd DataLabel="Data rozpoczęcia używania">@context.StartDate</MudTd>
+					</RowTemplate>
+				</MudTable>
+			</MudTabPanel>
+		}
+	</MudTabs>
 }
