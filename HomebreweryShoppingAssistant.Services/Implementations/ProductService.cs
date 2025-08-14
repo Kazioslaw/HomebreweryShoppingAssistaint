@@ -10,7 +10,7 @@
 
 		public async Task<IEnumerable<Product>> GetListAsync()
 		{
-			return await this._db.Products.Select(x => new Product() { ProductName = x.ProductName }).ToListAsync();
+			return await this._db.Products.ToListAsync();
 		}
 		public async Task<Product> GetAsync(int id)
 		{
@@ -18,10 +18,7 @@
 
 			Validations<Product>.IsNull(product, StatusCodes.Status404NotFound);
 
-			return new Product()
-			{
-				ProductName = product!.ProductName
-			};
+			return product!;
 		}
 
 		public async Task<Product> CreateAsync(Product entity)
