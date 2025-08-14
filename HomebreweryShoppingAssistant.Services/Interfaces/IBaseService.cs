@@ -1,4 +1,4 @@
-﻿namespace HomebreweryShoppingAssistant.Services.Interfaces
+﻿namespace HomebreweryShoppingAssistant.Services
 {
 	public interface IBaseService<T>
 	{

@@ -7,7 +7,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\HomebreweryShoppingAssistaint\HomebreweryShoppingAssistaint.csproj" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\HomebreweryShoppingAssistant.Infrastructure\HomebreweryShoppingAssistant.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>

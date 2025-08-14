@@ -1,22 +1,16 @@
-﻿using HomebreweryShoppingAssistaint.Data;
-using HomebreweryShoppingAssistaint.Models;
-using HomebreweryShoppingAssistant.Services.Helpers;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-
-namespace HomebreweryShoppingAssistant.Services
+﻿namespace HomebreweryShoppingAssistant.Services
 {
 	public class ProductService : IProductService
 	{
-		private readonly HomebreweryShoppingAssistaintContext _db;
-		public ProductService(HomebreweryShoppingAssistaintContext db)
+		private readonly AppDbContext _db;
+		public ProductService(AppDbContext db)
 		{
 			this._db = db;
 		}
 
 		public async Task<IEnumerable<Product>> GetListAsync()
 		{
-			return await this._db.Products.ToListAsync();
+			return await this._db.Products.Select(x => new Product() { ProductName = x.ProductName }).ToListAsync();
 		}
 		public async Task<Product> GetAsync(int id)
 		{
@@ -24,7 +18,10 @@ namespace HomebreweryShoppingAssistant.Services
 
 			Validations<Product>.IsNull(product, StatusCodes.Status404NotFound);
 
-			return product!;
+			return new Product()
+			{
+				ProductName = product!.ProductName
+			};
 		}
 
 		public async Task<Product> CreateAsync(Product entity)

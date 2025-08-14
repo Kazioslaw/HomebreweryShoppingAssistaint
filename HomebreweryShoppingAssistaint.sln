@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33717.318
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomebreweryShoppingAssistaint", "HomebreweryShoppingAssistaint\HomebreweryShoppingAssistaint.csproj", "{A7F66855-0534-4091-B9AE-01CEFAF65175}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomebreweryShoppingAssistaintClient", "HomebreweryShoppingAssistaintClient\HomebreweryShoppingAssistaintClient.csproj", "{15D33CED-0FC1-4454-A889-D36A800142A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomebreweryShoppingAssistaint.Client", "HomebreweryShoppingAssistaintClient\HomebreweryShoppingAssistaint.Client.csproj", "{15D33CED-0FC1-4454-A889-D36A800142A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomebreweryShoppingAssistant.Services", "HomebreweryShoppingAssistant.Services\HomebreweryShoppingAssistant.Services.csproj", "{CB8D76AE-436E-4E86-B4E8-ED98A01BA12A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomebreweryShoppingAssistant.API", "HomebreweryShoppingAssistant.API\HomebreweryShoppingAssistant.API.csproj", "{A7CA2A04-CB3A-4170-A1B8-2C65A71F8081}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomebreweryShoppingAssistant.Infrastructure", "HomebreweryShoppingAssistant.Infrastructure\HomebreweryShoppingAssistant.Infrastructure.csproj", "{79F380DA-70CA-46CD-BF29-A56878D06B93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A7F66855-0534-4091-B9AE-01CEFAF65175}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A7F66855-0534-4091-B9AE-01CEFAF65175}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A7F66855-0534-4091-B9AE-01CEFAF65175}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A7F66855-0534-4091-B9AE-01CEFAF65175}.Release|Any CPU.Build.0 = Release|Any CPU
 		{15D33CED-0FC1-4454-A889-D36A800142A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{15D33CED-0FC1-4454-A889-D36A800142A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15D33CED-0FC1-4454-A889-D36A800142A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -27,6 +25,14 @@ Global
 		{CB8D76AE-436E-4E86-B4E8-ED98A01BA12A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB8D76AE-436E-4E86-B4E8-ED98A01BA12A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB8D76AE-436E-4E86-B4E8-ED98A01BA12A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7CA2A04-CB3A-4170-A1B8-2C65A71F8081}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7CA2A04-CB3A-4170-A1B8-2C65A71F8081}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7CA2A04-CB3A-4170-A1B8-2C65A71F8081}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7CA2A04-CB3A-4170-A1B8-2C65A71F8081}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79F380DA-70CA-46CD-BF29-A56878D06B93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79F380DA-70CA-46CD-BF29-A56878D06B93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79F380DA-70CA-46CD-BF29-A56878D06B93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79F380DA-70CA-46CD-BF29-A56878D06B93}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

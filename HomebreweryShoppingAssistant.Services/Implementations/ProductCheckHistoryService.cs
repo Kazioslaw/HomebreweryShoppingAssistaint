@@ -1,16 +1,10 @@
-﻿using HomebreweryShoppingAssistaint.Data;
-using HomebreweryShoppingAssistaint.Models;
-using HomebreweryShoppingAssistant.Services.Helpers;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-
-namespace HomebreweryShoppingAssistant.Services
+﻿namespace HomebreweryShoppingAssistant.Services
 {
 	public class ProductCheckHistoryService : IProductCheckHistoryService
 	{
-		private readonly HomebreweryShoppingAssistaintContext _db;
+		private readonly AppDbContext _db;
 
-		public ProductCheckHistoryService(HomebreweryShoppingAssistaintContext db)
+		public ProductCheckHistoryService(AppDbContext db)
 		{
 			this._db = db;
 		}
