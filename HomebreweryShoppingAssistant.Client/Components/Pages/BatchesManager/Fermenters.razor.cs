@@ -1,8 +1,8 @@
-﻿using HomebreweryShoppingAssistaintClient.Components.Dialog;
+﻿using HomebreweryShoppingAssistant.Client.Components.Dialog;
 using HomebreweryShoppingAssistant.Models;
 using MudBlazor;
 
-namespace HomebreweryShoppingAssistaintClient.Components.Pages.BatchesManager
+namespace HomebreweryShoppingAssistant.Client.Components.Pages.BatchesManager
 {
 	public partial class Fermenters
 	{

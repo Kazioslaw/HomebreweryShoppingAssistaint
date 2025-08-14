@@ -1,5 +1,5 @@
-using HomebreweryShoppingAssistaintClient.ApiClient.Extensions;
-using HomebreweryShoppingAssistaintClient.Components;
+using HomebreweryShoppingAssistant.Client.ApiClient.Extensions;
+using HomebreweryShoppingAssistant.Client.Components;
 using HomebreweryShoppingAssistant.Models;
 using MudBlazor.Services;
 

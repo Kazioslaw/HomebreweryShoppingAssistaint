@@ -3,7 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using HomebreweryShoppingAssistant.Converters;
 
-namespace HomebreweryShoppingAssistaintClient.ApiClient.Services
+namespace HomebreweryShoppingAssistant.Client.ApiClient.Services
 {
 	public class ApiService<TDto, TId> : IApiService<TDto, TId>
 	{

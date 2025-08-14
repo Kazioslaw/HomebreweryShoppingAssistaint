@@ -1,6 +1,6 @@
-﻿using HomebreweryShoppingAssistaintClient.ApiClient.Services;
+﻿using HomebreweryShoppingAssistant.Client.ApiClient.Services;
 
-namespace HomebreweryShoppingAssistaintClient.ApiClient.Extensions
+namespace HomebreweryShoppingAssistant.Client.ApiClient.Extensions
 {
 	public static class ServiceCollectionExtensions
 	{
