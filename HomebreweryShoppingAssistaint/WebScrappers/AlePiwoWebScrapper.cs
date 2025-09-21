@@ -50,7 +50,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                         ProductLink = link,
                         ProductName = name,
                         ProductPrice = decimal.Parse(price),
-                        ShopID = (int)ShopNameEnum.AlePiwo,
+                        ShopID = (int)ShopName.AlePiwo,
                         //CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/ 
                     };
                     products.Add(product);

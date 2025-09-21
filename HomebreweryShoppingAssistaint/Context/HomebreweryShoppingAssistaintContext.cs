@@ -30,11 +30,11 @@ namespace HomebreweryShoppingAssistaint.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Shop>().HasData(new Shop { ShopID = (int)ShopNameEnum.AlePiwo, ShopName = ShopNameEnum.AlePiwo, ShopLink = "https://alepiwo.pl" },
-                    new Shop { ShopID = (int)ShopNameEnum.Browamator, ShopName = ShopNameEnum.Browamator, ShopLink = "https://browamator.pl" },
-                    new Shop { ShopID = (int)ShopNameEnum.CentrumPiwowarstwa, ShopName = ShopNameEnum.CentrumPiwowarstwa, ShopLink = "https://www.browar.biz/centrumpiwowarstwa" },
-                    new Shop { ShopID = (int)ShopNameEnum.Homebrewing, ShopName = ShopNameEnum.Homebrewing, ShopLink = "https://homebrewing.pl/" },
-                    new Shop { ShopID = (int)ShopNameEnum.TwojBrowar, ShopName = ShopNameEnum.TwojBrowar, ShopLink = "https://twojbrowar.pl/pl/" });
+            modelBuilder.Entity<Shop>().HasData(new Shop { ShopID = (int)ShopName.AlePiwo, ShopName = ShopName.AlePiwo, ShopLink = "https://alepiwo.pl" },
+                    new Shop { ShopID = (int)ShopName.Browamator, ShopName = ShopName.Browamator, ShopLink = "https://browamator.pl" },
+                    new Shop { ShopID = (int)ShopName.CentrumPiwowarstwa, ShopName = ShopName.CentrumPiwowarstwa, ShopLink = "https://www.browar.biz/centrumpiwowarstwa" },
+                    new Shop { ShopID = (int)ShopName.Homebrewing, ShopName = ShopName.Homebrewing, ShopLink = "https://homebrewing.pl/" },
+                    new Shop { ShopID = (int)ShopName.TwojBrowar, ShopName = ShopName.TwojBrowar, ShopLink = "https://twojbrowar.pl/pl/" });
 
             modelBuilder.Entity<Category>().HasData(
                     new Category { CategoryID = (int)ProductCategory.Chmiel, CategoryName = ProductCategory.Chmiel },

@@ -7,11 +7,11 @@ namespace HomebreweryShoppingAssistaint.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ShopsController : ControllerBase
+    public class ShopController : ControllerBase
     {
         private readonly HomebreweryShoppingAssistaintContext _context;
 
-        public ShopsController(HomebreweryShoppingAssistaintContext context)
+        public ShopController(HomebreweryShoppingAssistaintContext context)
         {
             _context = context;
         }

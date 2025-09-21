@@ -71,7 +71,7 @@ namespace HomebreweryShoppingAssistaint.WebScrappers
                             ProductName = name,
                             ProductPrice = decimal.Parse(price),
                             Product30DaysPrice = product30DaysPrice,
-                            ShopID = (int)ShopNameEnum.Homebrewing,
+                            ShopID = (int)ShopName.Homebrewing,
                             //CategoryID = (int)ProductCategory.Inne /* Tymczasowe przypisywanie do kategori inne*/  
 
                         };

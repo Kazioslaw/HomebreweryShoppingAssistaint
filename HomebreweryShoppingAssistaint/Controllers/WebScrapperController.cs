@@ -54,7 +54,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
 
             var shopCheckHistory = new ShopCheckHistory()
             {
-                ShopID = (int)ShopNameEnum.Browamator,
+                ShopID = (int)ShopName.Browamator,
                 CheckDateTime = DateTime.Now,
             };
             //Problem do rozwiązania związany z bazą danych
@@ -113,7 +113,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
 
             var shopCheckHistory = new ShopCheckHistory()
             {
-                ShopID = (int)ShopNameEnum.CentrumPiwowarstwa,
+                ShopID = (int)ShopName.CentrumPiwowarstwa,
                 CheckDateTime = DateTime.Now,
             };
 
@@ -172,7 +172,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
 
             var shopCheckHistory = new ShopCheckHistory()
             {
-                ShopID = (int)ShopNameEnum.Homebrewing,
+                ShopID = (int)ShopName.Homebrewing,
                 CheckDateTime = DateTime.Now,
             };
 
@@ -231,7 +231,7 @@ namespace HomebreweryShoppingAssistaint.Controllers
 
             var shopCheckHistory = new ShopCheckHistory()
             {
-                ShopID = (int)ShopNameEnum.TwojBrowar,
+                ShopID = (int)ShopName.TwojBrowar,
                 CheckDateTime = DateTime.Now,
             };
 

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HomebreweryShoppingAssistaint.Migrations
 {
     /// <inheritdoc />
-    public partial class AddingFermentorModel : Migration
+    public partial class AddedFermenters : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -47,6 +47,10 @@ namespace HomebreweryShoppingAssistaint.Migrations
                 name: "PK_Product",
                 table: "Product");
 
+            migrationBuilder.DropIndex(
+                name: "IX_Product_CategoryID",
+                table: "Product");
+
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Delivery",
                 table: "Delivery");
@@ -54,6 +58,10 @@ namespace HomebreweryShoppingAssistaint.Migrations
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Category",
                 table: "Category");
+
+            migrationBuilder.DropColumn(
+                name: "CategoryID",
+                table: "Product");
 
             migrationBuilder.RenameTable(
                 name: "ShopCheckHistory",
@@ -95,14 +103,15 @@ namespace HomebreweryShoppingAssistaint.Migrations
                 newName: "IX_Products_ProductCheckHistoryID");
 
             migrationBuilder.RenameIndex(
-                name: "IX_Product_CategoryID",
-                table: "Products",
-                newName: "IX_Products_CategoryID");
-
-            migrationBuilder.RenameIndex(
                 name: "IX_Delivery_ShopID",
                 table: "Deliveries",
                 newName: "IX_Deliveries_ShopID");
+
+            migrationBuilder.AddColumn<int>(
+                name: "GeneralProductID",
+                table: "Products",
+                type: "int",
+                nullable: true);
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_ShopCheckHistories",
@@ -150,6 +159,36 @@ namespace HomebreweryShoppingAssistaint.Migrations
                     table.PrimaryKey("PK_Fermenters", x => x.Id);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "GeneralProduct",
+                columns: table => new
+                {
+                    GeneralProductID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CategoryID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GeneralProduct", x => x.GeneralProductID);
+                    table.ForeignKey(
+                        name: "FK_GeneralProduct_Categories_CategoryID",
+                        column: x => x.CategoryID,
+                        principalTable: "Categories",
+                        principalColumn: "CategoryID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_GeneralProductID",
+                table: "Products",
+                column: "GeneralProductID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GeneralProduct_CategoryID",
+                table: "GeneralProduct",
+                column: "CategoryID");
+
             migrationBuilder.AddForeignKey(
                 name: "FK_Deliveries_Shops_ShopID",
                 table: "Deliveries",
@@ -159,12 +198,11 @@ namespace HomebreweryShoppingAssistaint.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Products_Categories_CategoryID",
+                name: "FK_Products_GeneralProduct_GeneralProductID",
                 table: "Products",
-                column: "CategoryID",
-                principalTable: "Categories",
-                principalColumn: "CategoryID",
-                onDelete: ReferentialAction.Cascade);
+                column: "GeneralProductID",
+                principalTable: "GeneralProduct",
+                principalColumn: "GeneralProductID");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Products_ProductCheckHistories_ProductCheckHistoryID",
@@ -198,7 +236,7 @@ namespace HomebreweryShoppingAssistaint.Migrations
                 table: "Deliveries");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Products_Categories_CategoryID",
+                name: "FK_Products_GeneralProduct_GeneralProductID",
                 table: "Products");
 
             migrationBuilder.DropForeignKey(
@@ -216,6 +254,9 @@ namespace HomebreweryShoppingAssistaint.Migrations
             migrationBuilder.DropTable(
                 name: "Fermenters");
 
+            migrationBuilder.DropTable(
+                name: "GeneralProduct");
+
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Shops",
                 table: "Shops");
@@ -226,6 +267,10 @@ namespace HomebreweryShoppingAssistaint.Migrations
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Products",
+                table: "Products");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Products_GeneralProductID",
                 table: "Products");
 
             migrationBuilder.DropPrimaryKey(
@@ -239,6 +284,10 @@ namespace HomebreweryShoppingAssistaint.Migrations
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Categories",
                 table: "Categories");
+
+            migrationBuilder.DropColumn(
+                name: "GeneralProductID",
+                table: "Products");
 
             migrationBuilder.RenameTable(
                 name: "Shops",
@@ -280,14 +329,16 @@ namespace HomebreweryShoppingAssistaint.Migrations
                 newName: "IX_Product_ProductCheckHistoryID");
 
             migrationBuilder.RenameIndex(
-                name: "IX_Products_CategoryID",
-                table: "Product",
-                newName: "IX_Product_CategoryID");
-
-            migrationBuilder.RenameIndex(
                 name: "IX_Deliveries_ShopID",
                 table: "Delivery",
                 newName: "IX_Delivery_ShopID");
+
+            migrationBuilder.AddColumn<int>(
+                name: "CategoryID",
+                table: "Product",
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Shop",
@@ -317,6 +368,11 @@ namespace HomebreweryShoppingAssistaint.Migrations
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Category",
                 table: "Category",
+                column: "CategoryID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_CategoryID",
+                table: "Product",
                 column: "CategoryID");
 
             migrationBuilder.AddForeignKey(
