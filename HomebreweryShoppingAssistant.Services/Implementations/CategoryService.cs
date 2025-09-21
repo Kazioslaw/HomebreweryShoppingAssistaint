@@ -1,17 +1,11 @@
-﻿using HomebreweryShoppingAssistaint.Data;
-using HomebreweryShoppingAssistaint.Models;
-using HomebreweryShoppingAssistant.Services.Helpers;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-
-namespace HomebreweryShoppingAssistant.Services
+﻿namespace HomebreweryShoppingAssistant.Services
 {
 	public class CategoryService : ICategoryService
 	{
 
-		private readonly HomebreweryShoppingAssistaintContext _db;
+		private readonly AppDbContext _db;
 
-		public CategoryService(HomebreweryShoppingAssistaintContext db)
+		public CategoryService(AppDbContext db)
 		{
 			this._db = db;
 		}

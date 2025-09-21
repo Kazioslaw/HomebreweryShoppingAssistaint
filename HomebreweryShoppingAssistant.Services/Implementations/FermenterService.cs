@@ -1,15 +1,9 @@
-﻿using HomebreweryShoppingAssistaint.Data;
-using HomebreweryShoppingAssistaint.Models;
-using HomebreweryShoppingAssistant.Services.Helpers;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-
-namespace HomebreweryShoppingAssistant.Services
+﻿namespace HomebreweryShoppingAssistant.Services
 {
 	public class FermenterService : IFermenterService
 	{
-		private readonly HomebreweryShoppingAssistaintContext _db;
-		public FermenterService(HomebreweryShoppingAssistaintContext db)
+		private readonly AppDbContext _db;
+		public FermenterService(AppDbContext db)
 		{
 			this._db = db;
 		}
@@ -21,7 +15,7 @@ namespace HomebreweryShoppingAssistant.Services
 
 		public async Task<Fermenter> GetAsync(int id)
 		{
-			var fermenter = await this._db.Fermenters.FindAsync(id);
+			var fermenter = await this._db.Fermenters.FindAsync((long)id);
 
 			Validations<Fermenter>.IsNull(fermenter, StatusCodes.Status404NotFound);
 
@@ -44,7 +38,7 @@ namespace HomebreweryShoppingAssistant.Services
 
 			Validations<Fermenter>.IsNull(entity, StatusCodes.Status400BadRequest);
 
-			var existingFermenter = await this._db.Fermenters.FindAsync(id);
+			var existingFermenter = await this._db.Fermenters.FindAsync((long)id);
 
 			Validations<Fermenter>.IsNull(existingFermenter, StatusCodes.Status404NotFound);
 

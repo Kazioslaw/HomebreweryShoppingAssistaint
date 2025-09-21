@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace HomebreweryShoppingAssistant.Services.Helpers
+﻿namespace HomebreweryShoppingAssistant.Services.Helpers
 {
 	public static class Validations<T>
 	{
@@ -8,7 +6,7 @@ namespace HomebreweryShoppingAssistant.Services.Helpers
 		{
 			if (entity is null)
 			{
-				throw new DataErrorException(StatusCodes.Status404NotFound, $"{typeof(T).Name} with this id is not exist.");
+				throw new DataErrorException(statusCode, $"{typeof(T).Name} with this id is not exist.");
 			}
 		}
 	}
